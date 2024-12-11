@@ -1,3 +1,18 @@
+# 📦 Changelog
+
+All notable changes to this project will be documented in this file.
+
+
+# v1.0.0 (2024-12-11)
+
+
+
+## 1.0.0 (2024-12-11)
+
+### Features
+
+* Initial commit. rename updatelinks.yml to links-config.yml and update GitHub URLs; add CLA Assistant workflow and update linkapp workflow ([edad69f](https://github.com/iamvikshan/amina/commit/edad69f7c152af0e341f8b4b95d632fbe1303381))
+
 # Amina V2.0.4
 
 ## New
