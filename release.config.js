@@ -50,10 +50,6 @@ module.exports = {
 
     [
       '@semantic-release/changelog',
-      {
-        changelogTitle:
-          '# 📦 Changelog\n\nAll notable changes to this project will be documented in this file.\n',
-      },
     ],
 
     [
