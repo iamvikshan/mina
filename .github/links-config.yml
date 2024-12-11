@@ -5,8 +5,8 @@ files:
   - "*.mdx"
   - "*.astro"
 links:
-  - old: 'https://github.com/vixshan/mina'
-    new: 'https://github.com/vixshan/amina'
+  - old: 'https://github.com/iamvikshan/mina'
+    new: 'https://github.com/iamvikshan/amina'
 githubUrls:
   types:
     - 'all' 
