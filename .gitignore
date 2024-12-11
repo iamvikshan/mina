@@ -1,0 +1,37 @@
+.DS_Store
+.vscode/
+node_modules/
+*.log
+*.tar.gz
+.env
+bun.lockb
+
+# build output
+astro/dist/
+# generated types
+astro/.astro/
+astro/.idea/
+
+#tina
+astro/tina/__generated__
+astro/public/admin/index.html
+astro/public/admin/assets/
+
+# dependencies
+astro/node_modules/
+
+# logs
+astro/npm-debug.log*
+astro/yarn-debug.log*
+astro/yarn-error.log*
+astro/pnpm-debug.log*
+
+
+# environment variables
+astro/.env
+astro/.env.production
+
+# macOS-specific files
+.DS_Store
+package-lock.json
+dist

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./*"],
+      "@handlers/*": ["./src/handlers/*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@schemas/*": ["./src/database/schemas/*"],
+      "@src/*": ["./src/*"],
+      "@structures/*": ["./src/structures/*"],
+      "@commands/*": ["./src/commands/*"]
+    }
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
+}
