@@ -20,7 +20,7 @@ hey there! i’m amina, a playful and slightly chaotic discord bot that’s here
 add a little fun (and maybe a bit of chaos) to your server! 🌀 whether you’re
 looking for moderation, music, or just some good old fun commands, i’ve got your
 back. oh, and if you ever find any bugs or have ideas for new features, let me
-know right [here](https://github.com/vixshan/amina/issues/new/choose)! 💖
+know right [here](https://github.com/iamvikshan/amina/issues/new/choose)! 💖
 
 <p align="center">Admin, AutoMod, Anime, Economy, Fun, Giveaway, Image, Invite, Information, Moderation, Music, Owner, Social, Statistics, Suggestion, Ticket, Utility and More...</p>
 
@@ -142,10 +142,11 @@ credits [here](https://m.do.co/c/c5587212fe39)! 💻
 
 ## 🤝 contributing
 
-special thanks to [@saiteja-madha](https://github.com/saiteja-madha) for the original code! want to help make me even better?
-[fork](https://github.com/vixshan/amina/fork) my code, submit a pull request,
+special thanks to [@saiteja-madha](https://github.com/saiteja-madha) for the
+original code! want to help make me even better?
+[fork](https://github.com/iamvikshan/amina/fork) my code, submit a pull request,
 and let’s build this together! check out planned features
-[here](https://github.com/vixshan/amina/projects).
+[here](https://github.com/iamvikshan/amina/projects).
 
 ---
 
@@ -156,7 +157,7 @@ leave a ⭐ and help me grow!
 ### <img src="https://cdn.discordapp.com/emojis/809085860632985630.png" width="30px" height="30px"> 》 sponsor the project
 
 want to support me and keep me alive? sponsor me on
-[github](https://github.com/vixshan/amina/) or buy me a coffee!
+[github](https://github.com/iamvikshan/amina/) or buy me a coffee!
 
 <!-- sponsors --><!-- sponsors -->
 
@@ -166,25 +167,27 @@ want to support me and keep me alive? sponsor me on
 <a href="https://www.vultr.com/?ref=9556008-8H"><img src="https://www.vultr.com/media/logo_ondark.svg" width="200" height="80"></a>
 
 [version-shield]:
-  https://img.shields.io/github/package-json/v/vixshan/amina?style=for-the-badge
+  https://img.shields.io/github/package-json/v/iamvikshan/amina?style=for-the-badge
 [version-url]: https://github.com/iamvikshan/amina
 [pr-shield]:
-  https://img.shields.io/github/issues-pr/vixshan/amina?style=for-the-badge
+  https://img.shields.io/github/issues-pr/iamvikshan/amina?style=for-the-badge
 [pr-url]: https://github.com/iamvikshan/amina/pulls
 [contributors-shield]:
-  https://img.shields.io/github/contributors/vixshan/amina.svg?style=for-the-badge
+  https://img.shields.io/github/contributors/iamvikshan/amina.svg?style=for-the-badge
 [contributors-url]: https://github.com/iamvikshan/amina/graphs/contributors
 [forks-shield]:
-  https://img.shields.io/github/forks/vixshan/amina.svg?style=for-the-badge
+  https://img.shields.io/github/forks/iamvikshan/amina.svg?style=for-the-badge
 [forks-url]: https://github.com/iamvikshan/amina/network/members
 [stars-shield]:
-  https://img.shields.io/github/stars/vixshan/amina.svg?style=for-the-badge
+  https://img.shields.io/github/stars/iamvikshan/amina.svg?style=for-the-badge
 [stars-url]: https://github.com/iamvikshan/amina/stargazers
 [issues-shield]:
-  https://img.shields.io/github/issues/vixshan/amina.svg?style=for-the-badge
+  https://img.shields.io/github/issues/iamvikshan/amina.svg?style=for-the-badge
 [issues-url]: https://github.com/iamvikshan/amina/issues
 [license-shield]:
-  https://img.shields.io/github/license/vixshan/amina.svg?style=for-the-badge
+  https://img.shields.io/github/license/iamvikshan/amina.svg?style=for-the-badge
 [license-url]: https://github.com/iamvikshan/amina/blob/master/LICENSE
 
-![Alt](https://repobeats.axiom.co/api/embed/27f7dae1dd9a92ee7b2d3dbe7889eb18ab7a4d61.svg "Repobeats analytics image")
+![Alt](https://repobeats.axiom.co/api/embed/
+
+27f7dae1dd9a92ee7b2d3dbe7889eb18ab7a4d61.svg 'Repobeats analytics image')

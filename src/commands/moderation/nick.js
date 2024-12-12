@@ -2,7 +2,6 @@ const { canModerate } = require('@helpers/ModUtils')
 const { ApplicationCommandOptionType } = require('discord.js')
 import { MODERATION } from '@src/config'
 
-
 /**
  * @type {import("@structures/Command")}
  */

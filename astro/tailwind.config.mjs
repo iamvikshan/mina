@@ -1,5 +1,12 @@
 /** @type {import('tailwindcss').Config} */
-import colors, { blue, cyan, neutral, pink, sky, slate } from 'tailwindcss/colors';
+import colors, {
+  blue,
+  cyan,
+  neutral,
+  pink,
+  sky,
+  slate,
+} from 'tailwindcss/colors';
 export default {
   content: [
     './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',

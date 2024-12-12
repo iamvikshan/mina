@@ -16,7 +16,7 @@ jobs:
         uses: JamesIves/github-sponsors-readme-action@v1
         with:
           token: ${{ secrets.GH_TOKEN }}
-          file: 'README.md'
+          file: "README.md"
 
       # ⚠️ Note: You can use any deployment step here to automatically push the README
       # changes back to your branch.
@@ -24,4 +24,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: main
-          folder: '.'
+          folder: "."

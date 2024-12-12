@@ -7,7 +7,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import react from '@astrojs/react';
 
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Helper function to ensure proper URL format
@@ -27,7 +26,7 @@ export default defineConfig({
   base: '/',
   server: {
     port: process.env.PORT,
-    host: true
+    host: true,
   },
   adapter: node({
     mode: 'standalone',
@@ -48,7 +47,7 @@ export default defineConfig({
       cssMinify: true,
       minify: true,
     },
-    
+
     envDir: path.resolve(__dirname, '..'),
     resolve: {
       alias: {

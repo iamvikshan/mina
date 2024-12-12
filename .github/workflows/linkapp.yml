@@ -8,7 +8,11 @@ jobs:
   update-links:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: vixshan/link-updater@v1.1.11
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
+      - uses: iamvikshan/link-updater@v1.1.11
+        with:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

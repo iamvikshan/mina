@@ -7,7 +7,6 @@ const move = require('./message/move')
 const { ApplicationCommandOptionType, ChannelType } = require('discord.js')
 import { MODERATION } from '@src/config'
 
-
 /**
  * @type {import("@structures/Command")}
  */

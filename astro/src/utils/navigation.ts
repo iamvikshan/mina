@@ -31,7 +31,7 @@ const footerLinks = [
     links: [
       {
         name: 'GitHub',
-        url: 'https:github.com/vixshan/amina',
+        url: 'https:github.com/iamvikshan/amina',
         rel: 'noopener noreferrer',
         target: '_blank',
       },
