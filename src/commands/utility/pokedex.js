@@ -20,16 +20,16 @@ export default {
         name: 'pokemon',
         description: 'pokemon name to get information for',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const pokemon = interaction.options.getString('pokemon')
     const response = await pokedex(pokemon)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function pokedex(pokemon) {

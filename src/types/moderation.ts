@@ -16,7 +16,7 @@ export enum ModerationType {
   UNDEAFEN = 'UNDEAFEN',
   DISCONNECT = 'DISCONNECT',
   MOVE = 'MOVE',
-  WARN = 'WARN',
+  WARN = 'WARN'
 }
 
 export type PurgeType = 'ATTACHMENT' | 'BOT' | 'LINK' | 'TOKEN' | 'USER' | 'ALL'

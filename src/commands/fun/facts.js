@@ -12,7 +12,7 @@ const animalEmojis = {
   koala: '🐨',
   bird: '🐦',
   raccoon: '🦝',
-  kangaroo: '🦘',
+  kangaroo: '🦘'
 }
 
 const aminaIntros = [
@@ -21,7 +21,7 @@ const aminaIntros = [
   "You won't BELIEVE what I found out about",
   '*gasps dramatically* Did you know this about',
   'Time for some mind-blowing facts about',
-  '*spinning with excitement* Let me tell you about',
+  '*spinning with excitement* Let me tell you about'
 ]
 
 const animals = [
@@ -33,7 +33,7 @@ const animals = [
   'koala',
   'bird',
   'raccoon',
-  'kangaroo',
+  'kangaroo'
 ]
 const BASE_URL = 'https://some-random-api.com/animal'
 
@@ -55,16 +55,16 @@ export default {
         description: 'Pick your animal friend! (I love them all! 💖)',
         type: ApplicationCommandOptionType.String,
         required: true,
-        choices: animals.map(animal => ({ name: animal, value: animal })),
-      },
-    ],
+        choices: animals.map(animal => ({ name: animal, value: animal }))
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const choice = interaction.options.getString('name')
     const response = await getFact(interaction.user, choice)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function getFact(user, choice) {
@@ -72,7 +72,7 @@ async function getFact(user, choice) {
   if (!response.success) {
     return {
       content:
-        "*droops sadly* Oh no! Something went wrong with my fact-finding mission! But don't worry, we can try again! 🎨✨",
+        "*droops sadly* Oh no! Something went wrong with my fact-finding mission! But don't worry, we can try again! 🎨✨"
     }
   }
 
@@ -91,7 +91,7 @@ async function getFact(user, choice) {
       `${randomIntro} ${choice}s!\n\n${fact}\n\n*✨ Isn't nature just absolutely amazing? ✨*`
     )
     .setFooter({
-      text: `Requested by ${user.tag}! Smarter every day with Amina!`,
+      text: `Requested by ${user.tag}! Smarter every day with Amina!`
     })
 
   return { embeds: [embed] }

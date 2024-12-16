@@ -6,98 +6,98 @@ const CommandCategory = {
     name: 'Admin',
     image:
       'https://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Settings-icon.png',
-    emoji: '⚙️',
+    emoji: '⚙️'
   },
   MODERATION: {
     name: 'Moderation',
     enabled: config.MODERATION.ENABLED,
     image:
       'https://icons.iconarchive.com/icons/lawyerwordpress/law/128/Gavel-Law-icon.png',
-    emoji: '🔨',
+    emoji: '🔨'
   },
   AUTOMOD: {
     name: 'Automod',
     enabled: config.AUTOMOD.ENABLED,
     image:
       'https://icons.iconarchive.com/icons/dakirby309/simply-styled/256/Settings-icon.png',
-    emoji: '🤖',
+    emoji: '🤖'
   },
   GIVEAWAY: {
     name: 'Giveaway',
     enabled: config.GIVEAWAYS.ENABLED,
     image: 'https://cdn-icons-png.flaticon.com/512/4470/4470928.png',
-    emoji: '🎉',
+    emoji: '🎉'
   },
   TICKET: {
     name: 'Ticket',
     enabled: config.TICKET.ENABLED,
     image:
       'https://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/512/ticket-icon.png',
-    emoji: '🎫',
+    emoji: '🎫'
   },
   SUGGESTION: {
     name: 'Suggestion',
     enabled: config.SUGGESTIONS.ENABLED,
     image: 'https://cdn-icons-png.flaticon.com/512/1484/1484815.png',
-    emoji: '📝',
+    emoji: '📝'
   },
   ECONOMY: {
     name: 'Economy',
     enabled: config.ECONOMY.ENABLED,
     image:
       'https://icons.iconarchive.com/icons/custom-icon-design/pretty-office-11/128/coins-icon.png',
-    emoji: '🪙',
+    emoji: '🪙'
   },
   MUSIC: {
     name: 'Music',
     enabled: config.MUSIC.ENABLED,
     image:
       'https://icons.iconarchive.com/icons/wwalczyszyn/iwindows/256/Music-Library-icon.png',
-    emoji: '🎵',
+    emoji: '🎵'
   },
   IMAGE: {
     name: 'Image',
     enabled: config.IMAGE.ENABLED,
     image:
       'https://icons.iconarchive.com/icons/dapino/summer-holiday/128/photo-icon.png',
-    emoji: '🖼️',
+    emoji: '🖼️'
   },
   INVITE: {
     name: 'Invite',
     enabled: config.INVITE.ENABLED,
     image:
       'https://cdn4.iconfinder.com/data/icons/general-business/150/Invite-512.png',
-    emoji: '📨',
+    emoji: '📨'
   },
   INFO: {
     name: 'Information',
     image:
       'https://icons.iconarchive.com/icons/graphicloads/100-flat/128/information-icon.png',
-    emoji: '🪧',
+    emoji: '🪧'
   },
   FUN: {
     name: 'Fun',
     image:
       'https://icons.iconarchive.com/icons/flameia/aqua-smiles/128/make-fun-icon.png',
-    emoji: '😂',
+    emoji: '😂'
   },
   ANIME: {
     name: 'Anime',
     image: 'https://wallpaperaccess.com/full/5680679.jpg',
-    emoji: '🎨',
+    emoji: '🎨'
   },
   UTILITY: {
     name: 'Utility',
     image:
       'https://icons.iconarchive.com/icons/blackvariant/button-ui-system-folders-alt/128/Utilities-icon.png',
-    emoji: '🛠',
+    emoji: '🛠'
   },
   DEV: {
     name: 'Developer',
     image:
       'https://www.pinclipart.com/picdir/middle/531-5318253_web-designing-icon-png-clipart.png',
-    emoji: '🤴',
-  },
+    emoji: '🤴'
+  }
 } as const
 
 export default CommandCategory

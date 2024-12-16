@@ -13,12 +13,12 @@ const PREFIX_MAP: Record<Category, string> = {
   nhie: 'NHIE',
   wyr: 'WYR',
   hye: 'HYE',
-  wwyd: 'WWYD',
+  wwyd: 'WWYD'
 }
 
 const reqString = {
   type: String,
-  required: true,
+  required: true
 }
 
 // Define interface for the document
@@ -32,15 +32,15 @@ interface Question {
 const Schema = new mongoose.Schema<Question>({
   category: {
     ...reqString,
-    enum: CATEGORIES,
+    enum: CATEGORIES
   },
   questionId: reqString,
   question: reqString,
   rating: {
     type: String,
     required: true,
-    enum: RATINGS,
-  },
+    enum: RATINGS
+  }
 })
 
 const Model = mongoose.model<Question>('tod', Schema)
@@ -58,7 +58,7 @@ export const TruthOrDare = {
 
   addQuestion: async (category: Category, question: string, rating: Rating) => {
     const latestQuestion = await Model.findOne({ category }).sort({
-      questionId: -1,
+      questionId: -1
     })
 
     let questionId = 'T1'
@@ -77,7 +77,7 @@ export const TruthOrDare = {
       category,
       questionId,
       question,
-      rating,
+      rating
     })
 
     await data.save()
@@ -88,7 +88,7 @@ export const TruthOrDare = {
     limit = 10,
     category = 'random',
     age = 13,
-    requestedRating = null,
+    requestedRating = null
   }: GetQuestionsParams = {}) => {
     // Get allowed ratings based on age
     const allowedRatings = getAllowedRatings(age)
@@ -102,15 +102,15 @@ export const TruthOrDare = {
       $match: {
         // If specific rating requested, use it; otherwise use all allowed ratings
         rating: requestedRating ? requestedRating : { $in: allowedRatings },
-        ...(category !== 'random' ? { category } : {}),
-      },
+        ...(category !== 'random' ? { category } : {})
+      }
     }
 
     const aggregate: mongoose.PipelineStage[] = [matchStage]
 
     // Add random sampling
     aggregate.push({
-      $sample: { size: limit },
+      $sample: { size: limit }
     } as mongoose.PipelineStage.Sample)
 
     const questions = await Model.aggregate(aggregate)
@@ -121,7 +121,7 @@ export const TruthOrDare = {
     const normalizedId = questionId.toUpperCase()
 
     const question = await Model.findOne({
-      questionId: { $regex: new RegExp(`^${normalizedId}$`, 'i') },
+      questionId: { $regex: new RegExp(`^${normalizedId}$`, 'i') }
     })
 
     if (!question) {
@@ -133,7 +133,7 @@ export const TruthOrDare = {
       category: question.category,
       questionId: question.questionId,
       question: question.question,
-      rating: question.rating,
+      rating: question.rating
     }
   },
 
@@ -143,7 +143,7 @@ export const TruthOrDare = {
       throw new Error(`Question with ID ${questionId} not found`)
     }
     return question
-  },
+  }
 }
 
 function getAllowedRatings(age: number): Rating[] {

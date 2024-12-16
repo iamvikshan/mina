@@ -11,13 +11,13 @@ export default {
   category: 'MUSIC',
   botPermissions: ['EmbedLinks'],
   slashCommand: {
-    enabled: true,
+    enabled: true
   },
 
   async interactionRun(interaction) {
     const response = nowPlaying(interaction)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**
@@ -43,12 +43,12 @@ function nowPlaying({ client, guildId }) {
       {
         name: 'Song Duration',
         value: client.utils.formatTime(track.info.duration),
-        inline: true,
+        inline: true
       },
       {
         name: 'Requested By',
         value: track.requester.username || 'Unknown',
-        inline: true,
+        inline: true
       },
       {
         name: '\u200b',
@@ -64,7 +64,7 @@ function nowPlaying({ client, guildId }) {
           )[0] +
           '] ' +
           end,
-        inline: false,
+        inline: false
       }
     )
 

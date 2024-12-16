@@ -4,7 +4,7 @@ const {
   ActionRowBuilder,
   ButtonStyle,
   ComponentType,
-  ApplicationCommandOptionType,
+  ApplicationCommandOptionType
 } = require('discord.js')
 const { EMBED_COLORS, INTERACTIONS } = require('@src/config')
 const { BotClient } = require('@src/structures')
@@ -12,7 +12,7 @@ const { getSettings } = require('@schemas/Guild')
 const {
   addQuestion,
   deleteQuestion,
-  getQuestionById,
+  getQuestionById
 } = require('@schemas/TruthOrDare')
 const util = require('util')
 const exec = util.promisify(require('child_process').exec)
@@ -36,7 +36,7 @@ export default {
       {
         name: 'listservers',
         description: 'Get a list of servers the bot is in',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'leaveserver',
@@ -47,9 +47,9 @@ export default {
             name: 'serverid',
             description: 'ID of the server to leave',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'add-tod',
@@ -68,14 +68,14 @@ export default {
               { name: 'Never Have I Ever', value: 'nhie' },
               { name: 'Would You Rather', value: 'wyr' },
               { name: 'Have You Ever', value: 'hye' },
-              { name: 'What Would You Do', value: 'wwyd' },
-            ],
+              { name: 'What Would You Do', value: 'wwyd' }
+            ]
           },
           {
             name: 'question',
             description: 'The question to add',
             type: ApplicationCommandOptionType.String,
-            required: true,
+            required: true
           },
           {
             name: 'rating',
@@ -86,10 +86,10 @@ export default {
               { name: 'PG - General Audience', value: 'PG' },
               { name: 'PG-13 - Teen', value: 'PG-13' },
               { name: 'PG-16 - Mature Teen', value: 'PG-16' },
-              { name: 'R - Mature', value: 'R' },
-            ],
-          },
-        ],
+              { name: 'R - Mature', value: 'R' }
+            ]
+          }
+        ]
       },
       {
         name: 'del-tod',
@@ -100,9 +100,9 @@ export default {
             name: 'question_id',
             description: 'ID of the question to delete (e.g., T1, D2, NHIE3)',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'exec',
@@ -113,9 +113,9 @@ export default {
             name: 'script',
             description: 'Script to execute',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'eval',
@@ -126,9 +126,9 @@ export default {
             name: 'expression',
             description: 'Content to evaluate',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'trig-settings',
@@ -139,9 +139,9 @@ export default {
             name: 'serverid',
             description: 'ID of the server to trigger settings (optional)',
             type: ApplicationCommandOptionType.String,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'reload',
@@ -157,12 +157,12 @@ export default {
               { name: 'Commands', value: 'commands' },
               { name: 'Events', value: 'events' },
               { name: 'Contexts', value: 'contexts' },
-              { name: 'All', value: 'all' },
-            ],
-          },
-        ],
-      },
-    ],
+              { name: 'All', value: 'all' }
+            ]
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -201,7 +201,7 @@ export default {
           .setColor(client.EMBED_COLORS.BOT_EMBED)
           .setAuthor({ name: 'List of servers' })
           .setFooter({
-            text: `${match ? 'Matched' : 'Total'} Servers: ${total} • Page ${currentPage} of ${totalPages}`,
+            text: `${match ? 'Matched' : 'Total'} Servers: ${total} • Page ${currentPage} of ${totalPages}`
           })
 
         const fields = []
@@ -210,7 +210,7 @@ export default {
           fields.push({
             name: server.name,
             value: server.id,
-            inline: true,
+            inline: true
           })
         }
         embed.addFields(fields)
@@ -233,15 +233,15 @@ export default {
               .setEmoji('➡️')
               .setStyle(ButtonStyle.Secondary)
               .setDisabled(totalPages === 1)
-          ),
-        ],
+          )
+        ]
       })
 
       // Listeners for pagination
       const collector = interaction.channel.createMessageComponentCollector({
         filter: response =>
           response.user.id === member.id && response.message.id === sentMsg.id,
-        componentType: ComponentType.Button,
+        componentType: ComponentType.Button
       })
 
       collector.on('collect', async response => {
@@ -294,9 +294,9 @@ export default {
             .setDescription(`Executing command...`)
             .setAuthor({
               name: interaction.client.user.displayName,
-              iconURL: interaction.client.user.displayAvatarURL(),
-            }),
-        ],
+              iconURL: interaction.client.user.displayAvatarURL()
+            })
+        ]
       })
 
       const result = await execute(script)
@@ -324,7 +324,7 @@ export default {
       const response = await addQuestion(category, question, rating)
       await interaction.followUp({
         content: `Yay! 🎉 Your new *${category}* question has been added: "${question}" [${rating}]! So fun, right? 😄`,
-        embeds: [response],
+        embeds: [response]
       })
     }
 
@@ -337,12 +337,12 @@ export default {
         const deletedQuestion = await deleteQuestion(questionId)
         await interaction.followUp({
           content: `Question deleted successfully! 🗑️\n**ID**: \`${deletedQuestion.questionId}\`\n**Category**: ${deletedQuestion.category}\n**Question**: "${deletedQuestion.question}"\n**Rating**: ${deletedQuestion.rating}`,
-          ephemeral: true,
+          ephemeral: true
         })
       } catch (error) {
         await interaction.followUp({
           content: `❌ ${error.message}`,
-          ephemeral: true,
+          ephemeral: true
         })
       }
     }
@@ -380,8 +380,8 @@ export default {
                 new EmbedBuilder()
                   .setTitle('Error')
                   .setDescription('Command type not selected')
-                  .setColor('Red'),
-              ],
+                  .setColor('Red')
+              ]
             })
         }
       } catch (e) {
@@ -392,11 +392,11 @@ export default {
           new EmbedBuilder()
             .setTitle('Reloaded')
             .setDescription(`Reloaded ${type}`)
-            .setColor('Green'),
-        ],
+            .setColor('Green')
+        ]
       })
     }
-  },
+  }
 }
 
 // Functions: execute, buildSuccessResponse, buildErrorResponse

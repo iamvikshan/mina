@@ -9,13 +9,13 @@ export default {
   category: 'MUSIC',
   validations: musicValidations,
   slashCommand: {
-    enabled: true,
+    enabled: true
   },
 
   async interactionRun(interaction) {
     const response = await resumePlayer(interaction)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

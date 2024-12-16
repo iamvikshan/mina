@@ -14,41 +14,41 @@ import {
   ConfigModeration,
   ConfigStats,
   ConfigSuggestions,
-  ConfigTicket,
+  ConfigTicket
 } from './types'
 
 export const INTERACTIONS: ConfigInteractions = {
   SLASH: true,
   CONTEXT: true,
   GLOBAL:
-    process.env.GLOBAL !== undefined ? process.env.GLOBAL === 'true' : true,
+    process.env.GLOBAL !== undefined ? process.env.GLOBAL === 'true' : true
 }
 
 export const CACHE_SIZE: ConfigCache = {
   GUILDS: 100,
   USERS: 10000,
-  MEMBERS: 10000,
+  MEMBERS: 10000
 }
 
 export const MESSAGES = {
   API_ERROR:
-    'Oopsie! 🌟 Something went wrong on our end. Please try again later. If this keeps happening, reach out to our support server or run `/report`! 💖',
+    'Oopsie! 🌟 Something went wrong on our end. Please try again later. If this keeps happening, reach out to our support server or run `/report`! 💖'
 }
 
 export const FEEDBACK: ConfigFeedback = {
   ENABLED: true,
-  URL: process.env.LOGS_WEBHOOK,
+  URL: process.env.LOGS_WEBHOOK
 }
 
 export const AUTOMOD: ConfigAutomod = {
   ENABLED: true,
   LOG_EMBED: '#F1F1F1',
-  DM_EMBED: '#FFB3D9',
+  DM_EMBED: '#FFB3D9'
 }
 
 export const DASHBOARD: ConfigDashboard = {
   enabled: process.env.DASH !== undefined ? process.env.DASH === 'true' : true,
-  port: process.env.PORT || '8080',
+  port: process.env.PORT || '8080'
 }
 
 export const ECONOMY: ConfigEconomy = {
@@ -56,7 +56,7 @@ export const ECONOMY: ConfigEconomy = {
   CURRENCY: '₪',
   DAILY_COINS: 100,
   MIN_BEG_AMOUNT: 100,
-  MAX_BEG_AMOUNT: 2500,
+  MAX_BEG_AMOUNT: 2500
 }
 
 export const MUSIC: ConfigMusic = {
@@ -73,32 +73,32 @@ export const MUSIC: ConfigMusic = {
       authorization: process.env.LAVALINK_PASSWORD,
       secure: false,
       retryAmount: 20,
-      retryDelay: 30000,
-    },
-  ],
+      retryDelay: 30000
+    }
+  ]
 }
 
 export const GIVEAWAYS: ConfigGiveaways = {
   ENABLED: true,
   REACTION: '🎁',
   START_EMBED: '#FFB3D9',
-  END_EMBED: '#FFB3D9',
+  END_EMBED: '#FFB3D9'
 }
 
 export const IMAGE: ConfigImage = {
   ENABLED: true,
-  BASE_API: 'https://strangeapi.hostz.me/api',
+  BASE_API: 'https://strangeapi.hostz.me/api'
 }
 
 export const INVITE: ConfigInvite = {
-  ENABLED: true,
+  ENABLED: true
 }
 
 export const EMBED_COLORS: EmbedColors = {
   BOT_EMBED: '#FF1493',
   SUCCESS: '#00FFB3',
   ERROR: '#FF6978',
-  WARNING: '#FFD93D',
+  WARNING: '#FFD93D'
 }
 
 export const MODERATION: ConfigModeration = {
@@ -115,32 +115,32 @@ export const MODERATION: ConfigModeration = {
     DEAFEN: '#C8A2C8',
     UNDEAFEN: '#7FFFD4',
     DISCONNECT: 'Random',
-    MOVE: 'Random',
-  },
+    MOVE: 'Random'
+  }
 }
 
 export const STATS: ConfigStats = {
   ENABLED: true,
   XP_COOLDOWN: 5,
   DEFAULT_LVL_UP_MSG:
-    '{member:tag}, Yay! 🎉 You just leveled up to **Level {level}**! 🌟',
+    '{member:tag}, Yay! 🎉 You just leveled up to **Level {level}**! 🌟'
 }
 
 export const SUGGESTIONS: ConfigSuggestions = {
   ENABLED: true,
   EMOJI: {
     UP_VOTE: '⬆️',
-    DOWN_VOTE: '⬇️',
+    DOWN_VOTE: '⬇️'
   },
   DEFAULT_EMBED: '#FFB8DE',
   APPROVED_EMBED: '#47E0A0',
-  DENIED_EMBED: '#FF8BA7',
+  DENIED_EMBED: '#FF8BA7'
 }
 
 export const TICKET: ConfigTicket = {
   ENABLED: true,
   CREATE_EMBED: '#E0AAFF',
-  CLOSE_EMBED: '#48D1CC',
+  CLOSE_EMBED: '#48D1CC'
 }
 
 // Export all configurations
@@ -160,5 +160,5 @@ export default {
   MODERATION,
   STATS,
   SUGGESTIONS,
-  TICKET,
+  TICKET
 }

@@ -24,9 +24,9 @@ export default {
             name: 'user',
             description: 'the target member',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'clear',
@@ -37,11 +37,11 @@ export default {
             name: 'user',
             description: 'the target member',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -68,7 +68,7 @@ export default {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function listWarnings(target, { guildId }) {
@@ -86,7 +86,7 @@ async function listWarnings(target, { guildId }) {
     .join('\n')
   const embed = new EmbedBuilder({
     author: { name: `${target.user.username}'s warnings` },
-    description: acc,
+    description: acc
   })
 
   return { embeds: [embed] }

@@ -22,16 +22,16 @@ export default {
           name: 'user',
           description: 'The target member',
           type: ApplicationCommandOptionType.User, // Use .User instead of .USER
-          required: true,
+          required: true
         },
         {
           name: 'reason',
           description: 'Reason for kick',
           type: ApplicationCommandOptionType.String, // Use .String instead of .STRING
-          required: false,
-        },
-      ],
-    },
+          required: false
+        }
+      ]
+    }
   },
 
   async interactionRun(interaction) {
@@ -41,7 +41,7 @@ export default {
 
     const response = await kick(interaction.member, target, reason)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function kick(issuer, target, reason) {

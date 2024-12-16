@@ -22,15 +22,15 @@ export default {
         choices: [
           {
             name: 'ON',
-            value: 'ON',
+            value: 'ON'
           },
           {
             name: 'OFF',
-            value: 'OFF',
-          },
-        ],
-      },
-    ],
+            value: 'OFF'
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -39,7 +39,7 @@ export default {
       data.settings
     )
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function setStatus(input, settings) {

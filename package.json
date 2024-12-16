@@ -1,24 +1,23 @@
 {
   "name": "discord-js-bot",
-  "version": "5.5.0",
+  "version": "1.0.0",
   "description": "An open-source, multipurpose discord bot built using discord-js",
-  "module": "dist/index.js",
-  "type": "module",
+  "main": "src/index.ts",
   "author": "Vikshan",
   "license": "ISC",
+  "type": "module",
   "engines": {
     "bun": ">=1.0.0"
   },
   "scripts": {
-    "build": "tsc",
     "dev": "bun --watch src/index.ts",
-    "start": "bun dist/index.js",
-    "clean": "rm -rf dist",
-    "prebuild": "bun run clean",
-    "lint": "eslint src --ext .ts",
+    "start": "bun src/index.ts",
+    "f": "prettier --write \"**/*.*\"",
     "prepare": "husky",
-    "watch": "tsc -w",
-    "f": "prettier --write \"src/**/*.ts\""
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "build": "tsc"
   },
   "homepage": "https://github.com/iamvikshan/amina#readme",
   "repository": {
@@ -32,6 +31,7 @@
     "@octokit/rest": "^21.0.2",
     "@vitalets/google-translate-api": "^9.2.0",
     "axios": "^1.7.9",
+    "btoa": "^1.2.1",
     "common-tags": "^1.8.2",
     "discord-gamecord": "^4.4.2",
     "discord-giveaways": "^6.0.1",
@@ -39,9 +39,10 @@
     "discord.js": "^14.16.3",
     "enhanced-ms": "^3.0.0",
     "fixedsize-map": "^1.1.0",
-    "lavalink-client": "^2.4.2",
+    "lavalink-client": "^2.4.3",
+    "module-alias": "^2.2.3",
     "moment": "^2.30.1",
-    "mongoose": "^8.8.4",
+    "mongoose": "^8.9.0",
     "pino": "^9.5.0",
     "pino-pretty": "^11.3.0",
     "pretty-ms": "^7.0.1",
@@ -50,16 +51,16 @@
     "table": "^6.9.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.16.0",
-    "@types/bun": "^1.1.14",
-    "@types/node": "^22.10.2",
+    "@types/common-tags": "^1.8.4",
+    "@types/node": "^20.17.10",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
-    "eslint": "^9.16.0",
+    "bun-types": "latest",
+    "eslint": "^9.17.0",
     "eslint-plugin-jsdoc": "^50.6.1",
     "husky": "^9.1.7",
-    "prettier": "3.3.3",
-    "typescript": "^5.7.2"
+    "lint-staged": "^15.2.11",
+    "prettier": "3.3.3"
   },
   "keywords": [
     "discord",
@@ -68,16 +69,6 @@
     "open-source",
     "bot",
     "multipurpose",
-    "multi-purpose-bot",
-    "bun"
-  ],
-  "imports": {
-    "@/*": "./",
-    "@handlers/*": "./src/handlers/",
-    "@helpers/*": "./src/helpers/",
-    "@schemas/*": "./src/database/schemas/",
-    "@structures/*": "./src/structures/",
-    "@commands/*": "./src/commands/",
-    "@src/*": "./src/*"
-  }
+    "multi-purpose-bot"
+  ]
 }

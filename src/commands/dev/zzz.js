@@ -1,6 +1,6 @@
 const {
   ApplicationCommandOptionType,
-  ApplicationCommandType,
+  ApplicationCommandType
 } = require('discord.js')
 const { EmbedBuilder } = require('discord.js')
 const { EMBED_COLORS } = require('@src/config')
@@ -23,9 +23,9 @@ export default {
         name: 'enabled',
         description: 'Enable or disable dev commands',
         type: ApplicationCommandOptionType.Boolean,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -46,7 +46,7 @@ export default {
             name: cmd.name,
             description: cmd.description,
             type: ApplicationCommandType.ChatInput,
-            options: cmd.slashCommand.options,
+            options: cmd.slashCommand.options
           }))
 
         await testGuild.commands.set(commandsToSet)
@@ -66,8 +66,8 @@ export default {
               .setColor(EMBED_COLORS.ERROR)
               .setDescription(
                 'Failed to update test guild commands. Check bot logs for details.'
-              ),
-          ],
+              )
+          ]
         })
       }
     }
@@ -80,5 +80,5 @@ export default {
       )
 
     return interaction.followUp({ embeds: [embed] })
-  },
+  }
 }

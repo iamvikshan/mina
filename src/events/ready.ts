@@ -1,7 +1,7 @@
 const {
   counterHandler,
   inviteHandler,
-  presenceHandler,
+  presenceHandler
 } = require('@src/handlers')
 const { cacheReactionRoles } = require('@schemas/ReactionRoles')
 const { getSettings } = require('@schemas/Guild')
@@ -9,7 +9,7 @@ const { getPresenceConfig, getDevCommandsConfig } = require('@schemas/Dev')
 const {
   ApplicationCommandType,
   ApplicationCommandData,
-  Client,
+  Client
 } = require('discord.js')
 
 /**
@@ -129,7 +129,7 @@ module.exports = async (client: {
             name: cmd.name,
             description: cmd.description,
             type: ApplicationCommandType.ChatInput,
-            options: cmd.slashCommand.options,
+            options: cmd.slashCommand.options
           }))
 
       if (testGuildCommands.length > 0) {
@@ -149,7 +149,7 @@ module.exports = async (client: {
             name: cmd.name,
             description: cmd.description,
             type: ApplicationCommandType.ChatInput,
-            options: cmd.slashCommand.options,
+            options: cmd.slashCommand.options
           }))
 
       if (globalCommands.length > 0) {

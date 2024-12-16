@@ -1,7 +1,7 @@
 const {
   EmbedBuilder,
   AttachmentBuilder,
-  ApplicationCommandOptionType,
+  ApplicationCommandOptionType
 } = require('discord.js')
 const { getBuffer } = require('@helpers/HttpUtils')
 import { EMBED_COLORS, IMAGE } from '@src/config'
@@ -17,7 +17,7 @@ const filterDescriptions = {
   pixelate: 'Making it retro-cool! 👾',
   sepia: 'Adding some vintage magic! 📷',
   sharpen: 'Making every detail pop! 💫',
-  threshold: 'Going totally experimental! 🎯',
+  threshold: 'Going totally experimental! 🎯'
 }
 
 const availableFilters = [
@@ -31,28 +31,28 @@ const availableFilters = [
   'pixelate',
   'sepia',
   'sharpen',
-  'threshold',
+  'threshold'
 ]
 
 const additionalParams = {
   brighten: {
-    params: [{ name: 'amount', value: '100' }],
+    params: [{ name: 'amount', value: '100' }]
   },
   darken: {
-    params: [{ name: 'amount', value: '100' }],
+    params: [{ name: 'amount', value: '100' }]
   },
   distort: {
-    params: [{ name: 'level', value: '10' }],
+    params: [{ name: 'level', value: '10' }]
   },
   pixelate: {
-    params: [{ name: 'pixels', value: '10' }],
+    params: [{ name: 'pixels', value: '10' }]
   },
   sharpen: {
-    params: [{ name: 'level', value: '5' }],
+    params: [{ name: 'level', value: '5' }]
   },
   threshold: {
-    params: [{ name: 'amount', value: '100' }],
-  },
+    params: [{ name: 'amount', value: '100' }]
+  }
 }
 
 const creativeIntros = [
@@ -60,7 +60,7 @@ const creativeIntros = [
   "*pulls out virtual paintbrush*\nLet's create something amazing! ",
   '*spins excitedly*\nReady for some artistic magic? ',
   "*eyes sparkling*\nOoh, let's make this extra special! ",
-  '*giggling with creative inspiration*\nWatch this transformation! ',
+  '*giggling with creative inspiration*\nWatch this transformation! '
 ]
 
 /**
@@ -84,22 +84,22 @@ export default {
         required: true,
         choices: availableFilters.map(filter => ({
           name: filter,
-          value: filter,
-        })),
+          value: filter
+        }))
       },
       {
         name: 'user',
         description: "Want to transform someone's avatar? Tag them here!",
         type: ApplicationCommandOptionType.User,
-        required: false,
+        required: false
       },
       {
         name: 'link',
         description: 'Got a special image to transform? Drop the link here!',
         type: ApplicationCommandOptionType.String,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -116,8 +116,8 @@ export default {
     const url = getFilter(filter, image)
     const response = await getBuffer(url, {
       headers: {
-        Authorization: `Bearer ${process.env.STRANGE_API_KEY}`,
-      },
+        Authorization: `Bearer ${process.env.STRANGE_API_KEY}`
+      }
     })
 
     if (!response.success) {
@@ -132,18 +132,18 @@ export default {
       filterDescriptions[filter] || "Let's make some art magic! ✨"
 
     const attachment = new AttachmentBuilder(response.buffer, {
-      name: 'attachment.png',
+      name: 'attachment.png'
     })
     const embed = new EmbedBuilder()
       .setColor(EMBED_COLORS.BOT_EMBED)
       .setTitle(`${randomIntro}${filterDesc}`)
       .setImage('attachment://attachment.png')
       .setFooter({
-        text: `Art piece inspired by ${author.username}'s request! 🎨✨`,
+        text: `Art piece inspired by ${author.username}'s request! 🎨✨`
       })
 
     await interaction.followUp({ embeds: [embed], files: [attachment] })
-  },
+  }
 }
 
 function getFilter(filter, image) {

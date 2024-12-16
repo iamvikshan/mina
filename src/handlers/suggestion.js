@@ -9,7 +9,7 @@ const {
   TextInputBuilder,
   EmbedBuilder,
   ButtonStyle,
-  TextInputStyle,
+  TextInputStyle
 } = require('discord.js')
 const { stripIndents } = require('common-tags')
 
@@ -104,7 +104,7 @@ async function approveSuggestion(member, channel, messageId, reason) {
     .setAuthor({ name: 'Suggestion Approved' })
     .setFooter({
       text: `Approved By ${member.user.username}`,
-      iconURL: member.displayAvatarURL(),
+      iconURL: member.displayAvatarURL()
     })
     .setTimestamp()
 
@@ -134,7 +134,7 @@ async function approveSuggestion(member, channel, messageId, reason) {
       user_id: member.id,
       status: 'APPROVED',
       reason,
-      timestamp: new Date(),
+      timestamp: new Date()
     })
 
     let approveChannel
@@ -154,7 +154,7 @@ async function approveSuggestion(member, channel, messageId, reason) {
     else {
       const sent = await approveChannel.send({
         embeds: [approvedEmbed],
-        components: [buttonsRow],
+        components: [buttonsRow]
       })
       doc.channel_id = approveChannel.id
       doc.message_id = sent.id
@@ -217,7 +217,7 @@ async function rejectSuggestion(member, channel, messageId, reason) {
     .setAuthor({ name: 'Suggestion Rejected' })
     .setFooter({
       text: `Rejected By ${member.user.username}`,
-      iconURL: member.displayAvatarURL(),
+      iconURL: member.displayAvatarURL()
     })
     .setTimestamp()
 
@@ -247,7 +247,7 @@ async function rejectSuggestion(member, channel, messageId, reason) {
       user_id: member.id,
       status: 'REJECTED',
       reason,
-      timestamp: new Date(),
+      timestamp: new Date()
     })
 
     let rejectChannel
@@ -267,7 +267,7 @@ async function rejectSuggestion(member, channel, messageId, reason) {
     else {
       const sent = await rejectChannel.send({
         embeds: [rejectedEmbed],
-        components: [buttonsRow],
+        components: [buttonsRow]
       })
       doc.channel_id = rejectChannel.id
       doc.message_id = sent.id
@@ -321,9 +321,9 @@ async function handleApproveBtn(interaction) {
             .setCustomId('reason')
             .setLabel('reason')
             .setStyle(TextInputStyle.Paragraph)
-            .setMinLength(4),
-        ]),
-      ],
+            .setMinLength(4)
+        ])
+      ]
     })
   )
 }
@@ -357,9 +357,9 @@ async function handleRejectBtn(interaction) {
             .setCustomId('reason')
             .setLabel('reason')
             .setStyle(TextInputStyle.Paragraph)
-            .setMinLength(4),
-        ]),
-      ],
+            .setMinLength(4)
+        ])
+      ]
     })
   )
 }
@@ -393,9 +393,9 @@ async function handleDeleteBtn(interaction) {
             .setCustomId('reason')
             .setLabel('reason')
             .setStyle(TextInputStyle.Paragraph)
-            .setMinLength(4),
-        ]),
-      ],
+            .setMinLength(4)
+        ])
+      ]
     })
   )
 }
@@ -424,5 +424,5 @@ export default {
   handleDeleteModal,
   approveSuggestion,
   rejectSuggestion,
-  deleteSuggestion,
+  deleteSuggestion
 }

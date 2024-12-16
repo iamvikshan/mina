@@ -20,17 +20,17 @@ export default {
         choices: [
           { name: 'Track', value: 'track' },
           { name: 'Queue', value: 'queue' },
-          { name: 'Off', value: 'off' },
-        ],
-      },
-    ],
+          { name: 'Off', value: 'off' }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const type = interaction.options.getString('type') || 'track'
     const response = await toggleLoop(interaction, type)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

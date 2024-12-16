@@ -160,5 +160,5 @@ const sendFarewell = async (member, inviterData = {}) => {
 export default {
   buildGreeting,
   sendWelcome,
-  sendFarewell,
+  sendFarewell
 }

@@ -72,7 +72,7 @@ export function validateConfiguration(): void {
       'scsearch',
       'spsearch',
       'dzsearch',
-      'jssearch',
+      'jssearch'
     ] as const
 
     type ValidSource = (typeof validSources)[number]

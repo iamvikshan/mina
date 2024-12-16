@@ -26,15 +26,15 @@ export default {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'invites',
@@ -49,15 +49,15 @@ export default {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'links',
@@ -72,15 +72,15 @@ export default {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'maxlines',
@@ -91,11 +91,11 @@ export default {
             name: 'amount',
             description: 'Configuration amount (0 to disable)',
             required: true,
-            type: ApplicationCommandOptionType.Integer,
-          },
-        ],
-      },
-    ],
+            type: ApplicationCommandOptionType.Integer
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -128,7 +128,7 @@ export default {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 const antiAttachments = async (settings, input) => {

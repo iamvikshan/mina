@@ -31,7 +31,7 @@ module.exports = async (
     await member.client.giveawaysManager.edit(messageId, {
       addTime: addDuration || 0,
       newPrize: newPrize || giveaway.prize,
-      newWinnerCount: newWinnerCount || giveaway.winnerCount,
+      newWinnerCount: newWinnerCount || giveaway.winnerCount
     })
 
     return `Successfully updated the giveaway!`

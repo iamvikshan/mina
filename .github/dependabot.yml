@@ -1,34 +1,34 @@
 version: 2
 updates:
-  - package-ecosystem: 'npm'
-    directory: '/'
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: 'daily'
+      interval: "daily"
     open-pull-requests-limit: 5
     groups:
       dependencies:
         patterns:
-          - '*'
+          - "*"
     labels:
-      - 'dependencies'
+      - "dependencies"
     commit-message:
-      prefix: 'chore'
-      prefix-development: 'chore(dev)'
+      prefix: "chore"
+      prefix-development: "chore(dev)"
     reviewers:
-      - 'iamvikshan'
+      - "iamvikshan"
 
-  - package-ecosystem: 'github-actions'
-    directory: '/'
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: 'daily'
+      interval: "daily"
     open-pull-requests-limit: 5
     groups:
       github-actions:
         patterns:
-          - '*'
+          - "*"
     labels:
-      - 'gh-actions'
+      - "gh-actions"
     commit-message:
-      prefix: 'chore'
+      prefix: "chore"
     reviewers:
-      - 'iamvikshan'
+      - "iamvikshan"

@@ -6,29 +6,29 @@ const typescriptParser = require('@typescript-eslint/parser')
 module.exports = [
   // Global settings
   {
-    ignores: ['dist/*', 'node_modules/*'],
+    ignores: ['dist/*', 'node_modules/*']
   },
 
   // JS files
   {
     files: ['**/*.{js,jsx,mjs,cjs}'],
-    ...js.configs.recommended,
+    ...js.configs.recommended
   },
 
   // TypeScript files
   {
     files: ['**/*.{ts,tsx}'],
     plugins: {
-      '@typescript-eslint': typescript,
+      '@typescript-eslint': typescript
     },
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
-        project: './tsconfig.json',
-      },
+        project: './tsconfig.json'
+      }
     },
     rules: {
-      ...typescript.configs.recommended.rules,
-    },
-  },
+      ...typescript.configs.recommended.rules
+    }
+  }
 ]

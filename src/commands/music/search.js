@@ -3,7 +3,7 @@ const {
   ActionRowBuilder,
   StringSelectMenuBuilder,
   ApplicationCommandOptionType,
-  ComponentType,
+  ComponentType
 } = require('discord.js')
 const { EMBED_COLORS, MUSIC } = require('@src/config')
 
@@ -23,9 +23,9 @@ export default {
         name: 'query',
         description: 'song to search',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -33,7 +33,7 @@ export default {
     const response = await search(interaction, query)
     if (response) await interaction.followUp(response)
     else interaction.deleteReply()
-  },
+  }
 }
 
 /**
@@ -56,7 +56,7 @@ async function search({ member, guild, channel }, query) {
       textChannelId: channel.id,
       selfMute: false,
       selfDeaf: true,
-      volume: MUSIC.DEFAULT_VOLUME,
+      volume: MUSIC.DEFAULT_VOLUME
     })
   }
 
@@ -69,8 +69,8 @@ async function search({ member, guild, channel }, query) {
       embeds: [
         new EmbedBuilder()
           .setColor(EMBED_COLORS.ERROR)
-          .setDescription(`No results found for \`${query}\``),
-      ],
+          .setDescription(`No results found for \`${query}\``)
+      ]
     }
   }
 
@@ -80,7 +80,7 @@ async function search({ member, guild, channel }, query) {
   const results = res.tracks.slice(0, maxResults)
   const options = results.map((track, index) => ({
     label: track.info.title,
-    value: index.toString(),
+    value: index.toString()
   }))
 
   const menuRow = new ActionRowBuilder().addComponents(
@@ -98,14 +98,14 @@ async function search({ member, guild, channel }, query) {
 
   const searchMessage = await channel.send({
     embeds: [searchEmbed],
-    components: [menuRow],
+    components: [menuRow]
   })
 
   try {
     const response = await channel.awaitMessageComponent({
       filter: i => i.user.id === member.id && i.message.id === searchMessage.id,
       componentType: ComponentType.StringSelect,
-      idle: 30 * 1000,
+      idle: 30 * 1000
     })
 
     if (response.customId !== 'search-results') return
@@ -128,7 +128,7 @@ async function search({ member, guild, channel }, query) {
           '`' +
           guild.client.utils.formatTime(selectedTrack.info.duration) +
           '`',
-        inline: true,
+        inline: true
       })
       .setFooter({ text: `Requested By: ${member.user.username}` })
 

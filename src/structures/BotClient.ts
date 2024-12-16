@@ -10,7 +10,7 @@ import {
   User,
   Snowflake,
   OAuth2Scopes,
-  PermissionResolvable,
+  PermissionResolvable
 } from 'discord.js'
 
 import path from 'path'
@@ -57,13 +57,13 @@ export class BotClient extends Client {
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildPresences,
         GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildVoiceStates
       ],
       partials: [Partials.User, Partials.Message, Partials.Reaction],
       allowedMentions: { repliedUser: false },
       rest: {
-        timeout: 20000,
-      },
+        timeout: 20000
+      }
     })
 
     this.wait = (delay?: number) => promisify(setTimeout)(delay)
@@ -118,7 +118,7 @@ export class BotClient extends Client {
       table(clientEvents, {
         header: { alignment: 'center', content: 'Client Events' },
         singleLine: true,
-        columns: [{ width: 25 }, { width: 5, alignment: 'center' }],
+        columns: [{ width: 25 }, { width: 5, alignment: 'center' }]
       })
     )
 
@@ -232,7 +232,7 @@ export class BotClient extends Client {
           name: cmd.name,
           description: cmd.description,
           type: ApplicationCommandType.ChatInput as const,
-          options: cmd.slashCommand.options,
+          options: cmd.slashCommand.options
         })
       })
     }
@@ -243,7 +243,7 @@ export class BotClient extends Client {
           name: ctx.name,
           type: ctx.type as
             | ApplicationCommandType.User
-            | ApplicationCommandType.Message,
+            | ApplicationCommandType.Message
         })
       })
     }
@@ -328,8 +328,8 @@ export class BotClient extends Client {
           'SendMessages',
           'SendMessagesInThreads',
           'Speak',
-          'ViewChannel',
-        ] as PermissionResolvable[],
+          'ViewChannel'
+        ] as PermissionResolvable[]
       })
     )
   }

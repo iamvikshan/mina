@@ -26,9 +26,9 @@ export default {
             name: 'user',
             description: 'name of the user',
             type: ApplicationCommandOptionType.User,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'deposit',
@@ -39,9 +39,9 @@ export default {
             name: 'coins',
             description: 'number of coins to deposit',
             type: ApplicationCommandOptionType.Integer,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'withdraw',
@@ -52,9 +52,9 @@ export default {
             name: 'coins',
             description: 'number of coins to withdraw',
             type: ApplicationCommandOptionType.Integer,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'transfer',
@@ -65,17 +65,17 @@ export default {
             name: 'user',
             description: 'the user to whom coins must be transferred',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'coins',
             description: 'the amount of coins to transfer',
             type: ApplicationCommandOptionType.Integer,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -108,5 +108,5 @@ export default {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }

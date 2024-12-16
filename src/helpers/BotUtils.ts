@@ -8,7 +8,7 @@ import { Message } from 'discord.js'
 export async function checkForUpdates(): Promise<void> {
   try {
     const response = await getJson(
-      'https://api.github.com/repos/saiteja-madha/discord-js-bot/releases/latest',
+      'https://api.github.com/repos/iamvikshan/amina/releases/latest',
       {}
     )
     if (!response.success) {
@@ -25,9 +25,7 @@ export async function checkForUpdates(): Promise<void> {
         success('VersionCheck: Your discord bot is up to date')
       } else {
         warn(`VersionCheck: ${response.data.tag_name} update is available`)
-        warn(
-          'download: https://github.com/saiteja-madha/discord-js-bot/releases/latest'
-        )
+        warn('download: https://github.com/iamvikshan/amina/releases/latest')
       }
     }
   } catch (err) {
@@ -92,16 +90,16 @@ export async function getImageFromMessage(
 export const musicValidations = [
   {
     callback: ({ client, guildId }) => client.musicManager.getPlayer(guildId),
-    message: "🚫 I'm not in a voice channel.",
+    message: "🚫 I'm not in a voice channel."
   },
   {
     callback: ({ member }) => member.voice?.channelId,
-    message: '🚫 You need to join my voice channel.',
+    message: '🚫 You need to join my voice channel.'
   },
   {
     callback: ({ member, client, guildId }) =>
       member.voice?.channelId ===
       client.musicManager.getPlayer(guildId)?.voiceChannelId,
-    message: "🚫 You're not in the same voice channel.",
-  },
+    message: "🚫 You're not in the same voice channel."
+  }
 ]

@@ -24,7 +24,7 @@ type CachedRoles = IRole[]
 // Schema configuration
 const reqString = {
   type: String,
-  required: true,
+  required: true
 } as const
 
 // Define the schema with types
@@ -37,15 +37,15 @@ export const reactionRoleSchema = new Schema<IReactionRoleDocument>(
       {
         _id: false,
         emote: reqString,
-        role_id: reqString,
-      },
-    ],
+        role_id: reqString
+      }
+    ]
   },
   {
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: false,
-    },
+      updatedAt: false
+    }
   }
 )
 
@@ -122,7 +122,7 @@ export const reactionRoleManager: ReactionRoleManager = {
     const filter = {
       guild_id: guildId,
       channel_id: channelId,
-      message_id: messageId,
+      message_id: messageId
     }
 
     await ReactionRoles.updateOne(filter, { $pull: { roles: { emote } } })
@@ -131,8 +131,8 @@ export const reactionRoleManager: ReactionRoleManager = {
       filter,
       {
         $push: {
-          roles: { emote, role_id: roleId },
-        },
+          roles: { emote, role_id: roleId }
+        }
       },
       { upsert: true, new: true }
     ).lean<IReactionRole>()
@@ -153,16 +153,16 @@ export const reactionRoleManager: ReactionRoleManager = {
     await ReactionRoles.deleteOne({
       guild_id: guildId,
       channel_id: channelId,
-      message_id: messageId,
+      message_id: messageId
     })
 
     rrCache.delete(getKey(guildId, channelId, messageId))
-  },
+  }
 }
 
 // Export default object with all exports
 export default {
   ReactionRoles,
   reactionRoleManager,
-  reactionRoleSchema,
+  reactionRoleSchema
 }

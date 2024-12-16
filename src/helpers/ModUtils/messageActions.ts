@@ -2,7 +2,7 @@ import {
   Collection,
   GuildMember,
   BaseGuildTextChannel,
-  Message,
+  Message
 } from 'discord.js'
 import { Utils } from '@helpers/Utils'
 import { error } from '@helpers/Logger'
@@ -45,7 +45,7 @@ export class MessageActions {
       const fetchOptions = {
         cache: false,
         force: true,
-        limit: type === 'ALL' ? amount : undefined,
+        limit: type === 'ALL' ? amount : undefined
       }
 
       switch (type) {
@@ -163,7 +163,7 @@ export class MessageActions {
         {
           purgeType: type,
           channel: channel,
-          deletedCount: deletedMessages.size,
+          deletedCount: deletedMessages.size
         }
       )
 

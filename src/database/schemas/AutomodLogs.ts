@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const reqString = {
   type: String,
-  required: true,
+  required: true
 }
 
 const Schema = new mongoose.Schema(
@@ -11,15 +11,15 @@ const Schema = new mongoose.Schema(
     member_id: reqString,
     content: String,
     reason: String,
-    strikes: Number,
+    strikes: Number
   },
   {
     versionKey: false,
     autoIndex: false,
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: false,
-    },
+      updatedAt: false
+    }
   }
 )
 
@@ -44,6 +44,6 @@ export const addAutoModLogToDb = async (
     member_id: member.id,
     content,
     reason,
-    strikes,
+    strikes
   }).save()
 }

@@ -45,8 +45,8 @@ export default {
           embeds: [
             new EmbedBuilder()
               .setColor(EMBED_COLORS.WARNING)
-              .setDescription('> Autoplay, No results found'),
-          ],
+              .setDescription('> Autoplay, No results found')
+          ]
         },
         10
       )
@@ -75,12 +75,12 @@ export default {
           embeds: [
             new EmbedBuilder()
               .setColor(EMBED_COLORS.WARNING)
-              .setDescription('> Autoplay, No unique track found'),
-          ],
+              .setDescription('> Autoplay, No unique track found')
+          ]
         },
         10
       )
       return player.destroy()
     }
-  },
+  }
 }

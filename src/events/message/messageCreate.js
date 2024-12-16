@@ -28,7 +28,7 @@ async function fetchPronouns(userId) {
       it: 'it/its',
       any: 'they/them', // Default to neutral for "any"
       ask: 'they/them', // Default to neutral for "ask"
-      avoid: 'they/them', // Default to neutral for "avoid"
+      avoid: 'they/them' // Default to neutral for "avoid"
     }
 
     return pronounsMap[userPronouns] || 'they/them'
@@ -63,20 +63,20 @@ function generateAfkMessage(params) {
   const timeBasedIntros = {
     short: [
       `*whispers* ${Subject} just left! The trail is still warm!`,
-      `*tiptoes in* Psst! ${Subject} stepped away moments ago!`,
+      `*tiptoes in* Psst! ${Subject} stepped away moments ago!`
     ],
     medium: [
       `*dramatic gasp* ${Subject}${verb} been missing for a bit!`,
-      `*spins around* Oh! ${Subject}${verb} been gone for some time!`,
+      `*spins around* Oh! ${Subject}${verb} been gone for some time!`
     ],
     long: [
       `*spins around* ${Subject}${verb} been gone for like... forever!`,
-      `*bounces worriedly* ${Subject}${verb} been away for quite a while!`,
+      `*bounces worriedly* ${Subject}${verb} been away for quite a while!`
     ],
     veryLong: [
       `*falls over* ${Subject}${verb} been gone for AGES!`,
-      `*dramatically faints* We've been waiting for ${object} for so long!`,
-    ],
+      `*dramatically faints* We've been waiting for ${object} for so long!`
+    ]
   }
 
   let category
@@ -133,7 +133,7 @@ module.exports = async (client, message) => {
 
         const statusIntro = generateAfkMessage({
           pronouns: userPronouns,
-          minutes,
+          minutes
         })
 
         let timePassed = ''
@@ -157,7 +157,7 @@ module.exports = async (client, message) => {
           reason:
             userData.afk.reason || '*shrugs mysteriously* No reason given!',
           timePassed,
-          endTime,
+          endTime
         })
       }
     }
@@ -186,7 +186,7 @@ module.exports = async (client, message) => {
       "*bounces in* Hi hi! ✨ I only respond to /commands now - they're way cooler! Try /help to see all my tricks!",
       '*slides in dramatically* Prefix commands? Those are sooo last season! Use /commands instead! ✨',
       "*appears in a puff of glitter* Psst! Want to see something cool? Try using /help! That's how you talk to me now! 🌟",
-      '*drops from the ceiling* HELLO! 👋 Just use / to see all the amazing things I can do!',
+      '*drops from the ceiling* HELLO! 👋 Just use / to see all the amazing things I can do!'
     ]
     message.channel.send(
       responses[Math.floor(Math.random() * responses.length)]

@@ -21,18 +21,18 @@ class Manager extends LavalinkManager {
       },
       emitNewSongsOnly: false,
       queueOptions: {
-        maxPreviousTracks: 30,
+        maxPreviousTracks: 30
       },
       playerOptions: {
         defaultSearchPlatform: config.MUSIC.DEFAULT_SOURCE as SearchPlatform,
         onDisconnect: {
           autoReconnect: true,
-          destroyPlayer: false,
-        },
+          destroyPlayer: false
+        }
       },
       linksAllowed: true,
       linksBlacklist: ['porn'],
-      linksWhitelist: [],
+      linksWhitelist: []
     })
 
     this.nodeManager.on('connect', node => {

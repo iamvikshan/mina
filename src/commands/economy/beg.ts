@@ -13,13 +13,13 @@ export default {
   botPermissions: ['EmbedLinks'],
 
   slashCommand: {
-    enabled: ECONOMY.ENABLED,
+    enabled: ECONOMY.ENABLED
   },
 
   async interactionRun(interaction) {
     const response = await beg(interaction.user)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function beg(user) {
@@ -78,7 +78,7 @@ async function beg(user) {
     'Will Smith',
     'Someone from the HUB',
     "A sugar daddy who probably ain't after you",
-    "A sugar mommy who probably ain't after you",
+    "A sugar mommy who probably ain't after you"
   ]
 
   let amount = Math.floor(

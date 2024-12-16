@@ -37,8 +37,8 @@ class MongooseGiveaways extends GiveawaysManager {
           botsCanWin: false,
           embedColor: client.config.GIVEAWAYS.START_EMBED,
           embedColorEnd: client.config.GIVEAWAYS.END_EMBED,
-          reaction: client.config.GIVEAWAYS.REACTION,
-        },
+          reaction: client.config.GIVEAWAYS.REACTION
+        }
       },
       false
     )
@@ -64,7 +64,7 @@ class MongooseGiveaways extends GiveawaysManager {
     giveawayData: Partial<GiveawayData>
   ): Promise<boolean> {
     await Giveaways.updateOne({ messageId }, giveawayData, {
-      omitUndefined: true,
+      omitUndefined: true
     }).exec()
     return true
   }

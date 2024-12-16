@@ -17,7 +17,7 @@ export enum ModerationType {
   DEAFEN = 'DEAFEN',
   UNDEAFEN = 'UNDEAFEN',
   DISCONNECT = 'DISCONNECT',
-  MOVE = 'MOVE',
+  MOVE = 'MOVE'
 }
 
 // Interfaces
@@ -41,7 +41,7 @@ export interface IModLogDocument extends IModLog, Document {}
 // Schema definition
 const reqString = {
   type: String,
-  required: true,
+  required: true
 } as const
 
 const ModLogSchema = new mongoose.Schema<IModLogDocument>(
@@ -51,21 +51,21 @@ const ModLogSchema = new mongoose.Schema<IModLogDocument>(
     reason: String,
     admin: {
       id: reqString,
-      tag: reqString,
+      tag: reqString
     },
     type: {
       type: String,
       required: true,
-      enum: Object.values(ModerationType),
-    },
+      enum: Object.values(ModerationType)
+    }
   },
   {
     versionKey: false,
     autoIndex: false,
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: false,
-    },
+      updatedAt: false
+    }
   }
 )
 
@@ -98,9 +98,9 @@ ModLogSchema.statics.addModLogToDb = async function (
     reason,
     admin: {
       id: admin.id,
-      tag: admin.user.tag,
+      tag: admin.user.tag
     },
-    type,
+    type
   }).save()
 }
 
@@ -111,7 +111,7 @@ ModLogSchema.statics.getWarningLogs = async function (
   return this.find({
     guild_id: guildId,
     member_id: targetId,
-    type: ModerationType.WARN,
+    type: ModerationType.WARN
   }).lean()
 }
 
@@ -122,7 +122,7 @@ ModLogSchema.statics.clearWarningLogs = async function (
   return this.deleteMany({
     guild_id: guildId,
     member_id: targetId,
-    type: ModerationType.WARN,
+    type: ModerationType.WARN
   })
 }
 

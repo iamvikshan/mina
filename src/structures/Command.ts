@@ -1,7 +1,7 @@
 import {
   ApplicationCommandOptionData,
   ChatInputCommandInteraction,
-  PermissionResolvable,
+  PermissionResolvable
 } from 'discord.js'
 
 export interface Validation {
@@ -30,7 +30,7 @@ export const CommandCategories = {
   SOCIAL: 'SOCIAL',
   SUGGESTION: 'SUGGESTION',
   TICKET: 'TICKET',
-  UTILITY: 'UTILITY',
+  UTILITY: 'UTILITY'
 } as const
 
 export type CommandCategory = keyof typeof CommandCategories
@@ -78,15 +78,15 @@ export const DefaultCommand: Command = {
   userPermissions: [],
   validations: [],
   command: {
-    enabled: true,
+    enabled: true
   },
   slashCommand: {
     enabled: true,
     ephemeral: false,
-    options: [],
+    options: []
   },
   interactionRun: async (
     _interaction: ChatInputCommandInteraction,
     _data: object
-  ) => {},
+  ) => {}
 }

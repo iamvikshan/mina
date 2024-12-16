@@ -22,17 +22,17 @@ export default {
           { name: 'High', value: 'high' },
           { name: 'Medium', value: 'medium' },
           { name: 'Low', value: 'low' },
-          { name: 'Off', value: 'off' },
-        ],
-      },
-    ],
+          { name: 'Off', value: 'off' }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     let level = interaction.options.getString('level')
     const response = await setBassBoost(interaction, level)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

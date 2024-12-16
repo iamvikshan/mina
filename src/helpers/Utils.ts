@@ -64,7 +64,7 @@ export function timeformat(timeInSeconds: number): string {
     days > 0 && `${days} days`,
     hours > 0 && `${hours} hours`,
     minutes > 0 && `${minutes} minutes`,
-    seconds > 0 && `${seconds} seconds`,
+    seconds > 0 && `${seconds} seconds`
   ]
     .filter(Boolean)
     .join(', ')
@@ -136,7 +136,7 @@ export function formatTime(ms: number): string {
     ['d', 864e5],
     ['h', 36e5],
     ['m', 6e4],
-    ['s', 1e3],
+    ['s', 1e3]
   ]
 
   return (
@@ -159,7 +159,7 @@ export function parseTime(string: string): number {
     d: 864e5,
     h: 36e5,
     m: 6e4,
-    s: 1e3,
+    s: 1e3
   }
 
   const time = string.match(/([0-9]+[dhms])/g)
@@ -200,5 +200,5 @@ export const Utils = {
   recursiveReadDirSync,
   formatTime,
   parseTime,
-  setVoiceStatus,
+  setVoiceStatus
 }

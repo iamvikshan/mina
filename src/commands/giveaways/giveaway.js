@@ -7,7 +7,7 @@ const {
   TextInputBuilder,
   ModalBuilder,
   ButtonStyle,
-  ApplicationCommandOptionType,
+  ApplicationCommandOptionType
 } = require('discord.js')
 const { parsePermissions } = require('@helpers/Utils')
 const ems = require('enhanced-ms')
@@ -45,11 +45,11 @@ export default {
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [
               ChannelType.GuildText,
-              ChannelType.GuildAnnouncement,
+              ChannelType.GuildAnnouncement
             ],
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'pause',
@@ -60,9 +60,9 @@ export default {
             name: 'message_id',
             description: 'the message id of the giveaway',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'resume',
@@ -73,9 +73,9 @@ export default {
             name: 'message_id',
             description: 'the message id of the giveaway',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'end',
@@ -86,9 +86,9 @@ export default {
             name: 'message_id',
             description: 'the message id of the giveaway',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'reroll',
@@ -99,14 +99,14 @@ export default {
             name: 'message_id',
             description: 'the message id of the giveaway',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'list',
         description: 'list all giveaways',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'edit',
@@ -117,30 +117,30 @@ export default {
             name: 'message_id',
             description: 'the message id of the giveaway',
             type: ApplicationCommandOptionType.String,
-            required: true,
+            required: true
           },
           {
             name: 'add_duration',
             description:
               'the number of minutes to add to the giveaway duration',
             type: ApplicationCommandOptionType.Integer,
-            required: false,
+            required: false
           },
           {
             name: 'new_prize',
             description: 'the new prize',
             type: ApplicationCommandOptionType.String,
-            required: false,
+            required: false
           },
           {
             name: 'new_winners',
             description: 'the new number of winners',
             type: ApplicationCommandOptionType.Integer,
-            required: false,
-          },
-        ],
-      },
-    ],
+            required: false
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -206,7 +206,7 @@ export default {
     else response = 'Invalid subcommand'
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 // Modal Giveaway setup
@@ -240,7 +240,7 @@ async function runModalSetup({ member, channel, guild }, targetCh) {
 
   const sentMsg = await channel.safeSend({
     content: 'Please click the button below to setup new giveaway',
-    components: [buttonRow],
+    components: [buttonRow]
   })
 
   if (!sentMsg) return
@@ -252,14 +252,14 @@ async function runModalSetup({ member, channel, guild }, targetCh) {
         i.customId === 'giveaway_btnSetup' &&
         i.member.id === member.id &&
         i.message.id === sentMsg.id,
-      time: 20000,
+      time: 20000
     })
     .catch(ex => {})
 
   if (!btnInteraction)
     return sentMsg.edit({
       content: 'No response received, cancelling setup',
-      components: [],
+      components: []
     })
 
   // display modal
@@ -307,8 +307,8 @@ async function runModalSetup({ member, channel, guild }, targetCh) {
             .setPlaceholder('929835843479302204')
             .setStyle(TextInputStyle.Short)
             .setRequired(false)
-        ),
-      ],
+        )
+      ]
     })
   )
 
@@ -319,14 +319,14 @@ async function runModalSetup({ member, channel, guild }, targetCh) {
       filter: m =>
         m.customId === 'giveaway-modalSetup' &&
         m.member.id === member.id &&
-        m.message.id === sentMsg.id,
+        m.message.id === sentMsg.id
     })
     .catch(ex => {})
 
   if (!modal)
     return sentMsg.edit({
       content: 'No response received, cancelling setup',
-      components: [],
+      components: []
     })
 
   sentMsg.delete().catch(() => {})
@@ -398,7 +398,7 @@ async function runModalEdit(message, messageId) {
 
   const sentMsg = await channel.send({
     content: 'Please click the button below to edit the giveaway',
-    components: [buttonRow],
+    components: [buttonRow]
   })
 
   const btnInteraction = await channel
@@ -408,14 +408,14 @@ async function runModalEdit(message, messageId) {
         i.customId === 'giveaway_btnEdit' &&
         i.member.id === member.id &&
         i.message.id === sentMsg.id,
-      time: 20000,
+      time: 20000
     })
     .catch(ex => {})
 
   if (!btnInteraction)
     return sentMsg.edit({
       content: 'No response received, cancelling update',
-      components: [],
+      components: []
     })
 
   // display modal
@@ -445,8 +445,8 @@ async function runModalEdit(message, messageId) {
             .setLabel('Number of winners?')
             .setStyle(TextInputStyle.Short)
             .setRequired(false)
-        ),
-      ],
+        )
+      ]
     })
   )
 
@@ -457,14 +457,14 @@ async function runModalEdit(message, messageId) {
       filter: m =>
         m.customId === 'giveaway-modalEdit' &&
         m.member.id === member.id &&
-        m.message.id === sentMsg.id,
+        m.message.id === sentMsg.id
     })
     .catch(ex => {})
 
   if (!modal)
     return sentMsg.edit({
       content: 'No response received, cancelling update',
-      components: [],
+      components: []
     })
 
   sentMsg.delete().catch(() => {})

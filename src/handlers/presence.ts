@@ -30,7 +30,7 @@ async function updatePresence(client: BotClient): Promise<void> {
   if (!config.PRESENCE.ENABLED) {
     await client.user?.setPresence({
       status: 'invisible',
-      activities: [],
+      activities: []
     })
     return
   }
@@ -77,7 +77,7 @@ async function updatePresence(client: BotClient): Promise<void> {
     state?: string
   } = {
     name: message,
-    type: getType(config.PRESENCE.TYPE),
+    type: getType(config.PRESENCE.TYPE)
   }
 
   // Handle streaming activity type with URL support
@@ -92,7 +92,7 @@ async function updatePresence(client: BotClient): Promise<void> {
 
   await client.user?.setPresence({
     status: config.PRESENCE.STATUS,
-    activities: [activity],
+    activities: [activity]
   })
 
   // Log the presence update

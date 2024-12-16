@@ -36,5 +36,5 @@ export const schemas = {
   User,
   Suggestions,
   TruthOrDare,
-  Dev,
+  Dev
 }

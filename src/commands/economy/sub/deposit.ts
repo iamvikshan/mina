@@ -23,17 +23,17 @@ export default async (user, coins) => {
       {
         name: 'Wallet',
         value: `${userDb.coins}${ECONOMY.CURRENCY}`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Bank',
         value: `${userDb.bank}${ECONOMY.CURRENCY}`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Net Worth',
         value: `${userDb.coins + userDb.bank}${ECONOMY.CURRENCY}`,
-        inline: true,
+        inline: true
       }
     )
 

@@ -7,7 +7,7 @@ const {
   ButtonBuilder,
   CommandInteraction,
   ApplicationCommandOptionType,
-  ButtonStyle,
+  ButtonStyle
 } = require('discord.js')
 const { getSlashUsage } = require('@handlers/command')
 
@@ -29,9 +29,9 @@ export default {
         name: 'command',
         description: 'name of the command',
         required: false,
-        type: ApplicationCommandOptionType.String,
-      },
-    ],
+        type: ApplicationCommandOptionType.String
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -53,7 +53,7 @@ export default {
 
     // No matching command/category found
     await interaction.followUp('No matching command found')
-  },
+  }
 }
 
 /**
@@ -83,7 +83,7 @@ async function getHelpMenu({ client, guild, member }) {
       label: v.name,
       value: k,
       description: `View commands in ${v.name} category`,
-      emoji: v.emoji,
+      emoji: v.emoji
     })
   }
 
@@ -124,7 +124,7 @@ async function getHelpMenu({ client, guild, member }) {
 
   return {
     embeds: [embed],
-    components: [menuRow, buttonsRow],
+    components: [menuRow, buttonsRow]
   }
 }
 
@@ -138,7 +138,7 @@ const waiter = (msg, member) => {
       reactor.user.id === member.id && msg.id === reactor.message.id,
     idle: IDLE_TIMEOUT * 1000,
     dispose: true,
-    time: 5 * 60 * 1000,
+    time: 5 * 60 * 1000
   })
 
   let arrEmbeds = []
@@ -171,7 +171,7 @@ const waiter = (msg, member) => {
         msg.editable &&
           (await msg.edit({
             embeds: [arrEmbeds[currentPage]],
-            components: [menuRow, buttonsRow],
+            components: [menuRow, buttonsRow]
           }))
         break
       }
@@ -182,7 +182,7 @@ const waiter = (msg, member) => {
           msg.editable &&
             (await msg.edit({
               embeds: [arrEmbeds[currentPage]],
-              components: [menuRow, buttonsRow],
+              components: [menuRow, buttonsRow]
             }))
         }
         break
@@ -193,7 +193,7 @@ const waiter = (msg, member) => {
           msg.editable &&
             (await msg.edit({
               embeds: [arrEmbeds[currentPage]],
-              components: [menuRow, buttonsRow],
+              components: [menuRow, buttonsRow]
             }))
         }
         break

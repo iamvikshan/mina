@@ -10,7 +10,7 @@ import {
   User,
   BaseGuildTextChannel,
   ButtonInteraction,
-  Channel,
+  Channel
 } from 'discord.js'
 
 import { TICKET } from '@src/config'
@@ -119,13 +119,13 @@ const closeTicket = async (channel, closedBy, reason) => {
       {
         name: 'Opened By',
         value: ticketDetails?.user?.username ?? 'Unknown',
-        inline: true,
+        inline: true
       },
       {
         name: 'Closed By',
         value: closedBy?.username ?? 'Unknown',
-        inline: true,
-      },
+        inline: true
+      }
     ]
 
     embed.setFields(fields)
@@ -214,7 +214,7 @@ const handleTicketOpen = async interaction => {
   if (topics.length > 0) {
     const options = topics.map(cat => ({
       label: cat.name,
-      value: cat.name,
+      value: cat.name
     }))
 
     const menuRow = new ActionRowBuilder().addComponents(
@@ -226,20 +226,20 @@ const handleTicketOpen = async interaction => {
 
     await interaction.followUp({
       content: 'Please choose a topic for the ticket',
-      components: [menuRow],
+      components: [menuRow]
     })
 
     const res = await interaction.channel
       .awaitMessageComponent({
         componentType: ComponentType.StringSelect,
-        time: 60_000,
+        time: 60_000
       })
       .catch(() => undefined)
 
     if (!res) {
       return interaction.editReply({
         content: 'Timed out. Try again',
-        components: [],
+        components: []
       })
     }
 
@@ -253,15 +253,15 @@ const handleTicketOpen = async interaction => {
     const permissionOverwrites = [
       {
         id: guild.roles.everyone,
-        deny: ['ViewChannel'],
+        deny: ['ViewChannel']
       },
       {
         id: user.id,
-        allow: ['ViewChannel', 'SendMessages', 'ReadMessageHistory'],
+        allow: ['ViewChannel', 'SendMessages', 'ReadMessageHistory']
       },
       {
         id: guild.members.me.roles.highest.id,
-        allow: ['ViewChannel', 'SendMessages', 'ReadMessageHistory'],
+        allow: ['ViewChannel', 'SendMessages', 'ReadMessageHistory']
       },
       ...(catPerms
         ?.map(roleId => {
@@ -269,11 +269,11 @@ const handleTicketOpen = async interaction => {
           return role
             ? {
                 id: role,
-                allow: ['ViewChannel', 'SendMessages', 'ReadMessageHistory'],
+                allow: ['ViewChannel', 'SendMessages', 'ReadMessageHistory']
               }
             : null
         })
-        .filter(Boolean) ?? []),
+        .filter(Boolean) ?? [])
     ]
 
     // Get channel parent
@@ -286,9 +286,9 @@ const handleTicketOpen = async interaction => {
         permissionOverwrites: [
           {
             id: guild.roles.everyone,
-            deny: ['ViewChannel'],
-          },
-        ],
+            deny: ['ViewChannel']
+          }
+        ]
       })
 
       settings.ticket.category = parent.id
@@ -301,7 +301,7 @@ const handleTicketOpen = async interaction => {
       parent: parent.id,
       type: ChannelType.GuildText,
       topic: `tіcket|${user.id}|${catName ?? 'Default'}`,
-      permissionOverwrites,
+      permissionOverwrites
     })
 
     const embed = new EmbedBuilder()
@@ -312,7 +312,7 @@ const handleTicketOpen = async interaction => {
         ${catName ? `\n**Topic:** ${catName}` : ''}`
       )
       .setFooter({
-        text: 'You may close your ticket anytime by clicking the button below',
+        text: 'You may close your ticket anytime by clicking the button below'
       })
 
     const buttonsRow = new ActionRowBuilder().addComponents(
@@ -326,7 +326,7 @@ const handleTicketOpen = async interaction => {
     const sent = await tktChannel.send({
       content: user.toString(),
       embeds: [embed],
-      components: [buttonsRow],
+      components: [buttonsRow]
     })
 
     const dmEmbed = new EmbedBuilder()
@@ -385,5 +385,5 @@ export default {
   closeTicket,
   closeAllTickets,
   handleTicketOpen,
-  handleTicketClose,
+  handleTicketClose
 }

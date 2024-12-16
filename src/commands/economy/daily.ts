@@ -13,13 +13,13 @@ export default {
   botPermissions: ['EmbedLinks'],
 
   slashCommand: {
-    enabled: ECONOMY.ENABLED,
+    enabled: ECONOMY.ENABLED
   },
 
   async interactionRun(interaction) {
     const response = await daily(interaction.user)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function daily(user) {

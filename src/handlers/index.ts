@@ -33,5 +33,5 @@ export default {
   guildHandler,
   profileHandler,
   managerHandler,
-  playerHandler,
+  playerHandler
 }

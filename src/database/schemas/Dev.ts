@@ -5,7 +5,7 @@ export enum PresenceStatus {
   ONLINE = 'online',
   IDLE = 'idle',
   DND = 'dnd',
-  INVISIBLE = 'invisible',
+  INVISIBLE = 'invisible'
 }
 
 export enum PresenceType {
@@ -14,7 +14,7 @@ export enum PresenceType {
   PLAYING = 'PLAYING',
   WATCHING = 'WATCHING',
   STREAMING = 'STREAMING',
-  CUSTOM = 'CUSTOM',
+  CUSTOM = 'CUSTOM'
 }
 
 // Interfaces
@@ -50,36 +50,36 @@ export const devConfigSchema = new Schema<IDevConfigDocument>(
     PRESENCE: {
       ENABLED: {
         type: Boolean,
-        default: true,
+        default: true
       },
       STATUS: {
         type: String,
         enum: Object.values(PresenceStatus),
-        default: PresenceStatus.IDLE,
+        default: PresenceStatus.IDLE
       },
       TYPE: {
         type: String,
         enum: Object.values(PresenceType),
-        default: PresenceType.CUSTOM,
+        default: PresenceType.CUSTOM
       },
       MESSAGE: {
         type: String,
-        default: "We'll show them. We'll show them all...",
+        default: "We'll show them. We'll show them all..."
       },
       URL: {
         type: String,
-        default: 'https://twitch.tv/iamvikshan',
-      },
+        default: 'https://twitch.tv/iamvikshan'
+      }
     },
     DEV_COMMANDS: {
       ENABLED: {
         type: Boolean,
-        default: false,
-      },
-    },
+        default: false
+      }
+    }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 )
 
@@ -147,7 +147,7 @@ export const devConfigManager: DevConfigManager = {
     document.DEV_COMMANDS.ENABLED = enabled
     await document.save()
     return document.DEV_COMMANDS
-  },
+  }
 }
 
 // Export default object with all exports
@@ -156,5 +156,5 @@ export default {
   devConfigManager,
   devConfigSchema,
   PresenceStatus,
-  PresenceType,
+  PresenceType
 }

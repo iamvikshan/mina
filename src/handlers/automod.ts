@@ -2,7 +2,7 @@ import {
   EmbedBuilder,
   Message,
   TextChannel,
-  PermissionsBitField,
+  PermissionsBitField
 } from 'discord.js'
 import { Utils } from '@helpers/Utils'
 import { getMember } from '@schemas/Member'
@@ -78,7 +78,7 @@ const shouldModerate = (message: Message): boolean => {
     member.permissions.has([
       PermissionsBitField.Flags.KickMembers,
       PermissionsBitField.Flags.BanMembers,
-      PermissionsBitField.Flags.ManageGuild,
+      PermissionsBitField.Flags.ManageGuild
     ])
   ) {
     return false
@@ -124,7 +124,7 @@ const performAutomod = async (
     fields.push({
       name: 'Mentions',
       value: `${mentions.members.size}/${automod.max_mentions}`,
-      inline: true,
+      inline: true
     })
     strikesTotal += 1
   }
@@ -134,7 +134,7 @@ const performAutomod = async (
     fields.push({
       name: 'RoleMentions',
       value: `${mentions.roles.size}/${automod.max_role_mentions}`,
-      inline: true,
+      inline: true
     })
     strikesTotal += 1
   }
@@ -151,7 +151,7 @@ const performAutomod = async (
       fields.push({
         name: 'User/Role Mentions',
         value: `${mentions.users.size + mentions.roles.size}/${automod.anti_massmention}`,
-        inline: true,
+        inline: true
       })
       strikesTotal += 1
     }
@@ -164,7 +164,7 @@ const performAutomod = async (
       fields.push({
         name: 'New Lines',
         value: `${count}/${automod.max_lines}`,
-        inline: true,
+        inline: true
       })
       shouldDelete = true
       strikesTotal += 1
@@ -209,7 +209,7 @@ const performAutomod = async (
         const antispamInfo: AntispamInfo = {
           channelId: message.channelId,
           content,
-          timestamp: Date.now(),
+          timestamp: Date.now()
         }
         antispamCache.set(key, antispamInfo)
       }
@@ -264,7 +264,7 @@ const performAutomod = async (
         )
         .setFooter({
           text: `By ${author.username} | ${author.id}`,
-          iconURL: avatarUrl,
+          iconURL: avatarUrl
         })
 
       await logChannel.send({ embeds: [logEmbed] }).catch(() => {})
@@ -314,5 +314,5 @@ const performAutomod = async (
 }
 
 export default {
-  performAutomod,
+  performAutomod
 }

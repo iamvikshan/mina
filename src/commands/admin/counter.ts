@@ -21,25 +21,25 @@ export default {
         choices: [
           {
             name: 'Users',
-            value: 'USERS',
+            value: 'USERS'
           },
           {
             name: 'Members',
-            value: 'MEMBERS',
+            value: 'MEMBERS'
           },
           {
             name: 'Bots',
-            value: 'BOTS',
-          },
-        ],
+            value: 'BOTS'
+          }
+        ]
       },
       {
         name: 'name',
         description: 'Name of the counter channel',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -53,7 +53,7 @@ export default {
       data.settings
     )
     return interaction.followUp(response)
-  },
+  }
 }
 
 /**
@@ -76,13 +76,13 @@ const setupCounter = async (guild, type, name, settings) => {
     permissionOverwrites: [
       {
         id: guild.roles.everyone,
-        deny: ['Connect'],
+        deny: ['Connect']
       },
       {
         id: guild.members.me.id,
-        allow: ['ViewChannel', 'ManageChannels', 'Connect'],
-      },
-    ],
+        allow: ['ViewChannel', 'ManageChannels', 'Connect']
+      }
+    ]
   })
 
   const exists = settings.counters.find(
@@ -95,7 +95,7 @@ const setupCounter = async (guild, type, name, settings) => {
     settings.counters.push({
       counter_type: type,
       channel_id: vc.id,
-      name,
+      name
     })
   }
 

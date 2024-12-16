@@ -19,15 +19,15 @@ export default {
         name: 'user',
         description: 'the target member',
         type: ApplicationCommandOptionType.User,
-        required: true,
+        required: true
       },
       {
         name: 'reason',
         description: 'reason for ban',
         type: ApplicationCommandOptionType.String,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -36,7 +36,7 @@ export default {
 
     const response = await ban(interaction.member, target, reason)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

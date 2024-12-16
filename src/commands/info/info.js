@@ -26,9 +26,9 @@ export default {
             name: 'name',
             description: 'name of the user',
             type: ApplicationCommandOptionType.User,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'channel',
@@ -39,14 +39,14 @@ export default {
             name: 'name',
             description: 'name of the channel',
             type: ApplicationCommandOptionType.Channel,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'guild',
         description: 'get guild information',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'avatar',
@@ -57,9 +57,9 @@ export default {
             name: 'name',
             description: 'name of the user',
             type: ApplicationCommandOptionType.User,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'emoji',
@@ -70,11 +70,11 @@ export default {
             name: 'name',
             description: 'name of the emoji',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -119,5 +119,5 @@ export default {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }

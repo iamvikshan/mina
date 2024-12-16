@@ -19,9 +19,9 @@ export default {
         name: 'target',
         description: 'Who should I unleash my chaotic hacking powers on? >:D',
         type: ApplicationCommandOptionType.User,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -42,7 +42,7 @@ export default {
       `JACKPOT! Found their secret collection of horrible dad jokes! Saving those for later... 📦`,
       `Breaking into their diary- I mean, "personal documentation system" 📔`,
       `OH OH OH! You won't BELIEVE what I just found! *bouncing excitedly*`,
-      `MISSION ACCOMPLISHED! Time to spill the tea! ☕`,
+      `MISSION ACCOMPLISHED! Time to spill the tea! ☕`
     ]
 
     const initialEmbed = new EmbedBuilder()
@@ -80,19 +80,19 @@ export default {
             "We're no strangers to love~ 🎵\n" +
             'You know the rules and so do I~ 🎵\n' +
             "A full commitment's what I'm thinking of~ 🎵\n" +
-            "You wouldn't get this from any other bot! 🎵",
-        },
+            "You wouldn't get this from any other bot! 🎵"
+        }
       ])
       .setColor(EMBED_COLORS.SUCCESS)
       .setImage('https://media.tenor.com/x8v1oNUOmg4AAAAd/rickroll-roll.gif')
       .setFooter({
-        text: "Teeheehee! Get Rick Roll'd! My greatest hack yet! 🎀",
+        text: "Teeheehee! Get Rick Roll'd! My greatest hack yet! 🎀"
       })
 
     try {
       await interaction.user.send({
         content: '*slides into your DMs with stolen data*',
-        embeds: [resultsEmbed],
+        embeds: [resultsEmbed]
       })
 
       const finalEmbed = new EmbedBuilder()
@@ -108,8 +108,8 @@ export default {
       await message.edit({
         content:
           "Aw man, your DMs are locked tight! Here's the tea right here instead:",
-        embeds: [resultsEmbed],
+        embeds: [resultsEmbed]
       })
     }
-  },
+  }
 }

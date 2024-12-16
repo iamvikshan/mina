@@ -21,22 +21,22 @@ export default {
             name: 'role',
             description: 'The role to be given',
             type: ApplicationCommandOptionType.Role,
-            required: false,
+            required: false
           },
           {
             name: 'role_id',
             description: 'The role ID to be given',
             type: ApplicationCommandOptionType.String,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'remove',
         description: 'Disable the autorole',
-        type: ApplicationCommandOptionType.Subcommand,
-      },
-    ],
+        type: ApplicationCommandOptionType.Subcommand
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -74,7 +74,7 @@ export default {
     else response = 'Oops! Invalid subcommand. Please try again! 🤔'
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

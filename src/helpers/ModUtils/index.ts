@@ -11,5 +11,5 @@ export {
   MemberActions,
   MessageActions,
   VoiceActions,
-  ModUtils,
+  ModUtils
 }

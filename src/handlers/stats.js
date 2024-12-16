@@ -120,5 +120,5 @@ export default {
         voiceStates.delete(member.id)
       }
     }
-  },
+  }
 }

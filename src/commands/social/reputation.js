@@ -24,9 +24,9 @@ export default {
             name: 'user',
             description: 'the user to check reputation for',
             type: ApplicationCommandOptionType.User,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'give',
@@ -37,11 +37,11 @@ export default {
             name: 'user',
             description: 'the user to check reputation for',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -61,7 +61,7 @@ export default {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function viewReputation(target) {
@@ -76,12 +76,12 @@ async function viewReputation(target) {
       {
         name: 'Given',
         value: userData.reputation?.given.toString(),
-        inline: true,
+        inline: true
       },
       {
         name: 'Received',
         value: userData.reputation?.received.toString(),
-        inline: true,
+        inline: true
       }
     )
 

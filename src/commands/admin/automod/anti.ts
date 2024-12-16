@@ -23,15 +23,15 @@ export default {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'spam',
@@ -46,15 +46,15 @@ export default {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'massmention',
@@ -69,23 +69,23 @@ export default {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
+                value: 'OFF'
+              }
+            ]
           },
           {
             name: 'threshold',
             description: 'Configuration threshold (default is 3 mentions)',
             required: true,
-            type: ApplicationCommandOptionType.Integer,
-          },
-        ],
-      },
-    ],
+            type: ApplicationCommandOptionType.Integer
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -112,7 +112,7 @@ export default {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 const antiGhostPing = async (settings, input) => {

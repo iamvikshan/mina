@@ -18,7 +18,7 @@ export default {
         name: 'reason',
         description: 'The reason for going AFK',
         type: ApplicationCommandOptionType.String,
-        required: true,
+        required: true
       },
       {
         name: 'duration',
@@ -26,9 +26,9 @@ export default {
         type: ApplicationCommandOptionType.Integer,
         required: false,
         min_value: 1,
-        max_value: 43200, // 30 days in minutes
-      },
-    ],
+        max_value: 43200 // 30 days in minutes
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -69,5 +69,5 @@ export default {
         }
       }, duration * 60000)
     }
-  },
+  }
 }

@@ -4,7 +4,7 @@ const {
   StringSelectMenuBuilder,
   ModalBuilder,
   TextInputBuilder,
-  TextInputStyle,
+  TextInputStyle
 } = require('discord.js')
 const { EMBED_COLORS } = require('@src/config.js')
 const { getUser } = require('@schemas/User')
@@ -26,9 +26,9 @@ export default {
             name: 'user',
             description: 'whose story do you want to explore?',
             type: 6,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'set',
@@ -43,15 +43,15 @@ export default {
             choices: [
               {
                 name: 'basic',
-                value: 'basic',
+                value: 'basic'
               },
               {
                 name: 'misc',
-                value: 'misc',
-              },
-            ],
-          },
-        ],
+                value: 'misc'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'privacy',
@@ -67,23 +67,23 @@ export default {
               { name: 'age', value: 'showAge' },
               { name: 'region', value: 'showRegion' },
               { name: 'birthdate', value: 'showBirthdate' },
-              { name: 'pronouns', value: 'showPronouns' },
-            ],
+              { name: 'pronouns', value: 'showPronouns' }
+            ]
           },
           {
             name: 'visible',
             description: 'should this be visible to others?',
             type: 5,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'clear',
         description: 'start fresh with a blank canvas',
-        type: 1,
-      },
-    ],
+        type: 1
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -98,7 +98,7 @@ export default {
       case 'clear':
         return handleClear(interaction)
     }
-  },
+  }
 }
 
 async function createBasicModal() {
@@ -222,7 +222,7 @@ async function handleSet(interaction) {
       await interaction.reply({
         content:
           'oops! something went wrong with the profile setup. try again?',
-        ephemeral: true,
+        ephemeral: true
       })
     }
   }
@@ -247,7 +247,7 @@ async function handlePrivacy(interaction) {
 
   return interaction.reply({
     embeds: [embed],
-    ephemeral: true,
+    ephemeral: true
   })
 }
 
@@ -268,7 +268,7 @@ const SOCIAL_PLATFORMS = {
   instagram: username => `https://instagram.com/${username}`,
   twitch: username => `https://twitch.tv/${username}`,
   linkedin: username => `https://linkedin.com/in/${username}`,
-  default: (username, platform) => `https://${platform}.com/${username}`,
+  default: (username, platform) => `https://${platform}.com/${username}`
 }
 
 const formatSocialLinks = socials => {
@@ -308,7 +308,7 @@ const hasContent = profile => {
     'bio',
     'languages',
     'interests',
-    'goals',
+    'goals'
   ]
 
   return (
@@ -344,7 +344,7 @@ async function handleView(interaction) {
       .setColor(EMBED_COLORS.BOT_EMBED)
       .setAuthor({
         name: `${target.username}'s Profile`,
-        iconURL: target.displayAvatarURL(),
+        iconURL: target.displayAvatarURL()
       })
       .setThumbnail(target.displayAvatarURL())
 
@@ -357,25 +357,25 @@ async function handleView(interaction) {
         name: 'pronouns',
         label: 'Pronouns',
         privacyKey: 'showPronouns',
-        inline: true,
+        inline: true
       },
       {
         name: 'age',
         label: 'Age',
         privacyKey: 'showAge',
-        inline: true,
+        inline: true
       },
       {
         name: 'region',
         label: 'Region',
         privacyKey: 'showRegion',
-        inline: true,
+        inline: true
       },
       {
         name: 'timezone',
         label: 'Timezone',
-        inline: true,
-      },
+        inline: true
+      }
     ]
 
     // Add basic fields
@@ -391,7 +391,7 @@ async function handleView(interaction) {
       embed.addFields({
         name: `${field.label}${isOwnProfile && field.privacyKey && !profile.privacy?.[field.privacyKey] ? ' 🔒' : ''}`,
         value: formatValue(value),
-        inline: field.inline,
+        inline: field.inline
       })
     })
 
@@ -401,7 +401,7 @@ async function handleView(interaction) {
       embed.addFields({
         name: 'Languages',
         value: formatValue(profile.languages),
-        inline: true,
+        inline: true
       })
     }
 
@@ -416,7 +416,7 @@ async function handleView(interaction) {
       embed.addFields({
         name: 'Bio',
         value: profile.bio,
-        inline: false,
+        inline: false
       })
     }
 
@@ -426,7 +426,7 @@ async function handleView(interaction) {
       embed.addFields({
         name: 'Interests',
         value: formatValue(profile.interests),
-        inline: false,
+        inline: false
       })
     }
 
@@ -436,7 +436,7 @@ async function handleView(interaction) {
       embed.addFields({
         name: 'Goals',
         value: formatValue(profile.goals),
-        inline: false,
+        inline: false
       })
     }
 
@@ -448,7 +448,7 @@ async function handleView(interaction) {
         embed.addFields({
           name: 'Social Links',
           value: socialLinks,
-          inline: false,
+          inline: false
         })
       }
     }
@@ -461,7 +461,7 @@ async function handleView(interaction) {
         embed.addFields({
           name: 'Favorites',
           value: favoritesList,
-          inline: false,
+          inline: false
         })
       }
     }
@@ -478,7 +478,7 @@ async function handleView(interaction) {
     // Add Last Updated timestamp
     if (profile.lastUpdated) {
       embed.setFooter({
-        text: `Last Updated: ${profile.lastUpdated.toLocaleDateString()} ${profile.lastUpdated.toLocaleTimeString()} UTC`,
+        text: `Last Updated: ${profile.lastUpdated.toLocaleDateString()} ${profile.lastUpdated.toLocaleTimeString()} UTC`
       })
     }
 
@@ -501,14 +501,14 @@ async function handleView(interaction) {
     // Send the profile embed
     return interaction.reply({
       embeds: [embed],
-      ephemeral: isOwnProfile,
+      ephemeral: isOwnProfile
     })
   } catch (error) {
     console.error('Error in handleView:', error)
     return interaction.reply({
       content:
         'There was an error while viewing the profile. Please try again later.',
-      ephemeral: true,
+      ephemeral: true
     })
   }
 }
@@ -526,19 +526,19 @@ async function handleClear(interaction) {
         {
           label: 'Yes, clear my profile',
           value: 'confirm',
-          emoji: '✅',
+          emoji: '✅'
         },
         {
           label: 'No, keep my profile',
           value: 'cancel',
-          emoji: '❌',
-        },
+          emoji: '❌'
+        }
       ])
   )
 
   await interaction.reply({
     embeds: [embed],
     components: [row],
-    ephemeral: true,
+    ephemeral: true
   })
 }

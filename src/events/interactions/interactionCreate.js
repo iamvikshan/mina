@@ -9,7 +9,7 @@ const {
   todHandler,
   reportHandler,
   guildHandler,
-  profileHandler,
+  profileHandler
 } = require('@src/handlers')
 /**
  * @param {import('@src/structures').BotClient} client
@@ -20,7 +20,7 @@ module.exports = async (client, interaction) => {
     return interaction
       .reply({
         content: 'Command can only be executed in a discord server',
-        ephemeral: true,
+        ephemeral: true
       })
       .catch(() => {})
   }

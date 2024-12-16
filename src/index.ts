@@ -62,7 +62,7 @@ async function launchDashboard() {
         stderr: 'pipe',
         stdout: 'pipe',
         env: {
-          ...process.env,
+          ...process.env
         },
         onExit(proc, exitCode, signalCode, error) {
           if (error) {
@@ -73,7 +73,7 @@ async function launchDashboard() {
               `Dashboard process exited with code ${exitCode}`
             )
           }
-        },
+        }
       }
     )
 
@@ -91,7 +91,7 @@ async function launchDashboard() {
             new WritableStream({
               write(chunk) {
                 process.stdout.write(chunk)
-              },
+              }
             })
           )
           .catch((err: unknown) => {
@@ -106,7 +106,7 @@ async function launchDashboard() {
             new WritableStream({
               write(chunk) {
                 process.stderr.write(chunk)
-              },
+              }
             })
           )
           .catch((err: unknown) => {

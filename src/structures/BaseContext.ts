@@ -1,7 +1,7 @@
 import {
   ApplicationCommandType,
   ContextMenuCommandInteraction,
-  PermissionResolvable,
+  PermissionResolvable
 } from 'discord.js'
 
 export interface ContextData {
@@ -27,5 +27,5 @@ export const BaseContext: ContextData = {
   options: true,
   userPermissions: [],
   cooldown: 0,
-  run: async (_interaction: ContextMenuCommandInteraction) => {},
+  run: async (_interaction: ContextMenuCommandInteraction) => {}
 }

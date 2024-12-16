@@ -15,7 +15,7 @@ module.exports = {
     const user = await interaction.client.users.fetch(interaction.targetId)
     const response = getAvatar(user)
     await interaction.followUp(response)
-  },
+  }
 }
 
 function getAvatar(user) {
@@ -40,6 +40,6 @@ function getAvatar(user) {
     )
 
   return {
-    embeds: [embed],
+    embeds: [embed]
   }
 }

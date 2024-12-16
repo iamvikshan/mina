@@ -16,16 +16,16 @@ export default {
         name: 'amount',
         description: 'Enter a value to set [0 to 100]',
         type: ApplicationCommandOptionType.Integer,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const amount = parseInt(interaction.options.getInteger('amount'))
     const response = await getVolume(interaction, amount)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

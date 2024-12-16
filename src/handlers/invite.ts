@@ -4,7 +4,7 @@ import {
   GuildMember,
   User,
   Invite,
-  APIInvite,
+  APIInvite
 } from 'discord.js'
 import { getSettings } from '@schemas/Guild'
 import { getMember } from '@schemas/Member'
@@ -61,7 +61,7 @@ export const cacheInvite = (
     ? 'VANITY'
     : 'inviter' in invite && invite.inviter
       ? invite.inviter.id
-      : 'VANITY',
+      : 'VANITY'
 })
 
 /**
@@ -86,7 +86,7 @@ export async function cacheGuildInvites(
         {
           code: vanityData.code,
           uses: vanityData.uses,
-          maxUses: 0,
+          maxUses: 0
         },
         true
       )
@@ -227,5 +227,5 @@ export default {
   cacheGuildInvites,
   checkInviteRewards,
   getEffectiveInvites,
-  cacheInvite,
+  cacheInvite
 }

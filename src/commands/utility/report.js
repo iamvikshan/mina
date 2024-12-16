@@ -4,7 +4,7 @@ const {
   StringSelectMenuBuilder,
   ModalBuilder,
   TextInputBuilder,
-  TextInputStyle,
+  TextInputStyle
 } = require('discord.js')
 import { FEEDBACK } from '@src/config'
 export default {
@@ -15,7 +15,7 @@ export default {
 
   slashCommand: {
     ephemeral: true,
-    enabled: FEEDBACK.ENABLED,
+    enabled: FEEDBACK.ENABLED
   },
 
   async interactionRun(interaction) {
@@ -34,7 +34,7 @@ export default {
           {
             label: 'Report a Server',
             value: 'server',
-            emoji: '🏠',
+            emoji: '🏠'
           },
           { label: 'Report a User', value: 'user', emoji: '👤' },
           { label: 'Report a Bug', value: 'bug', emoji: '🐞' },
@@ -42,21 +42,21 @@ export default {
           {
             label: 'Share Your Amazing Feedback',
             value: 'feedback',
-            emoji: '💡',
-          },
+            emoji: '💡'
+          }
         ])
     )
 
     await interaction.followUp({
       embeds: [embed],
       components: [row],
-      ephemeral: true,
+      ephemeral: true
     })
 
     const filter = i => i.user.id === interaction.user.id
     const collector = interaction.channel.createMessageComponentCollector({
       filter,
-      time: 30000,
+      time: 30000
     })
 
     collector.on('collect', async i => {
@@ -65,7 +65,7 @@ export default {
         await showReportModal(i, selected)
       }
     })
-  },
+  }
 }
 
 async function showReportModal(interaction, type) {

@@ -14,7 +14,7 @@ const ANIMAL_CHOICES = [
   'koala',
   'bird',
   'raccoon',
-  'kangaroo',
+  'kangaroo'
 ]
 
 const ANIME_CHOICES = ['waifu', 'shinobu', 'megumin']
@@ -25,72 +25,72 @@ const AMINA_RESPONSES = {
   cat: [
     'OMG LOOK AT THIS ADORABLE KITTY! 🐱✨',
     'Nyaa~! Found you a super cute cat!',
-    'GASP! This cat is just too precious!',
+    'GASP! This cat is just too precious!'
   ],
   dog: [
     "PUPPY ALERT! My heart can't handle this! 🐶",
     'Look at this good boy/girl! I just wanna squish!',
-    "WHO'S A GOOD DOG? THIS DOG IS!",
+    "WHO'S A GOOD DOG? THIS DOG IS!"
   ],
   panda: [
     "A PANDA! They're like nature's comedians! 🐼",
     'Look at this chunky bundle of joy!',
-    'Found you the most adorable panda ever!',
+    'Found you the most adorable panda ever!'
   ],
   bird: [
     'EVERYBODY KNOWS THAT THE BIRD IS THE WORD! 🐦✨',
     "B-b-b-bird bird bird, b-bird's the word! 🎵",
-    'Look what flew in! AND YES, THE BIRD IS STILL THE WORD! 🐦',
+    'Look what flew in! AND YES, THE BIRD IS STILL THE WORD! 🐦'
   ],
   fox: [
     'FOXY FRIEND ALERT! 🦊✨',
     'What does the fox say? CUTENESS!',
-    'Look at this fantastic fox!',
+    'Look at this fantastic fox!'
   ],
   red_panda: [
     'Red pandas are just living plushies, change my mind! 🐼❤️',
     'THE CUTEST RED FLOOF!',
-    'Found you a red panda to brighten your day!',
+    'Found you a red panda to brighten your day!'
   ],
   koala: [
     'EUCALYPTUS ENTHUSIAST SPOTTED! 🐨',
     'The sleepiest and cutest tree hugger!',
-    'Look at this adorable koala!',
+    'Look at this adorable koala!'
   ],
   raccoon: [
     'TRASH PANDA SUPREMACY! 🦝✨',
     'Found the cutest little bandit!',
-    'Look at this adorable chaos machine!',
+    'Look at this adorable chaos machine!'
   ],
   kangaroo: [
     'HOP HOP HOORAY! 🦘',
     'Found you a bouncy friend!',
-    'Look at this amazing jumpy boi!',
+    'Look at this amazing jumpy boi!'
   ],
 
   // Anime responses
   waifu: [
     '✨ CHECK OUT THIS AMAZING WAIFU! ✨',
     "Isn't she just perfect? My artistic soul is singing!",
-    'Found you some top-tier waifu material!',
+    'Found you some top-tier waifu material!'
   ],
   shinobu: [
     'SHINOBU TIME! Get ready for awesomeness!',
     "Look who I found! Isn't she amazing?",
-    'Shinobu appreciation moment! 💜',
+    'Shinobu appreciation moment! 💜'
   ],
   megumin: [
     "EXPLOSION! 💥 Here's your Megumin!",
     "The crimson demon herself! Isn't she awesome?",
-    'Found the best explosion wizard!',
+    'Found the best explosion wizard!'
   ],
 
   // Default responses
   default: [
     "LOOK WHAT I FOUND! Isn't it amazing? ✨",
     'OMG OMG OMG! This is too perfect!',
-    'My creative senses are tingling! This is awesome!',
-  ],
+    'My creative senses are tingling! This is awesome!'
+  ]
 }
 
 /**
@@ -117,10 +117,10 @@ export default {
             required: true,
             choices: ANIMAL_CHOICES.map(animal => ({
               name: animal.replace('_', ' '),
-              value: animal,
-            })),
-          },
-        ],
+              value: animal
+            }))
+          }
+        ]
       },
       {
         name: 'anime',
@@ -134,12 +134,12 @@ export default {
             required: true,
             choices: ANIME_CHOICES.map(anime => ({
               name: anime,
-              value: anime,
-            })),
-          },
-        ],
-      },
-    ],
+              value: anime
+            }))
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -158,7 +158,7 @@ export default {
     // Add reactions for all images
     await message.react('❤️')
     await message.react('✨')
-  },
+  }
 }
 
 async function getAnimalImage(user, choice) {
@@ -172,7 +172,7 @@ async function getAnimalImage(user, choice) {
     .setImage(imageUrl)
     .setFooter({
       text: `Requested by ${user.tag} | Amina's happy to help! ✨`,
-      iconURL: user.displayAvatarURL(),
+      iconURL: user.displayAvatarURL()
     })
 
   return { embeds: [embed] }
@@ -190,9 +190,9 @@ async function getAnimeImage(user, type) {
           .setImage(response.data.url)
           .setFooter({
             text: `Requested by ${user.tag} | Amina's creative pick! 🎨`,
-            iconURL: user.displayAvatarURL(),
-          }),
-      ],
+            iconURL: user.displayAvatarURL()
+          })
+      ]
     }
   } catch (ex) {
     console.error('Error fetching image:', ex)
@@ -205,9 +205,9 @@ async function getAnimeImage(user, type) {
           )
           .setFooter({
             text: `Requested by ${user.tag} | Don't worry, we'll get it next time!`,
-            iconURL: user.displayAvatarURL(),
-          }),
-      ],
+            iconURL: user.displayAvatarURL()
+          })
+      ]
     }
   }
 }

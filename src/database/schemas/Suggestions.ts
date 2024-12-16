@@ -5,7 +5,7 @@ export enum SuggestionStatus {
   PENDING = 'PENDING',
   APPROVED = 'APPROVED',
   REJECTED = 'REJECTED',
-  DELETED = 'DELETED',
+  DELETED = 'DELETED'
 }
 
 // Interfaces
@@ -45,11 +45,11 @@ export const suggestionSchema = new Schema<ISuggestionDocument>(
     status: {
       type: String,
       enum: Object.values(SuggestionStatus),
-      default: SuggestionStatus.PENDING,
+      default: SuggestionStatus.PENDING
     },
     stats: {
       upvotes: { type: Number, default: 0 },
-      downvotes: { type: Number, default: 0 },
+      downvotes: { type: Number, default: 0 }
     },
     status_updates: [
       {
@@ -60,19 +60,19 @@ export const suggestionSchema = new Schema<ISuggestionDocument>(
           enum: [
             SuggestionStatus.APPROVED,
             SuggestionStatus.REJECTED,
-            SuggestionStatus.DELETED,
-          ],
+            SuggestionStatus.DELETED
+          ]
         },
         reason: String,
-        timestamp: { type: Date, default: Date.now },
-      },
-    ],
+        timestamp: { type: Date, default: Date.now }
+      }
+    ]
   },
   {
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: 'updated_at',
-    },
+      updatedAt: 'updated_at'
+    }
   }
 )
 
@@ -123,7 +123,7 @@ export const suggestionManager: SuggestionManager = {
       channel_id: message.channelId,
       message_id: message.id,
       user_id: userId,
-      suggestion: suggestion,
+      suggestion: suggestion
     }).save()
   },
 
@@ -149,12 +149,12 @@ export const suggestionManager: SuggestionManager = {
             user_id: memberId,
             status: SuggestionStatus.DELETED,
             reason,
-            timestamp: new Date(),
-          },
-        },
+            timestamp: new Date()
+          }
+        }
       }
     )
-  },
+  }
 }
 
 // Export default object with all exports
@@ -162,5 +162,5 @@ export default {
   Suggestions,
   suggestionManager,
   suggestionSchema,
-  SuggestionStatus,
+  SuggestionStatus
 }

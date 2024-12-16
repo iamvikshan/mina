@@ -28,20 +28,20 @@ export default {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'preview',
         description: 'Preview the configured welcome message!',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'channel',
@@ -53,9 +53,9 @@ export default {
             description: 'Select a channel',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'desc',
@@ -66,9 +66,9 @@ export default {
             name: 'content',
             description: 'What would you like the description to say?',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'thumbnail',
@@ -83,15 +83,15 @@ export default {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'color',
@@ -102,9 +102,9 @@ export default {
             name: 'hex-code',
             description: 'Enter the hex color code (e.g., #FF5733)',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'footer',
@@ -115,9 +115,9 @@ export default {
             name: 'content',
             description: 'What should the footer say?',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'image',
@@ -128,11 +128,11 @@ export default {
             name: 'url',
             description: 'Enter the image URL',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -199,7 +199,7 @@ export default {
     }
 
     return interaction.followUp(response)
-  },
+  }
 }
 
 async function sendPreview(settings, member) {

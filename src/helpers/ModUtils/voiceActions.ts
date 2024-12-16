@@ -8,7 +8,7 @@ import {
   VoiceMuteResponse,
   DeafenResponse,
   MoveResponse,
-  ModBaseResponse,
+  ModBaseResponse
 } from '@src/types/moderation'
 
 export class VoiceActions {
@@ -146,7 +146,7 @@ export class VoiceActions {
 
       await target.voice.setChannel(channel, reason)
       await logModeration(issuer, target, reason, ModerationType.MOVE, {
-        channel,
+        channel
       })
       return true
     } catch (ex) {

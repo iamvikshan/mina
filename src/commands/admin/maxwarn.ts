@@ -23,9 +23,9 @@ export default {
             name: 'amount',
             description: 'Max number of strikes!',
             type: ApplicationCommandOptionType.Integer,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'action',
@@ -40,21 +40,21 @@ export default {
             choices: [
               {
                 name: 'TIMEOUT',
-                value: 'TIMEOUT',
+                value: 'TIMEOUT'
               },
               {
                 name: 'KICK',
-                value: 'KICK',
+                value: 'KICK'
               },
               {
                 name: 'BAN',
-                value: 'BAN',
-              },
-            ],
-          },
-        ],
-      },
-    ],
+                value: 'BAN'
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -77,7 +77,7 @@ export default {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 const setLimit = async (limit, settings) => {

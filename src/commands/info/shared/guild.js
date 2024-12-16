@@ -1,7 +1,7 @@
 const {
   EmbedBuilder,
   ChannelType,
-  GuildVerificationLevel,
+  GuildVerificationLevel
 } = require('discord.js')
 const { EMBED_COLORS } = require('@src/config')
 const moment = require('moment')
@@ -88,37 +88,37 @@ module.exports = async guild => {
       {
         name: `Server Members [${all}]`,
         value: `\`\`\`Members: ${users}\nBots: ${bots}\`\`\``,
-        inline: true,
+        inline: true
       },
       {
         name: `Online Stats [${onlineAll}]`,
         value: `\`\`\`Members: ${onlineUsers}\nBots: ${onlineBots}\`\`\``,
-        inline: true,
+        inline: true
       },
       {
         name: `Categories and channels [${totalChannels}]`,
         value: `\`\`\`Categories: ${categories} | Text: ${textChannels} | Voice: ${voiceChannels} | Thread: ${threadChannels}\`\`\``,
-        inline: false,
+        inline: false
       },
       {
         name: `Roles [${rolesCount}]`,
         value: `\`\`\`${rolesString}\`\`\``,
-        inline: false,
+        inline: false
       },
       {
         name: 'Verification',
         value: `\`\`\`${verificationLevel}\`\`\``,
-        inline: true,
+        inline: true
       },
       {
         name: 'Boost Count',
         value: `\`\`\`${guild.premiumSubscriptionCount}\`\`\``,
-        inline: true,
+        inline: true
       },
       {
         name: `Server Created [${createdAt.fromNow()}]`,
         value: `\`\`\`${createdAt.format('dddd, Do MMMM YYYY')}\`\`\``,
-        inline: false,
+        inline: false
       }
     )
 

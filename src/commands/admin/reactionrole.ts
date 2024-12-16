@@ -2,7 +2,7 @@ import { reactionRoleManager } from '@schemas/ReactionRoles'
 import {
   parseEmoji,
   ApplicationCommandOptionType,
-  ChannelType,
+  ChannelType
 } from 'discord.js'
 import { Utils } from '@helpers/Utils'
 
@@ -11,7 +11,7 @@ const channelPerms = [
   'ReadMessageHistory',
   'AddReactions',
   'UseExternalEmojis',
-  'ManageMessages',
+  'ManageMessages'
 ]
 
 /**
@@ -34,35 +34,35 @@ export default {
         required: true,
         choices: [
           { name: 'Add', value: 'add' },
-          { name: 'Remove', value: 'remove' },
-        ],
+          { name: 'Remove', value: 'remove' }
+        ]
       },
       {
         name: 'channel',
         description: 'Channel where the message exists',
         type: ApplicationCommandOptionType.Channel,
         channelTypes: [ChannelType.GuildText],
-        required: true,
+        required: true
       },
       {
         name: 'message_id',
         description: 'Message ID to manage reaction roles',
         type: ApplicationCommandOptionType.String,
-        required: true,
+        required: true
       },
       {
         name: 'emoji',
         description: 'Emoji to use for adding reaction role',
         type: ApplicationCommandOptionType.String,
-        required: false, // Only required for adding
+        required: false // Only required for adding
       },
       {
         name: 'role',
         description: 'Role to be given for the selected emoji',
         type: ApplicationCommandOptionType.Role,
-        required: false, // Only required for adding
-      },
-    ],
+        required: false // Only required for adding
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -90,7 +90,7 @@ export default {
       )
       await interaction.followUp(response)
     }
-  },
+  }
 }
 
 async function addRR(guild, channel, messageId, reaction, role) {

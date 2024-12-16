@@ -17,7 +17,7 @@ export default {
         .reply({
           content:
             'IDK how this got here, but this command is currently disabled.',
-          ephemeral: true,
+          ephemeral: true
         })
         .catch(() => {})
 
@@ -27,7 +27,7 @@ export default {
         if (!validation.callback(interaction)) {
           return interaction.reply({
             content: validation.message,
-            ephemeral: true,
+            ephemeral: true
           })
         }
       }
@@ -40,7 +40,7 @@ export default {
     ) {
       return interaction.reply({
         content: `💔 Oh no! Only my sweet developers can use this command~!`,
-        ephemeral: true,
+        ephemeral: true
       })
     }
 
@@ -49,7 +49,7 @@ export default {
       if (!interaction.member.permissions.has(cmd.userPermissions)) {
         return interaction.reply({
           content: `💔 You need ${parsePermissions(cmd.userPermissions)} for this command, darling~!`,
-          ephemeral: true,
+          ephemeral: true
         })
       }
     }
@@ -59,7 +59,7 @@ export default {
       if (!interaction.guild.members.me.permissions.has(cmd.botPermissions)) {
         return interaction.reply({
           content: `😳 I need ${parsePermissions(cmd.botPermissions)} for this command, please~!`,
-          ephemeral: true,
+          ephemeral: true
         })
       }
     }
@@ -70,7 +70,7 @@ export default {
       if (remaining > 0) {
         return interaction.reply({
           content: `⏳ You're on cooldown, dear! You can use the command again in \`${timeformat(remaining)}\`, nya~!`,
-          ephemeral: true,
+          ephemeral: true
         })
       }
     }
@@ -122,7 +122,7 @@ export default {
     return new EmbedBuilder()
       .setColor(EMBED_COLORS.BOT_EMBED)
       .setDescription(desc)
-  },
+  }
 }
 
 /**

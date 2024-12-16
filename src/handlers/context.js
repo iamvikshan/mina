@@ -15,7 +15,7 @@ export default {
       if (remaining > 0) {
         return interaction.reply({
           content: `You are on cooldown. You can again use the command after ${timeformat(remaining)}`,
-          ephemeral: true,
+          ephemeral: true
         })
       }
     }
@@ -29,7 +29,7 @@ export default {
       if (!interaction.member.permissions.has(context.userPermissions)) {
         return interaction.reply({
           content: `You need ${parsePermissions(context.userPermissions)} for this command`,
-          ephemeral: true,
+          ephemeral: true
         })
       }
     }
@@ -43,7 +43,7 @@ export default {
     } finally {
       applyCooldown(interaction.user.id, context)
     }
-  },
+  }
 }
 
 /**

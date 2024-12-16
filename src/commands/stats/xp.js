@@ -22,9 +22,9 @@ export default {
             name: 'message',
             description: 'message to display when a user levels up',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'channel',
@@ -36,11 +36,11 @@ export default {
             description: 'channel to send level up messages to',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -60,7 +60,7 @@ export default {
     else response = 'Invalid subcommand'
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function setMessage(message, settings) {

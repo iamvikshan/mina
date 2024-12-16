@@ -25,14 +25,14 @@ const Schema = new mongoose.Schema<GuildSettings>({
     staff_roles: [String],
     setup_completed: { type: Boolean, default: false },
     setup_message_id: { type: String, default: null },
-    invite_link: { type: String, default: null },
+    invite_link: { type: String, default: null }
   },
   stats: {
     enabled: { type: Boolean, default: true },
     xp: {
       message: { type: String, default: STATS.DEFAULT_LVL_UP_MSG },
-      channel: String,
-    },
+      channel: String
+    }
   },
   ticket: {
     log_channel: String,
@@ -42,9 +42,9 @@ const Schema = new mongoose.Schema<GuildSettings>({
     topics: [
       {
         _id: false,
-        name: String,
-      },
-    ],
+        name: String
+      }
+    ]
   },
   automod: {
     debug: Boolean,
@@ -52,7 +52,7 @@ const Schema = new mongoose.Schema<GuildSettings>({
     action: {
       type: String,
       enum: [ModerationType.TIMEOUT, ModerationType.KICK, ModerationType.BAN],
-      default: ModerationType.TIMEOUT,
+      default: ModerationType.TIMEOUT
     },
     wh_channels: [String],
     anti_attachments: Boolean,
@@ -61,16 +61,16 @@ const Schema = new mongoose.Schema<GuildSettings>({
     anti_spam: Boolean,
     anti_ghostping: Boolean,
     anti_massmention: Number,
-    max_lines: Number,
+    max_lines: Number
   },
   invite: {
     tracking: { type: Boolean, default: true },
     ranks: [
       {
         invites: { type: Number, required: true },
-        _id: { type: String, required: true },
-      },
-    ],
+        _id: { type: String, required: true }
+      }
+    ]
   },
   logs_channel: String,
   logs: {
@@ -78,34 +78,34 @@ const Schema = new mongoose.Schema<GuildSettings>({
     member: {
       message_edit: { type: Boolean, default: false },
       message_delete: { type: Boolean, default: false },
-      role_changes: { type: Boolean, default: false },
+      role_changes: { type: Boolean, default: false }
     },
     channel: {
       create: { type: Boolean, default: false },
       edit: { type: Boolean, default: false },
-      delete: { type: Boolean, default: false },
+      delete: { type: Boolean, default: false }
     },
     role: {
       create: { type: Boolean, default: false },
       edit: { type: Boolean, default: false },
-      delete: { type: Boolean, default: false },
-    },
+      delete: { type: Boolean, default: false }
+    }
   },
   max_warn: {
     action: {
       type: String,
       enum: [ModerationType.TIMEOUT, ModerationType.KICK, ModerationType.BAN],
-      default: ModerationType.KICK,
+      default: ModerationType.KICK
     },
-    limit: { type: Number, default: 5 },
+    limit: { type: Number, default: 5 }
   },
   counters: [
     {
       _id: false,
       counter_type: String,
       name: String,
-      channel_id: String,
-    },
+      channel_id: String
+    }
   ],
   welcome: {
     enabled: Boolean,
@@ -116,8 +116,8 @@ const Schema = new mongoose.Schema<GuildSettings>({
       color: String,
       thumbnail: Boolean,
       footer: String,
-      image: String,
-    },
+      image: String
+    }
   },
   farewell: {
     enabled: Boolean,
@@ -128,16 +128,16 @@ const Schema = new mongoose.Schema<GuildSettings>({
       color: String,
       thumbnail: Boolean,
       footer: String,
-      image: String,
-    },
+      image: String
+    }
   },
   autorole: String,
   suggestions: {
     enabled: Boolean,
     channel_id: String,
     approved_channel: String,
-    rejected_channel: String,
-  },
+    rejected_channel: String
+  }
 })
 
 const Model = mongoose.model<GuildSettings>('guild', Schema)
@@ -167,8 +167,8 @@ export async function getSettings(guild: Guild): Promise<GuildSettings> {
         name: guild.name,
         region: guild.preferredLocale,
         owner: guild.ownerId,
-        joinedAt: guild.joinedAt,
-      },
+        joinedAt: guild.joinedAt
+      }
     })
 
     await guildData.save()
@@ -193,7 +193,7 @@ export async function updateSettings(
   }
 
   const updatedSettings = await Model.findByIdAndUpdate(guildId, settings, {
-    new: true,
+    new: true
   })
 
   if (!updatedSettings) {
@@ -225,5 +225,5 @@ export async function setInviteLink(
 export default {
   getSettings,
   updateSettings,
-  setInviteLink,
+  setInviteLink
 }

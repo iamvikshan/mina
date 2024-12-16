@@ -4,7 +4,7 @@ import {
   GuildMember,
   User,
   TextChannel,
-  ColorResolvable,
+  ColorResolvable
 } from 'discord.js'
 import config from '@src/config'
 import { getSettings } from '@schemas/Guild'
@@ -42,7 +42,7 @@ const logModeration = async (
 
   const embed = new EmbedBuilder().setFooter({
     text: `By ${issuer.displayName} • ${issuer.id}`,
-    iconURL: issuer.displayAvatarURL(),
+    iconURL: issuer.displayAvatarURL()
   })
 
   const fields: { name: string; value: string; inline?: boolean }[] = []
@@ -54,19 +54,19 @@ const logModeration = async (
         {
           name: 'Purge Type',
           value: data.purgeType || 'Unknown',
-          inline: true,
+          inline: true
         },
         {
           name: 'Messages',
           value: (data.deletedCount || 0).toString(),
-          inline: true,
+          inline: true
         },
         {
           name: 'Channel',
           value: data.channel
             ? `#${data.channel.name} [${data.channel.id}]`
             : 'Unknown',
-          inline: false,
+          inline: false
         }
       )
       break
@@ -133,20 +133,20 @@ const logModeration = async (
       fields.push({
         name: 'Member',
         value: `${target.displayName} [${target.id}]`,
-        inline: false,
+        inline: false
       })
     } else {
       fields.push({
         name: 'User',
         value: `${target.tag} [${target.id}]`,
-        inline: false,
+        inline: false
       })
     }
 
     fields.push({
       name: 'Reason',
       value: reason || 'No reason provided',
-      inline: false,
+      inline: false
     })
 
     if (type === ModerationType.TIMEOUT && target instanceof GuildMember) {
@@ -155,7 +155,7 @@ const logModeration = async (
         value: `<t:${Math.round(
           (target.communicationDisabledUntilTimestamp || 0) / 1000
         )}:R>`,
-        inline: true,
+        inline: true
       })
     }
 

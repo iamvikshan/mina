@@ -17,9 +17,9 @@ export default {
         name: 'time',
         description: 'The time you want to seek to',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -33,7 +33,7 @@ export default {
     }
     const response = await seekTo(interaction, time)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

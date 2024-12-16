@@ -18,15 +18,15 @@ export default {
         name: 'user',
         description: 'the target member',
         type: ApplicationCommandOptionType.User,
-        required: true,
+        required: true
       },
       {
         name: 'reason',
         description: 'reason for warn',
         type: ApplicationCommandOptionType.String,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -36,7 +36,7 @@ export default {
 
     const response = await warn(interaction.member, target, reason)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function warn(issuer, target, reason) {

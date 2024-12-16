@@ -22,15 +22,15 @@ export default {
             name: 'user',
             description: 'The user to give premium status',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'duration',
             description: 'Duration of premium status in days',
             type: ApplicationCommandOptionType.Integer,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'remove',
@@ -41,11 +41,11 @@ export default {
             name: 'user',
             description: 'The user to remove premium status from',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -88,5 +88,5 @@ export default {
         `Aw, snap! 📸 ${targetUser.tag}'s premium status just went 'poof'! 💨 They've been gently escorted from the VIP lounge back to the regular party. But hey, the regular party is pretty cool too! We've got snacks and everything! 🍿🥤`
       )
     }
-  },
+  }
 }

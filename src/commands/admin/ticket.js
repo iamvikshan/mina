@@ -8,7 +8,7 @@ import {
   ChannelType,
   ButtonStyle,
   TextInputStyle,
-  ComponentType,
+  ComponentType
 } from 'discord.js'
 import { isTicketChannel, closeTicket, closeAllTickets } from '@handlers/ticket'
 import { getSettings, updateSettings } from '@schemas/Guild'
@@ -37,9 +37,9 @@ export default {
               'the channel where ticket creation message must be sent',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'log',
@@ -51,9 +51,9 @@ export default {
             description: 'channel where ticket logs must be sent',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'limit',
@@ -64,19 +64,19 @@ export default {
             name: 'amount',
             description: 'max number of tickets',
             type: ApplicationCommandOptionType.Integer,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'close',
         description: 'closes the ticket [used in ticket channel only]',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'closeall',
         description: 'closes all open tickets',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'add',
@@ -88,9 +88,9 @@ export default {
             name: 'user_id',
             description: 'the id of the user to add',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'remove',
@@ -102,9 +102,9 @@ export default {
             name: 'user',
             description: 'the user to remove',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'topic',
@@ -114,7 +114,7 @@ export default {
           {
             name: 'list',
             description: 'list all ticket topics',
-            type: ApplicationCommandOptionType.Subcommand,
+            type: ApplicationCommandOptionType.Subcommand
           },
           {
             name: 'add',
@@ -125,9 +125,9 @@ export default {
                 name: 'topic',
                 description: 'the topic name',
                 type: ApplicationCommandOptionType.String,
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           },
           {
             name: 'remove',
@@ -138,11 +138,11 @@ export default {
                 name: 'topic',
                 description: 'the topic to remove',
                 type: ApplicationCommandOptionType.String,
-                required: true,
-              },
-            ],
-          },
-        ],
+                required: true
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'category',
@@ -159,18 +159,18 @@ export default {
                 description: 'the category to use for ticket channels',
                 type: ApplicationCommandOptionType.Channel,
                 channelTypes: [ChannelType.GuildCategory],
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           },
           {
             name: 'remove',
             description: 'remove the current ticket category',
-            type: ApplicationCommandOptionType.Subcommand,
-          },
-        ],
-      },
-    ],
+            type: ApplicationCommandOptionType.Subcommand
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -200,8 +200,8 @@ export default {
                 .setColor(EMBED_COLORS.ERROR)
                 .setDescription(
                   "Oops! I'm missing the `Manage Channels` permission to create ticket channels. Could you please give me that permission? Pretty please? 🙏"
-                ),
-            ],
+                )
+            ]
           })
         }
         await interaction.deleteReply()
@@ -261,11 +261,11 @@ export default {
         embeds: [
           new EmbedBuilder()
             .setColor(EMBED_COLORS.SUCCESS)
-            .setDescription(response),
-        ],
+            .setDescription(response)
+        ]
       })
     }
-  },
+  }
 }
 
 async function setupTicketCategory(guild, category) {
@@ -314,16 +314,16 @@ async function ticketModalSetup({ guild, channel, member }, targetChannel) {
         .setColor(EMBED_COLORS.BOT_EMBED)
         .setDescription(
           'Please click the button below to setup the ticket message 🎫'
-        ),
+        )
     ],
-    components: [buttonRow],
+    components: [buttonRow]
   })
 
   if (!sentMsg) {
     return interaction.reply({
       content:
         "I couldn't send the setup message. Please check my permissions and try again.",
-      ephemeral: true,
+      ephemeral: true
     })
   }
 
@@ -334,7 +334,7 @@ async function ticketModalSetup({ guild, channel, member }, targetChannel) {
         i.customId === 'ticket_btnSetup' &&
         i.member.id === member.id &&
         i.message.id === sentMsg.id,
-      time: 100000,
+      time: 100000
     })
     .catch(ex => {})
 
@@ -343,9 +343,9 @@ async function ticketModalSetup({ guild, channel, member }, targetChannel) {
       embeds: [
         new EmbedBuilder()
           .setColor(EMBED_COLORS.ERROR)
-          .setDescription('No response received, cancelling setup 😔'),
+          .setDescription('No response received, cancelling setup 😔')
       ],
-      components: [],
+      components: []
     })
   }
 
@@ -375,8 +375,8 @@ async function ticketModalSetup({ guild, channel, member }, targetChannel) {
             .setLabel('Embed Footer')
             .setStyle(TextInputStyle.Short)
             .setRequired(false)
-        ),
-      ],
+        )
+      ]
     })
   )
 
@@ -387,7 +387,7 @@ async function ticketModalSetup({ guild, channel, member }, targetChannel) {
       filter: m =>
         m.customId === 'ticket-modalSetup' &&
         m.member.id === member.id &&
-        m.message.id === sentMsg.id,
+        m.message.id === sentMsg.id
     })
     .catch(ex => {})
 
@@ -396,9 +396,9 @@ async function ticketModalSetup({ guild, channel, member }, targetChannel) {
       embeds: [
         new EmbedBuilder()
           .setColor(EMBED_COLORS.ERROR)
-          .setDescription('No response received, cancelling setup 😔'),
+          .setDescription('No response received, cancelling setup 😔')
       ],
-      components: [],
+      components: []
     })
   }
 
@@ -406,8 +406,8 @@ async function ticketModalSetup({ guild, channel, member }, targetChannel) {
     embeds: [
       new EmbedBuilder()
         .setColor(EMBED_COLORS.BOT_EMBED)
-        .setDescription('Setting up ticket message... 🎫'),
-    ],
+        .setDescription('Setting up ticket message... 🎫')
+    ]
   })
 
   const title = modal.fields.getTextInputValue('title')
@@ -424,9 +424,9 @@ async function ticketModalSetup({ guild, channel, member }, targetChannel) {
       permissionOverwrites: [
         {
           id: guild.roles.everyone,
-          deny: ['ViewChannel', 'SendMessages', 'ReadMessageHistory'],
-        },
-      ],
+          deny: ['ViewChannel', 'SendMessages', 'ReadMessageHistory']
+        }
+      ]
     })
     settings.ticket.category = ticketCategory.id
     settings.ticket.enabled = true
@@ -451,7 +451,7 @@ async function ticketModalSetup({ guild, channel, member }, targetChannel) {
 
   const ticketMessage = await targetChannel.send({
     embeds: [embed],
-    components: [tktBtnRow],
+    components: [tktBtnRow]
   })
 
   // Update settings with the new message ID
@@ -463,9 +463,9 @@ async function ticketModalSetup({ guild, channel, member }, targetChannel) {
     embeds: [
       new EmbedBuilder()
         .setColor(EMBED_COLORS.SUCCESS)
-        .setDescription('Yay! Ticket Message Created Successfully! 🎉'),
+        .setDescription('Yay! Ticket Message Created Successfully! 🎉')
     ],
-    components: [],
+    components: []
   })
 }
 
@@ -513,7 +513,7 @@ async function addToTicket({ channel }, inputId) {
   try {
     await channel.permissionOverwrites.create(inputId, {
       ViewChannel: true,
-      SendMessages: true,
+      SendMessages: true
     })
 
     return 'Done'
@@ -531,7 +531,7 @@ async function removeFromTicket({ channel }, inputId) {
   try {
     channel.permissionOverwrites.create(inputId, {
       ViewChannel: false,
-      SendMessages: false,
+      SendMessages: false
     })
     return 'Done'
   } catch (ex) {
@@ -556,7 +556,7 @@ async function addTopic(data, topic) {
   }
 
   data.settings.ticket.topics.push({
-    name: topic,
+    name: topic
   })
   await data.settings.save()
 
@@ -590,7 +590,7 @@ function listTopics(data) {
     .setAuthor({ name: '🌟 Ticket Topics' })
     .setColor(EMBED_COLORS.BOT_EMBED)
     .setFooter({
-      text: 'Thank you for having me! 💕',
+      text: 'Thank you for having me! 💕'
     })
 
   if (topics.length === 0) {
@@ -605,7 +605,7 @@ function listTopics(data) {
   const topicNames = topics.map(t => t.name).join(', ')
   embed.addFields({
     name: `📂 **Topics:**`,
-    value: topicNames,
+    value: topicNames
   })
 
   embed.setDescription(

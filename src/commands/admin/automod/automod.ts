@@ -1,7 +1,7 @@
 import {
   EmbedBuilder,
   ApplicationCommandOptionType,
-  ChannelType,
+  ChannelType
 } from 'discord.js'
 
 import { stripIndent } from 'common-tags'
@@ -23,7 +23,7 @@ export default {
       {
         name: 'status',
         description: 'Check automod configuration',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'strikes',
@@ -34,9 +34,9 @@ export default {
             name: 'amount',
             description: 'Number of strikes (default 5)',
             required: true,
-            type: ApplicationCommandOptionType.Integer,
-          },
-        ],
+            type: ApplicationCommandOptionType.Integer
+          }
+        ]
       },
       {
         name: 'action',
@@ -52,19 +52,19 @@ export default {
             choices: [
               {
                 name: 'TIMEOUT',
-                value: 'TIMEOUT',
+                value: 'TIMEOUT'
               },
               {
                 name: 'KICK',
-                value: 'KICK',
+                value: 'KICK'
               },
               {
                 name: 'BAN',
-                value: 'BAN',
-              },
-            ],
-          },
-        ],
+                value: 'BAN'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'debug',
@@ -80,20 +80,20 @@ export default {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'whitelist',
         description: 'View whitelisted channels',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'whitelistadd',
@@ -105,9 +105,9 @@ export default {
             description: 'Channel to add',
             required: true,
             type: ApplicationCommandOptionType.Channel,
-            channelTypes: [ChannelType.GuildText],
-          },
-        ],
+            channelTypes: [ChannelType.GuildText]
+          }
+        ]
       },
       {
         name: 'whitelistremove',
@@ -119,11 +119,11 @@ export default {
             description: 'Channel to remove',
             required: true,
             type: ApplicationCommandOptionType.Channel,
-            channelTypes: [ChannelType.GuildText],
-          },
-        ],
-      },
-    ],
+            channelTypes: [ChannelType.GuildText]
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -161,7 +161,7 @@ export default {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function getStatus(settings, guild) {
@@ -185,7 +185,7 @@ async function getStatus(settings, guild) {
   const embed = new EmbedBuilder()
     .setAuthor({
       name: '✨ Automod Configuration ✨',
-      iconURL: guild.iconURL(),
+      iconURL: guild.iconURL()
     })
     .setColor(EMBED_COLORS.BOT_EMBED)
     .setDescription(desc)
@@ -193,22 +193,22 @@ async function getStatus(settings, guild) {
       {
         name: '🔍 Log Channel',
         value: logChannel,
-        inline: true,
+        inline: true
       },
       {
         name: '⚠️ Max Strikes',
         value: automod.strikes.toString(),
-        inline: true,
+        inline: true
       },
       {
         name: '💔 Action',
         value: automod.action,
-        inline: true,
+        inline: true
       },
       {
         name: '🔧 Debug',
         value: automod.debug ? '✓' : '✕',
-        inline: true,
+        inline: true
       }
     )
 
