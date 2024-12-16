@@ -1,7 +1,7 @@
 const {
   EmbedBuilder,
   AttachmentBuilder,
-  ApplicationCommandOptionType,
+  ApplicationCommandOptionType
 } = require('discord.js')
 const { getBuffer } = require('@helpers/HttpUtils')
 const { EMBED_COLORS, IMAGE } = require('@src/config.js')
@@ -14,7 +14,7 @@ const availableOverlays = [
   'rejected',
   'thuglife',
   'to-be-continued',
-  'wasted',
+  'wasted'
 ]
 
 /**
@@ -36,22 +36,22 @@ module.exports = {
         required: true,
         choices: availableOverlays.map(overlay => ({
           name: overlay,
-          value: overlay,
-        })),
+          value: overlay
+        }))
       },
       {
         name: 'user',
         description: 'whose picture should we mess with?',
         type: ApplicationCommandOptionType.User,
-        required: false,
+        required: false
       },
       {
         name: 'link',
         description: 'got a specific image you want to transform?',
         type: ApplicationCommandOptionType.String,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -68,8 +68,8 @@ module.exports = {
     const url = getOverlay(filter, image)
     const response = await getBuffer(url, {
       headers: {
-        Authorization: `Bearer ${process.env.STRANGE_API_KEY}`,
-      },
+        Authorization: `Bearer ${process.env.STRANGE_API_KEY}`
+      }
     })
 
     if (!response.success)
@@ -78,7 +78,7 @@ module.exports = {
       )
 
     const attachment = new AttachmentBuilder(response.buffer, {
-      name: 'attachment.png',
+      name: 'attachment.png'
     })
     const embed = new EmbedBuilder()
       .setColor(EMBED_COLORS.BOT_EMBED)
@@ -86,7 +86,7 @@ module.exports = {
       .setFooter({ text: `sparkled up by ${author.username}` })
 
     await interaction.followUp({ embeds: [embed], files: [attachment] })
-  },
+  }
 }
 
 function getOverlay(filter, image) {

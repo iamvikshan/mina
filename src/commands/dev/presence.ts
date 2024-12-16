@@ -1,15 +1,15 @@
-const {
+import {
   EmbedBuilder,
   ApplicationCommandOptionType,
-  ActivityType,
-} = require('discord.js')
-const { EMBED_COLORS } = require('@src/config')
-const { getPresenceConfig, updatePresenceConfig } = require('@schemas/Dev')
+  ActivityType
+} from 'discord.js'
+import { EMBED_COLORS } from '@src/config'
+import { getPresenceConfig, updatePresenceConfig } from '@schemas/Dev'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'presence',
   description: 'Update bot presence configuration',
   category: 'DEV',
@@ -23,7 +23,7 @@ module.exports = {
         name: 'enabled',
         description: 'Enable/disable presence updates',
         type: ApplicationCommandOptionType.Boolean,
-        required: false,
+        required: false
       },
       {
         name: 'status',
@@ -34,8 +34,8 @@ module.exports = {
           { name: 'Online', value: 'online' },
           { name: 'Idle', value: 'idle' },
           { name: 'Do Not Disturb', value: 'dnd' },
-          { name: 'Invisible', value: 'invisible' },
-        ],
+          { name: 'Invisible', value: 'invisible' }
+        ]
       },
       {
         name: 'type',
@@ -48,22 +48,22 @@ module.exports = {
           { name: 'Playing', value: 'PLAYING' },
           { name: 'Watching', value: 'WATCHING' },
           { name: 'Streaming', value: 'STREAMING' },
-          { name: 'Custom', value: 'CUSTOM' },
-        ],
+          { name: 'Custom', value: 'CUSTOM' }
+        ]
       },
       {
         name: 'message',
         description: 'Set status message',
         type: ApplicationCommandOptionType.String,
-        required: false,
+        required: false
       },
       {
         name: 'url',
         description: 'Set streaming URL (only for streaming type)',
         type: ApplicationCommandOptionType.String,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -81,8 +81,8 @@ module.exports = {
         ...(status && { STATUS: status }),
         ...(type && { TYPE: type }),
         ...(message && { MESSAGE: message }),
-        ...(url && { URL: url }),
-      },
+        ...(url && { URL: url })
+      }
     }
 
     await updatePresenceConfig(update)
@@ -99,17 +99,17 @@ module.exports = {
             ).replace('{members}', interaction.client.users.cache.size),
             type: ActivityType[update.PRESENCE.TYPE],
             ...(update.PRESENCE.TYPE === 'STREAMING' && {
-              url: update.PRESENCE.URL,
-            }),
-          },
-        ],
+              url: update.PRESENCE.URL
+            })
+          }
+        ]
       }
 
       await interaction.client.user.setPresence(presence)
     } else {
       await interaction.client.user.setPresence({
         status: 'invisible',
-        activities: [],
+        activities: []
       })
     }
 
@@ -120,14 +120,14 @@ module.exports = {
         {
           name: 'Enabled',
           value: update.PRESENCE.ENABLED.toString(),
-          inline: true,
+          inline: true
         },
         { name: 'Status', value: update.PRESENCE.STATUS, inline: true },
         { name: 'Type', value: update.PRESENCE.TYPE, inline: true },
         { name: 'Message', value: update.PRESENCE.MESSAGE },
-        { name: 'URL', value: update.PRESENCE.URL || 'N/A' },
+        { name: 'URL', value: update.PRESENCE.URL || 'N/A' }
       ])
 
     return interaction.followUp({ embeds: [embed] })
-  },
+  }
 }

@@ -1,6 +1,6 @@
 const { disconnectTarget } = require('@helpers/ModUtils')
 
-module.exports = async ({ member }, target, reason) => {
+export default async ({ member }, target, reason) => {
   const response = await disconnectTarget(member, target, reason)
   if (typeof response === 'boolean') {
     return `${target.user.username} is disconnected from the voice channel`

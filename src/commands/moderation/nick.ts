@@ -1,11 +1,11 @@
 const { canModerate } = require('@helpers/ModUtils')
-const { ApplicationCommandOptionType } = require('discord.js')
-const { MODERATION } = require('@src/config.js')
+import { ApplicationCommandOptionType } from 'discord.js'
+const { MODERATION } from '@src/config.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'nick',
   description: 'nickname commands',
   category: 'MODERATION',
@@ -24,15 +24,15 @@ module.exports = {
             name: 'user',
             description: 'the member whose nick you want to set',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'name',
             description: 'the nickname to set',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'reset',
@@ -43,11 +43,11 @@ module.exports = {
             name: 'user',
             description: 'the members whose nick you want to reset',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -58,7 +58,7 @@ module.exports = {
 
     const response = await nickname(interaction, target, name)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function nickname({ member, guild }, target, name) {

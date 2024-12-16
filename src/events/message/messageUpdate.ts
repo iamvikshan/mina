@@ -1,6 +1,6 @@
-const { EmbedBuilder } = require('discord.js')
-const { getSettings } = require('@schemas/Guild')
-const { EMBED_COLORS } = require('@src/config')
+import { EmbedBuilder } from 'discord.js'
+import { getSettings } from '@schemas/Guild'
+import { EMBED_COLORS } from '@src/config'
 
 /**
  * @param {import('@src/structures').BotClient} client
@@ -37,7 +37,7 @@ module.exports = async (client, oldMessage, newMessage) => {
       {
         name: 'Author',
         value: `${oldMessage.author.tag} (${oldMessage.author.id})`,
-        inline: true,
+        inline: true
       },
       { name: 'Channel', value: oldMessage.channel.toString(), inline: true },
       {
@@ -45,14 +45,14 @@ module.exports = async (client, oldMessage, newMessage) => {
         value:
           oldMessage.content.length > 1024
             ? oldMessage.content.slice(0, 1021) + '...'
-            : oldMessage.content || 'None',
+            : oldMessage.content || 'None'
       },
       {
         name: 'New Content',
         value:
           newMessage.content.length > 1024
             ? newMessage.content.slice(0, 1021) + '...'
-            : newMessage.content || 'None',
+            : newMessage.content || 'None'
       }
     )
     .setTimestamp()

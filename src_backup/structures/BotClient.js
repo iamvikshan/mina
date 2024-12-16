@@ -5,7 +5,7 @@ const {
   GatewayIntentBits,
   Partials,
   WebhookClient,
-  ApplicationCommandType,
+  ApplicationCommandType
 } = require('discord.js')
 const path = require('path')
 const { table } = require('table')
@@ -33,11 +33,11 @@ module.exports = class BotClient extends Client {
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildPresences,
         GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildVoiceStates
       ],
       partials: [Partials.User, Partials.Message, Partials.Reaction],
       allowedMentions: { repliedUser: false },
-      restRequestTimeout: 20000,
+      restRequestTimeout: 20000
     })
 
     // Promisify setTimeout for use with async/await
@@ -106,7 +106,7 @@ module.exports = class BotClient extends Client {
       table(clientEvents, {
         header: { alignment: 'center', content: 'Client Events' },
         singleLine: true,
-        columns: [{ width: 25 }, { width: 5, alignment: 'center' }],
+        columns: [{ width: 25 }, { width: 5, alignment: 'center' }]
       })
     )
 
@@ -229,7 +229,7 @@ module.exports = class BotClient extends Client {
           name: cmd.name,
           description: cmd.description,
           type: ApplicationCommandType.ChatInput,
-          options: cmd.slashCommand.options,
+          options: cmd.slashCommand.options
         })
       })
     }
@@ -238,7 +238,7 @@ module.exports = class BotClient extends Client {
       this.contextMenus.forEach(ctx => {
         toRegister.push({
           name: ctx.name,
-          type: ctx.type,
+          type: ctx.type
         })
       })
     }
@@ -328,8 +328,8 @@ module.exports = class BotClient extends Client {
         'SendMessages',
         'SendMessagesInThreads',
         'Speak',
-        'ViewChannel',
-      ],
+        'ViewChannel'
+      ]
     })
   }
 }

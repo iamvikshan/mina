@@ -1,11 +1,11 @@
-const { EMBED_COLORS } = require('@root/src/config')
+import { EMBED_COLORS } = require('@root/src/config')
 const { TicTacToe } = require('discord-gamecord')
-const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js')
+const { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'tictactoe',
   description: 'Challenge someone to an epic game of Tic Tac Toe!',
   cooldown: 1,
@@ -15,7 +15,7 @@ module.exports = {
     'EmbedLinks',
     'AddReactions',
     'ReadMessageHistory',
-    'ManageMessages',
+    'ManageMessages'
   ],
   slashCommand: {
     enabled: true,
@@ -25,9 +25,9 @@ module.exports = {
         name: 'user',
         description: 'Pick your worthy opponent! 🎯',
         type: ApplicationCommandOptionType.User,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -38,7 +38,7 @@ module.exports = {
       return interaction.followUp({
         content:
           "💫 Oopsie! Bots can't play games yet - trust me, I've tried teaching them! Pick a human friend instead! ✨",
-        ephemeral: true,
+        ephemeral: true
       })
     }
 
@@ -47,7 +47,7 @@ module.exports = {
       return interaction.followUp({
         content:
           "✨ Hey silly! You can't play against yourself - where's the fun in that? Invite a friend to join the adventure! 🎮",
-        ephemeral: true,
+        ephemeral: true
       })
     }
 
@@ -59,12 +59,12 @@ module.exports = {
         title: '✨ Tic Tac Toe Challenge! ✨',
         color: EMBED_COLORS.BOT_EMBED,
         statusTitle: '💫 Current Status',
-        overTitle: '🎮 Game Over!',
+        overTitle: '🎮 Game Over!'
       },
       emojis: {
         xButton: '❌',
         oButton: '🔵',
-        blankButton: '➖',
+        blankButton: '➖'
       },
       mentionUser: true,
       timeoutTime: 60000,
@@ -78,7 +78,7 @@ module.exports = {
       timeoutMessage:
         "*droops* Aww, the game timed out! Don't leave me hanging next time! 💫",
       playerOnlyMessage:
-        'Hey there! Only {player} and {opponent} can play in this game! But you can start your own adventure with `/tictactoe`! ✨',
+        'Hey there! Only {player} and {opponent} can play in this game! But you can start your own adventure with `/tictactoe`! ✨'
     })
 
     Game.startGame()
@@ -107,5 +107,5 @@ module.exports = {
         interaction.followUp({ embeds: [embed] })
       }
     })
-  },
+  }
 }

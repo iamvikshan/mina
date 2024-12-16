@@ -1,12 +1,12 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
-const { MESSAGES, EMBED_COLORS } = require('@src/config.js')
+import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
+const { MESSAGES, EMBED_COLORS } from '@src/config.js'
 const { getJson } = require('@helpers/HttpUtils')
-const { stripIndent } = require('common-tags')
+const { stripIndent } from 'common-tags'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'pokedex',
   description: 'shows pokemon information',
   category: 'UTILITY',
@@ -20,16 +20,16 @@ module.exports = {
         name: 'pokemon',
         description: 'pokemon name to get information for',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const pokemon = interaction.options.getString('pokemon')
     const response = await pokedex(pokemon)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function pokedex(pokemon) {

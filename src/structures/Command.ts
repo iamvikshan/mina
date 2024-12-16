@@ -1,56 +1,60 @@
-// src/structures/Command.js
+import {
+  ApplicationCommandOptionData,
+  ChatInputCommandInteraction,
+  PermissionResolvable
+} from 'discord.js'
 
-/**
- * @typedef {Object} Validation
- * @property {function} callback - The condition to validate
- * @property {string} message - The message to be displayed if callback condition is not met
- */
+export interface Validation {
+  callback: () => boolean | Promise<boolean>
+  message: string
+}
 
-/**
- * @typedef {Object} SubCommand
- * @property {string} trigger - subcommand invoke
- * @property {string} description - subcommand description
- */
+export const CommandCategories = {
+  ADMIN: 'ADMIN',
+  ANIME: 'ANIME',
+  AUTOMOD: 'AUTOMOD',
+  ECONOMY: 'ECONOMY',
+  FUN: 'FUN',
+  IMAGE: 'IMAGE',
+  INFORMATION: 'INFORMATION',
+  INVITE: 'INVITE',
+  MODERATION: 'MODERATION',
+  ERELA_JS: 'ERELA_JS',
+  NONE: 'NONE',
+  DEV: 'DEV',
+  SOCIAL: 'SOCIAL',
+  SUGGESTION: 'SUGGESTION',
+  TICKET: 'TICKET',
+  UTILITY: 'UTILITY'
+} as const
 
-/**
- * @typedef {"ADMIN"|"ANIME"|"AUTOMOD"|"ECONOMY"|"FUN"|"IMAGE"|"INFORMATION"|"INVITE"|"MODERATION"|"ERELA_JS"|"NONE"|"DEV"|"SOCIAL"|"SUGGESTION"|"TICKET"|"UTILITY"} CommandCategory
- */
+export type CommandCategory = keyof typeof CommandCategories
 
-/**
- * @typedef {Object} InteractionInfo
- * @property {boolean} enabled - Whether the slash command is enabled or not
- * @property {boolean} ephemeral - Whether the reply should be ephemeral
- * @property {import('discord.js').ApplicationCommandOptionData[]} options - command options
- */
+export interface InteractionInfo {
+  enabled: boolean
+  ephemeral: boolean
+  options: ApplicationCommandOptionData[]
+}
 
-/**
- * @typedef {Object} CommandInfo
- * @property {boolean} enabled - Whether the command is enabled or not
- * @property {string[]} [aliases] - Alternative names for the command (all must be lowercase)
- * @property {string} [usage=""] - The command usage format string
- * @property {number} [minArgsCount=0] - Minimum number of arguments the command takes (default is 0)
- * @property {SubCommand[]} [subcommands=[]] - List of subcommands
- */
+export interface CommandData {
+  name: string
+  description: string
+  cooldown: number
+  isPremium?: boolean
+  testGuildOnly?: boolean
+  devOnly?: boolean
+  category: CommandCategory
+  botPermissions?: PermissionResolvable[]
+  userPermissions?: PermissionResolvable[]
+  validations?: Validation[]
+  slashCommand: InteractionInfo
+  interactionRun: (
+    interaction: ChatInputCommandInteraction,
+    data: object
+  ) => Promise<void> | void
+}
 
-/**
- * @typedef {Object} CommandData
- * @property {string} name - The name of the command (must be lowercase)
- * @property {string} description - A short description of the command
- * @property {number} cooldown - The command cooldown in seconds
- * @property {CommandCategory} category - The category this command belongs to
- * @property {import('discord.js').PermissionResolvable[]} [botPermissions] - Permissions required by the client to use the command.
- * @property {import('discord.js').PermissionResolvable[]} [userPermissions] - Permissions required by the user to use the command
- * @property {Validation[]} [validations] - List of validations to be run before the command is executed
- * @property {CommandInfo} command - A short description of the command
- * @property {InteractionInfo} slashCommand - A short description of the command
- * @property {function(import('discord.js').ChatInputCommandInteraction, object)} interactionRun - The callback to be executed when the interaction is invoked
- */
-
-/**
- * Placeholder for command data
- * @type {CommandData}
- */
-export default {
+export const BaseCommand: CommandData = {
   name: '',
   description: '',
   cooldown: 0,
@@ -62,7 +66,10 @@ export default {
   slashCommand: {
     enabled: true,
     ephemeral: false,
-    options: [],
+    options: []
   },
-  interactionRun: (interaction, data) => {},
+  interactionRun: async (
+    _interaction: ChatInputCommandInteraction,
+    _data: object
+  ) => {}
 }

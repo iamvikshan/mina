@@ -1,5 +1,5 @@
-const { LavalinkManager } = require('lavalink-client')
-const { MUSIC } = require('@src/config.js')
+import { LavalinkManager, SearchPlatform } from 'lavalink-client'
+import { MUSIC } from '@src/config.js'
 
 class Manager extends LavalinkManager {
   constructor(client) {
@@ -9,18 +9,19 @@ class Manager extends LavalinkManager {
         client.guilds.cache.get(guildId)?.shard?.send(payload),
       emitNewSongsOnly: false,
       queueOptions: {
-        maxPreviousTracks: 30,
+        maxPreviousTracks: 30
       },
       playerOptions: {
-        defaultSearchPlatform: MUSIC.DEFAULT_SOURCE,
+        defaultSearchPlatform: MUSIC.DEFAULT_SOURCE as SearchPlatform,
         onDisconnect: {
           autoReconnect: true,
-          destroyPlayer: false,
-        },
+          destroyPlayer: false
+        }
       },
+
       linksAllowed: true,
       linksBlacklist: ['porn'],
-      linksWhitelist: [],
+      linksWhitelist: []
     })
 
     this.nodeManager.on('connect', node => {
@@ -45,4 +46,4 @@ class Manager extends LavalinkManager {
   }
 }
 
-module.exports = Manager
+export default Manager

@@ -3,20 +3,20 @@ const { musicValidations } = require('@helpers/BotUtils')
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'leave',
   description: 'Disconnects the bot from the voice channel',
   category: 'MUSIC',
   validations: musicValidations,
   slashCommand: {
     enabled: true,
-    options: [],
+    options: []
   },
 
   async interactionRun(interaction) {
     const response = await leave(interaction)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

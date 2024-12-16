@@ -1,12 +1,12 @@
-const { EmbedBuilder, ChannelType } = require('discord.js')
-const { EMBED_COLORS } = require('@src/config')
-const { stripIndent } = require('common-tags')
+import { EmbedBuilder, ChannelType } from 'discord.js'
+import { EMBED_COLORS } from '@src/config'
+const { stripIndent } from 'common-tags'
 const channelTypes = require('@helpers/channelTypes')
 
 /**
  * @param {import('discord.js').GuildChannel} channel
  */
-module.exports = channel => {
+export default channel => {
   const { id, name, parent, position, type } = channel
 
   let desc = stripIndent`

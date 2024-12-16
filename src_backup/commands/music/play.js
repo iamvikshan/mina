@@ -17,16 +17,16 @@ module.exports = {
         name: 'query',
         description: 'song name or url',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const searchQuery = interaction.options.getString('query')
     const response = await play(interaction, searchQuery)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**
@@ -49,7 +49,7 @@ async function play({ member, guild, channel }, searchQuery) {
       textChannelId: channel.id,
       selfMute: false,
       selfDeaf: true,
-      volume: MUSIC.DEFAULT_VOLUME,
+      volume: MUSIC.DEFAULT_VOLUME
     })
   }
 
@@ -79,7 +79,7 @@ async function play({ member, guild, channel }, searchQuery) {
             {
               name: 'Enqueued',
               value: `${res.tracks.length} songs`,
-              inline: true,
+              inline: true
             },
             {
               name: 'Playlist duration',
@@ -91,7 +91,7 @@ async function play({ member, guild, channel }, searchQuery) {
                     .reduce((a, b) => a + b, 0)
                 ) +
                 '`',
-              inline: true,
+              inline: true
             }
           )
           .setFooter({ text: `Requested By: ${member.user.username}` })
@@ -116,7 +116,7 @@ async function play({ member, guild, channel }, searchQuery) {
             name: 'Song Duration',
             value:
               '`' + guild.client.utils.formatTime(track.info.duration) + '`',
-            inline: true,
+            inline: true
           })
           .setFooter({ text: `Requested By: ${track.requester.username}` })
 
@@ -124,7 +124,7 @@ async function play({ member, guild, channel }, searchQuery) {
           trackEmbed.addFields({
             name: 'Position in Queue',
             value: player.queue.tracks.length.toString(),
-            inline: true,
+            inline: true
           })
         }
 

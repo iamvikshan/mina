@@ -3,23 +3,23 @@ const { musicValidations } = require('@helpers/BotUtils')
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'shuffle',
   description: 'shuffle the queue',
   category: 'MUSIC',
   validations: musicValidations,
   command: {
-    enabled: false,
+    enabled: false
   },
 
   slashCommand: {
-    enabled: true,
+    enabled: true
   },
 
   async interactionRun(interaction) {
     const response = shuffle(interaction)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

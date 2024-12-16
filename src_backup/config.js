@@ -3,35 +3,35 @@ module.exports = {
     SLASH: 'true', // Should the interactions be enabled
     CONTEXT: 'true', // Should contexts be enabled
     GLOBAL:
-      process.env.GLOBAL !== undefined ? process.env.GLOBAL === 'true' : true, // Should the interactions be registered globally
+      process.env.GLOBAL !== undefined ? process.env.GLOBAL === 'true' : true // Should the interactions be registered globally
   },
 
   CACHE_SIZE: {
     GUILDS: 100,
     USERS: 10000,
-    MEMBERS: 10000,
+    MEMBERS: 10000
   },
   MESSAGES: {
     API_ERROR:
-      'Oopsie! 🌟 Something went wrong on our end. Please try again later. If this keeps happening, reach out to our support server or run `/report`! 💖',
+      'Oopsie! 🌟 Something went wrong on our end. Please try again later. If this keeps happening, reach out to our support server or run `/report`! 💖'
   },
 
   // whether or not to enable feedback/report system
   FEEDBACK: {
     ENABLED: true,
-    URL: process.env.LOGS_WEBHOOK,
+    URL: process.env.LOGS_WEBHOOK
   },
 
   AUTOMOD: {
     ENABLED: true,
     LOG_EMBED: '#F1F1F1', // Light gray for a neutral tone
-    DM_EMBED: '#FFB3D9', // Soft pastel pink for DM embeds
+    DM_EMBED: '#FFB3D9' // Soft pastel pink for DM embeds
   },
 
   DASHBOARD: {
     enabled:
       process.env.DASH !== undefined ? process.env.DASH === 'true' : true,
-    port: process.env.PORT || '8080', // Port to run the dashboard on
+    port: process.env.PORT || '8080' // Port to run the dashboard on
   },
 
   ECONOMY: {
@@ -39,7 +39,7 @@ module.exports = {
     CURRENCY: '₪',
     DAILY_COINS: 100, // coins to be received by daily command
     MIN_BEG_AMOUNT: 100, // minimum coins to be received when beg command is used
-    MAX_BEG_AMOUNT: 2500, // maximum coins to be received when beg command is used
+    MAX_BEG_AMOUNT: 2500 // maximum coins to be received when beg command is used
   },
 
   MUSIC: {
@@ -56,31 +56,31 @@ module.exports = {
         authorization: process.env.LAVALINK_PASSWORD,
         secure: false,
         retryAmount: 20,
-        retryDelay: 30000,
-      },
-    ],
+        retryDelay: 30000
+      }
+    ]
   },
 
   GIVEAWAYS: {
     ENABLED: true,
     REACTION: '🎁',
     START_EMBED: '#FFB3D9', // Soft pastel pink for giveaway embeds
-    END_EMBED: '#FFB3D9',
+    END_EMBED: '#FFB3D9'
   },
 
   IMAGE: {
     ENABLED: true,
-    BASE_API: 'https://strangeapi.hostz.me/api',
+    BASE_API: 'https://strangeapi.hostz.me/api'
   },
 
   INVITE: {
-    ENABLED: true,
+    ENABLED: true
   },
   EMBED_COLORS: {
     BOT_EMBED: '#FF1493', // (Deep pink - represents her core energy and vibrant spirit)
     SUCCESS: '#00FFB3', // (Bright aqua - her creative, unique way of seeing success)
     ERROR: '#FF6978', // (Coral pink - softer than traditional red, showing her sensitivity even in errors)
-    WARNING: '#FFD93D', // (Bright yellow - her playful way of warning others)
+    WARNING: '#FFD93D' // (Bright yellow - her playful way of warning others)
   },
   MODERATION: {
     ENABLED: true,
@@ -96,31 +96,31 @@ module.exports = {
       DEAFEN: '#C8A2C8', // (Lilac - peaceful quiet)
       UNDEAFEN: '#7FFFD4', // (Aquamarine - return to sound)
       DISCONNECT: 'RANDOM', // (Keeps her chaotic energy)
-      MOVE: 'RANDOM', // (Keeps her spontaneity)
-    },
+      MOVE: 'RANDOM' // (Keeps her spontaneity)
+    }
   },
 
   STATS: {
     ENABLED: true,
     XP_COOLDOWN: 5,
     DEFAULT_LVL_UP_MSG:
-      '{member:tag}, Yay! 🎉 You just leveled up to **Level {level}**! 🌟',
+      '{member:tag}, Yay! 🎉 You just leveled up to **Level {level}**! 🌟'
   },
 
   SUGGESTIONS: {
     ENABLED: true,
     EMOJI: {
       UP_VOTE: '⬆️',
-      DOWN_VOTE: '⬇️',
+      DOWN_VOTE: '⬇️'
     },
     DEFAULT_EMBED: '#FFB8DE', // (Light pink - welcoming new ideas)
     APPROVED_EMBED: '#47E0A0', // (Seafoam green - creative acceptance)
-    DENIED_EMBED: '#FF8BA7', // (Soft rose - gentle rejection)
+    DENIED_EMBED: '#FF8BA7' // (Soft rose - gentle rejection)
   },
 
   TICKET: {
     ENABLED: true,
     CREATE_EMBED: '#E0AAFF', // (Soft violet - welcoming support)
-    CLOSE_EMBED: '#48D1CC', // (Turquoise - positive closure)
-  },
+    CLOSE_EMBED: '#48D1CC' // (Turquoise - positive closure)
+  }
 }

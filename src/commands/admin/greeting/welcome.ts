@@ -1,10 +1,10 @@
 const { buildGreeting } = require('@handlers/greeting')
-const { ApplicationCommandOptionType, ChannelType } = require('discord.js')
+const { ApplicationCommandOptionType, ChannelType } from 'discord.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'welcome',
   description: 'Set up a cheerful welcome message for your server!',
   category: 'ADMIN',
@@ -27,20 +27,20 @@ module.exports = {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'preview',
         description: 'Preview the configured welcome message!',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'channel',
@@ -52,9 +52,9 @@ module.exports = {
             description: 'Select a channel',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'desc',
@@ -65,9 +65,9 @@ module.exports = {
             name: 'content',
             description: 'What would you like the description to say?',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'thumbnail',
@@ -82,15 +82,15 @@ module.exports = {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'color',
@@ -101,9 +101,9 @@ module.exports = {
             name: 'hex-code',
             description: 'Enter the hex color code (e.g., #FF5733)',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'footer',
@@ -114,9 +114,9 @@ module.exports = {
             name: 'content',
             description: 'What should the footer say?',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'image',
@@ -127,11 +127,11 @@ module.exports = {
             name: 'url',
             description: 'Enter the image URL',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -198,7 +198,7 @@ module.exports = {
     }
 
     return interaction.followUp(response)
-  },
+  }
 }
 
 async function sendPreview(settings, member) {

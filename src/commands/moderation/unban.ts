@@ -1,16 +1,16 @@
 const { unBanTarget } = require('@helpers/ModUtils')
-const {
+import {
   ActionRowBuilder,
   StringSelectMenuBuilder,
   ApplicationCommandOptionType,
-  ComponentType,
-} = require('discord.js')
-const { MODERATION } = require('@src/config.js')
+  ComponentType
+} from 'discord.js'
+const { MODERATION } from '@src/config.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'unban',
   description: 'unbans the specified member',
   category: 'MODERATION',
@@ -25,15 +25,15 @@ module.exports = {
         name: 'name',
         description: 'match the name of the member',
         type: ApplicationCommandOptionType.String,
-        required: true,
+        required: true
       },
       {
         name: 'reason',
         description: 'reason for ban',
         type: ApplicationCommandOptionType.String,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -44,7 +44,7 @@ module.exports = {
     const sent = await interaction.followUp(response)
     if (typeof response !== 'string')
       await waitForBan(interaction.member, reason, sent)
-  },
+  }
 }
 
 /**
@@ -86,7 +86,7 @@ async function getMatchingBans(guild, match) {
 
   return {
     content: 'Please select a user you wish to unban',
-    components: [menuRow],
+    components: [menuRow]
   }
 }
 
@@ -103,7 +103,7 @@ async function waitForBan(issuer, reason, sent) {
       sent.id === m.message.id,
     time: 20000,
     max: 1,
-    componentType: ComponentType.StringSelect,
+    componentType: ComponentType.StringSelect
   })
 
   //
@@ -115,12 +115,12 @@ async function waitForBan(issuer, reason, sent) {
     if (typeof status === 'boolean')
       return sent.edit({
         content: `${user.username} is un-banned!`,
-        components: [],
+        components: []
       })
     else
       return sent.edit({
         content: `Failed to unban ${user.username}`,
-        components: [],
+        components: []
       })
   })
 

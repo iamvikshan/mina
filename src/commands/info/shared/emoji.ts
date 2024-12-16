@@ -1,7 +1,7 @@
-const { parseEmoji, EmbedBuilder } = require('discord.js')
-const { EMBED_COLORS } = require('@src/config')
+const { parseEmoji, EmbedBuilder } from 'discord.js'
+import { EMBED_COLORS } from '@src/config'
 
-module.exports = emoji => {
+export default emoji => {
   let custom = parseEmoji(emoji)
   if (!custom.id) return 'This is not a valid guild emoji'
 

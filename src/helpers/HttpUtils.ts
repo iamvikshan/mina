@@ -16,13 +16,13 @@ export class HttpUtils {
       return {
         success: response.status === 200 ? true : false,
         status: response.status,
-        data: json,
+        data: json
       }
     } catch (ex) {
       debug(`Url: ${url}`)
       error(`getJson`, ex)
       return {
-        success: false,
+        success: false
       }
     }
   }
@@ -40,13 +40,13 @@ export class HttpUtils {
       return {
         success: response.status === 200 ? true : false,
         status: response.status,
-        buffer,
+        buffer
       }
     } catch (ex) {
       debug(`Url: ${url}`)
       error(`getBuffer`, ex)
       return {
-        success: false,
+        success: false
       }
     }
   }
@@ -63,18 +63,18 @@ export class HttpUtils {
           {
             name: ' ',
             content,
-            languageId: 'text',
-          },
+            languageId: 'text'
+          }
         ],
         {
           title,
-          description: ' ',
+          description: ' '
         }
       )
       return {
         url: response.url,
         short: response.short,
-        raw: `https://cdn.sourceb.in/bins/${response.key}/0`,
+        raw: `https://cdn.sourceb.in/bins/${response.key}/0`
       }
     } catch (ex) {
       error(`postToBin`, ex)

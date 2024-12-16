@@ -131,5 +131,5 @@ async function sendFarewell(member, inviterData = {}) {
 module.exports = {
   buildGreeting,
   sendWelcome,
-  sendFarewell,
+  sendFarewell
 }

@@ -1,18 +1,18 @@
-const {
+import {
   EmbedBuilder,
   ButtonBuilder,
   ActionRowBuilder,
   ApplicationCommandOptionType,
-  ButtonStyle,
-} = require('discord.js')
-const { timeformat } = require('@helpers/Utils')
-const { EMBED_COLORS, DASHBOARD } = require('@src/config.js')
+  ButtonStyle
+} from 'discord.js'
+import { timeformat } from '@helpers/Utils'
+import { EMBED_COLORS, DASHBOARD } from '@src/config.js'
 const botstats = require('./sub/botstats')
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'bot',
   description: 'bot related commands',
   category: 'INFO',
@@ -23,40 +23,40 @@ module.exports = {
       {
         name: 'invite',
         description: "get bot's invite",
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'stats',
         description: "get bot's statistics",
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'uptime',
         description: "get bot's uptime",
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'donate',
         description: 'donate to the bot',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'docs',
         description: "get bot's documentation",
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
 
       {
         name: 'ping',
         description: "get bot's ping",
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'changelog',
         description: "Get the bot's mini-changelog for the latest 3 releases",
-        type: ApplicationCommandOptionType.Subcommand,
-      },
-    ],
+        type: ApplicationCommandOptionType.Subcommand
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -171,7 +171,7 @@ module.exports = {
         const response = await octokit.repos.getContent({
           owner: process.env.GH_USERNAME,
           repo: process.env.GH_REPO,
-          path: process.env.CHANGELOG_PATH,
+          path: process.env.CHANGELOG_PATH
         })
 
         const changelogContent = Buffer.from(
@@ -207,7 +207,7 @@ module.exports = {
             `${latestUpdates}\n\n[**View full changelog**](https://github.com/${process.env.GH_USERNAME}/${process.env.GH_REPO}/blob/main/${process.env.CHANGELOG_PATH})`
           )
           .setFooter({
-            text: 'Only showing the 2 most recent updates',
+            text: 'Only showing the 2 most recent updates'
           })
 
         return interaction.followUp({ embeds: [embed] })
@@ -218,7 +218,7 @@ module.exports = {
         )
       }
     }
-  },
+  }
 }
 
 function botInvite(client) {

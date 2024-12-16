@@ -26,6 +26,6 @@ module.exports = user => {
     )
 
   return {
-    embeds: [embed],
+    embeds: [embed]
   }
 }

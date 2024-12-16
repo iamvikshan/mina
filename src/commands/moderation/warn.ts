@@ -1,11 +1,11 @@
 const { warnTarget } = require('@helpers/ModUtils')
-const { ApplicationCommandOptionType } = require('discord.js')
-const { MODERATION } = require('@src/config')
+import { ApplicationCommandOptionType } from 'discord.js'
+const { MODERATION } from '@src/config'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'warn',
   description: 'warns the specified member',
   category: 'MODERATION',
@@ -18,15 +18,15 @@ module.exports = {
         name: 'user',
         description: 'the target member',
         type: ApplicationCommandOptionType.User,
-        required: true,
+        required: true
       },
       {
         name: 'reason',
         description: 'reason for warn',
         type: ApplicationCommandOptionType.String,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -36,7 +36,7 @@ module.exports = {
 
     const response = await warn(interaction.member, target, reason)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function warn(issuer, target, reason) {

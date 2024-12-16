@@ -1,5 +1,5 @@
-const { EmbedBuilder } = require('discord.js')
-const { getSettings } = require('@schemas/Guild')
+import { EmbedBuilder } from 'discord.js'
+import { getSettings } from '@schemas/Guild'
 
 /**
  * @param {string} content
@@ -131,5 +131,5 @@ async function sendFarewell(member, inviterData = {}) {
 module.exports = {
   buildGreeting,
   sendWelcome,
-  sendFarewell,
+  sendFarewell
 }

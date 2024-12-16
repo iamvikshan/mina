@@ -1,4 +1,4 @@
-const { ApplicationCommandOptionType } = require('discord.js')
+import { ApplicationCommandOptionType } from 'discord.js'
 
 /**
  * @type {import("@structures/Command")}
@@ -23,9 +23,9 @@ module.exports = {
             name: 'amount',
             description: 'Max number of strikes!',
             type: ApplicationCommandOptionType.Integer,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'action',
@@ -40,21 +40,21 @@ module.exports = {
             choices: [
               {
                 name: 'TIMEOUT',
-                value: 'TIMEOUT',
+                value: 'TIMEOUT'
               },
               {
                 name: 'KICK',
-                value: 'KICK',
+                value: 'KICK'
               },
               {
                 name: 'BAN',
-                value: 'BAN',
-              },
-            ],
-          },
-        ],
-      },
-    ],
+                value: 'BAN'
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -77,7 +77,7 @@ module.exports = {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function setLimit(limit, settings) {

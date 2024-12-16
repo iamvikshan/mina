@@ -1,6 +1,6 @@
-const { InteractionType } = require('discord.js')
-const { getSettings } = require('@schemas/Guild')
-const {
+import { InteractionType } from 'discord.js'
+import { getSettings } from '@schemas/Guild'
+import {
   commandHandler,
   contextHandler,
   statsHandler,
@@ -9,18 +9,15 @@ const {
   todHandler,
   reportHandler,
   guildHandler,
-  profileHandler,
-} = require('@src/handlers')
-/**
- * @param {import('@src/structures').BotClient} client
- * @param {import('discord.js').BaseInteraction} interaction
- */
-module.exports = async (client, interaction) => {
+  profileHandler
+} from '@src/handlers'
+
+export default async (client, interaction) => {
   if (!interaction.guild) {
     return interaction
       .reply({
         content: 'Command can only be executed in a discord server',
-        ephemeral: true,
+        ephemeral: true
       })
       .catch(() => {})
   }
@@ -55,10 +52,8 @@ module.exports = async (client, interaction) => {
         return suggestionHandler.handleDeleteBtn(interaction)
       case 'truthBtn':
         return todHandler.handleTodButtonClick(interaction)
-
       case 'dareBtn':
         return todHandler.handleTodButtonClick(interaction)
-
       case 'randomBtn':
         return todHandler.handleTodButtonClick(interaction)
       case 'AMINA_SETUP':
@@ -89,9 +84,10 @@ module.exports = async (client, interaction) => {
           return reportHandler.handleReportModal(interaction)
         }
     }
+  }
 
-    // select menus
-  } else if (interaction.isStringSelectMenu()) {
+  // Select Menus
+  else if (interaction.isStringSelectMenu()) {
     switch (interaction.customId) {
       case 'profile_clear_confirm':
         return profileHandler.handleProfileClear(interaction)
@@ -101,6 +97,7 @@ module.exports = async (client, interaction) => {
   const settings = await getSettings(interaction.guild)
 
   // Track stats
-  if (settings.stats.enabled)
+  if (settings.stats.enabled) {
     statsHandler.trackInteractionStats(interaction).catch(() => {})
+  }
 }

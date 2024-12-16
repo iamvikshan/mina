@@ -39,5 +39,5 @@ export default {
   UseVAD: 'Use voice activity',
   ViewAuditLog: 'View audit log',
   ViewChannel: 'View channel',
-  ViewGuildInsights: 'View server insights',
+  ViewGuildInsights: 'View server insights'
 }

@@ -1,17 +1,13 @@
-const {
-  counterHandler,
-  inviteHandler,
-  presenceHandler,
-} = require('@src/handlers')
-const { cacheReactionRoles } = require('@schemas/ReactionRoles')
-const { getSettings } = require('@schemas/Guild')
-const { getPresenceConfig, getDevCommandsConfig } = require('@schemas/Dev')
-const { ApplicationCommandType } = require('discord.js')
+import { counterHandler, inviteHandler, presenceHandler } from '@src/handlers'
+import { cacheReactionRoles } from '@schemas/ReactionRoles'
+import { getSettings } from '@schemas/Guild'
+import { getPresenceConfig, getDevCommandsConfig } from '@schemas/Dev'
+import { ApplicationCommandType } from 'discord.js'
 
 /**
  * @param {import('@src/structures').BotClient} client
  */
-module.exports = async client => {
+export default async client => {
   client.logger.success(`Logged in as ${client.user.tag}! (${client.user.id})`)
 
   // Initialize Music Manager
@@ -84,7 +80,7 @@ module.exports = async client => {
           name: cmd.name,
           description: cmd.description,
           type: ApplicationCommandType.ChatInput,
-          options: cmd.slashCommand.options,
+          options: cmd.slashCommand.options
         }))
 
       if (testGuildCommands.length > 0) {
@@ -103,7 +99,7 @@ module.exports = async client => {
           name: cmd.name,
           description: cmd.description,
           type: ApplicationCommandType.ChatInput,
-          options: cmd.slashCommand.options,
+          options: cmd.slashCommand.options
         }))
 
       if (globalCommands.length > 0) {

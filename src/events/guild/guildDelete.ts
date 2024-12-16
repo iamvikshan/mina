@@ -1,14 +1,14 @@
-const {
+import {
   EmbedBuilder,
   ButtonBuilder,
   ActionRowBuilder,
-  ButtonStyle,
-} = require('discord.js')
-const { getSettings } = require('@schemas/Guild')
+  ButtonStyle
+} from 'discord.js'
+import { getSettings } from '@schemas/Guild'
 
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-module.exports = async (client, guild) => {
+export default async (client, guild) => {
   if (!guild.available) return
   console.log(
     `Guild Left: ${guild.name} (${guild.id}) Members: ${guild.memberCount}`
@@ -39,26 +39,26 @@ module.exports = async (client, guild) => {
       {
         name: '📝 Server Name',
         value: guild.name || 'N/A',
-        inline: true,
+        inline: true
       },
       {
         name: '🔍 Server ID',
         value: guild.id,
-        inline: true,
+        inline: true
       },
       {
         name: '👑 Owner',
         value: `${ownerTag} [\`${ownerId}\`]`,
-        inline: true,
+        inline: true
       },
       {
         name: '👥 Members',
         value: `\`\`\`yaml\n${guild.memberCount}\`\`\``,
-        inline: true,
+        inline: true
       }
     )
     .setFooter({
-      text: `Server #${client.guilds.cache.size} | *draws a sad doodle*`,
+      text: `Server #${client.guilds.cache.size} | *draws a sad doodle*`
     })
 
   // Send webhook message
@@ -67,7 +67,7 @@ module.exports = async (client, guild) => {
       await client.joinLeaveWebhook.send({
         username: 'Amina (Left)',
         avatarURL: client.user.displayAvatarURL(),
-        embeds: [webhookEmbed],
+        embeds: [webhookEmbed]
       })
       console.log('Successfully sent webhook message for guild leave event.')
     } catch (err) {
@@ -93,7 +93,7 @@ module.exports = async (client, guild) => {
         .setStyle(ButtonStyle.Link)
         .setURL(
           `https://github.com/${process.env.GH_USERNAME}/${process.env.GH_REPO}/issues/new/choose`
-        ),
+        )
     ]
 
     const row = new ActionRowBuilder().addComponents(components)
@@ -113,7 +113,7 @@ module.exports = async (client, guild) => {
       .addFields({
         name: '✨ Want to try again?',
         value: 'I promise to do my very best to make your server amazing!',
-        inline: false,
+        inline: false
       })
       .setFooter({ text: '*tucks away art supplies with a small smile*' })
 
@@ -123,7 +123,7 @@ module.exports = async (client, guild) => {
 
       await owner.send({
         embeds: [dmEmbed],
-        components: [row],
+        components: [row]
       })
 
       console.log('Successfully sent goodbye DM to the server owner.')

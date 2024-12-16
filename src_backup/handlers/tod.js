@@ -2,7 +2,7 @@ const {
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonStyle,
+  ButtonStyle
 } = require('discord.js')
 const { getQuestions } = require('@schemas/TruthOrDare')
 const { getUser } = require('@schemas/User')
@@ -19,9 +19,9 @@ async function handleTodButtonClick(interaction) {
           .setTitle('✦ hold up friend!')
           .setDescription(
             'i need to know your age first! use `/profile set` so we can play safely!'
-          ),
+          )
       ],
-      ephemeral: true,
+      ephemeral: true
     })
   }
 
@@ -41,9 +41,9 @@ async function handleTodButtonClick(interaction) {
             .setTitle('✦ oops, age check failed!')
             .setDescription(
               'sorry friend, that content is for the grown-ups only!'
-            ),
+            )
         ],
-        ephemeral: true,
+        ephemeral: true
       })
     }
 
@@ -55,9 +55,9 @@ async function handleTodButtonClick(interaction) {
             .setTitle('✦ wrong place!')
             .setDescription(
               'psst! we need to be in an nsfw channel for that kind of fun!'
-            ),
+            )
         ],
-        ephemeral: true,
+        ephemeral: true
       })
     }
   }
@@ -87,9 +87,9 @@ async function sendQuestion(interaction, category, userAge, requestedRating) {
           .setTitle('✦ oh no!')
           .setDescription(
             "i searched everywhere but couldn't find any questions matching what you wanted!"
-          ),
+          )
       ],
-      ephemeral: true,
+      ephemeral: true
     })
   }
 
@@ -105,7 +105,7 @@ async function sendQuestion(interaction, category, userAge, requestedRating) {
           : `${interaction.user.username}, don't be scared!\n\n**${question.question}**\n`
     )
     .setFooter({
-      text: `type: ${category} | rating: ${question.rating} | qid: ${question.questionId} | player: ${interaction.user.tag}`,
+      text: `type: ${category} | rating: ${question.rating} | qid: ${question.questionId} | player: ${interaction.user.tag}`
     })
 
   const buttons = new ActionRowBuilder().addComponents(
@@ -125,7 +125,7 @@ async function sendQuestion(interaction, category, userAge, requestedRating) {
 
   await interaction.reply({
     embeds: [embed],
-    components: [buttons],
+    components: [buttons]
   })
 }
 
@@ -139,9 +139,9 @@ async function sendRandomQuestion(interaction, userAge, requestedRating) {
           .setTitle('✦ oh no!')
           .setDescription(
             "i searched everywhere but couldn't find any questions matching what you wanted!"
-          ),
+          )
       ],
-      ephemeral: true,
+      ephemeral: true
     })
   }
 
@@ -153,7 +153,7 @@ async function sendRandomQuestion(interaction, userAge, requestedRating) {
       `ooh, this is gonna be fun! ready?\n\n**${question.question}**\n\nwhat's your next move?`
     )
     .setFooter({
-      text: `type: ${question.category} | rating: ${question.rating} | qid: ${question.questionId} | player: ${interaction.user.tag}`,
+      text: `type: ${question.category} | rating: ${question.rating} | qid: ${question.questionId} | player: ${interaction.user.tag}`
     })
 
   const buttons = new ActionRowBuilder().addComponents(
@@ -175,5 +175,5 @@ async function sendRandomQuestion(interaction, userAge, requestedRating) {
 }
 
 module.exports = {
-  handleTodButtonClick,
+  handleTodButtonClick
 }

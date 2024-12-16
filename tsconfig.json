@@ -15,6 +15,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noImplicitAny": false,
+    "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
       "@root/*": ["./*"],

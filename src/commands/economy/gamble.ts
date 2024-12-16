@@ -1,12 +1,12 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
-const { getUser } = require('@schemas/User')
-const { EMBED_COLORS, ECONOMY } = require('@src/config.js')
-const { getRandomInt } = require('@helpers/Utils')
+import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
+import { getUser } from '@schemas/User'
+import { EMBED_COLORS, ECONOMY } from '@src/config.js'
+import { getRandomInt } from '@helpers/Utils'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'gamble',
   description: 'try your luck by gambling',
   category: 'ECONOMY',
@@ -19,16 +19,16 @@ module.exports = {
         name: 'coins',
         description: 'number of coins to bet',
         required: true,
-        type: ApplicationCommandOptionType.Integer,
-      },
-    ],
+        type: ApplicationCommandOptionType.Integer
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const betAmount = interaction.options.getInteger('coins')
     const response = await gamble(interaction.user, betAmount)
     await interaction.followUp(response)
-  },
+  }
 }
 
 function getEmoji() {
@@ -105,7 +105,7 @@ async function gamble(user, betAmount) {
     )
     .setDescription(str)
     .setFooter({
-      text: `${result}\nUpdated Wallet balance: ${userDb?.coins}${ECONOMY.CURRENCY}`,
+      text: `${result}\nUpdated Wallet balance: ${userDb?.coins}${ECONOMY.CURRENCY}`
     })
 
   return { embeds: [embed] }

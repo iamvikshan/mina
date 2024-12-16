@@ -1,11 +1,11 @@
 const { softbanTarget } = require('@helpers/ModUtils')
-const { ApplicationCommandOptionType } = require('discord.js')
-const { MODERATION } = require('@src/config.js')
+import { ApplicationCommandOptionType } from 'discord.js'
+const { MODERATION } from '@src/config.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'softban',
   description: 'softban the specified member. Kicks and deletes messages',
   category: 'MODERATION',
@@ -19,15 +19,15 @@ module.exports = {
         name: 'user',
         description: 'the target member',
         type: ApplicationCommandOptionType.User,
-        required: true,
+        required: true
       },
       {
         name: 'reason',
         description: 'reason for softban',
         type: ApplicationCommandOptionType.String,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -37,7 +37,7 @@ module.exports = {
 
     const response = await softban(interaction.member, target, reason)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function softban(issuer, target, reason) {

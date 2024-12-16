@@ -1,4 +1,4 @@
-const { reactionRoleHandler } = require('@src/handlers')
+import { reactionRoleHandler } from '@src/handlers'
 
 /**
  * @param {import('@src/structures').BotClient} client

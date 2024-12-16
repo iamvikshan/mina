@@ -1,23 +1,19 @@
-const { CommandCategory, BotClient } = require('@src/structures')
-const { EMBED_COLORS } = require('@src/config.js')
-const {
+import { EMBED_COLORS } from '@src/config.js'
+import {
   EmbedBuilder,
   ActionRowBuilder,
   StringSelectMenuBuilder,
   ButtonBuilder,
-  CommandInteraction,
   ApplicationCommandOptionType,
-  ButtonStyle,
-} = require('discord.js')
-const { getSlashUsage } = require('@handlers/command')
+  ButtonStyle
+} from 'discord.js'
+import { getSlashUsage } from '@handlers/command'
+import CommandCategory from '@root/src/structures/CommandCategory'
 
 const CMDS_PER_PAGE = 5
 const IDLE_TIMEOUT = 900 // 15 minutes
 
-/**
- * @type {import("@structures/Command")}
- */
-module.exports = {
+export default {
   name: 'help',
   description: 'command help menu',
   category: 'UTILITY',
@@ -29,63 +25,57 @@ module.exports = {
         name: 'command',
         description: 'name of the command',
         required: false,
-        type: ApplicationCommandOptionType.String,
-      },
-    ],
+        type: ApplicationCommandOptionType.String
+      }
+    ]
   },
 
-  async interactionRun(interaction) {
-    let cmdName = interaction.options.getString('command')
+  interactionRun: async interaction => {
+    const cmdName = interaction.options.getString('command')
 
-    // !help
     if (!cmdName) {
       const response = await getHelpMenu(interaction)
       const sentMsg = await interaction.followUp(response)
       return waiter(sentMsg, interaction.member)
     }
 
-    // check if command help (!help cat)
     const cmd = interaction.client.slashCommands.get(cmdName)
     if (cmd) {
       const embed = getSlashUsage(cmd)
       return interaction.followUp({ embeds: [embed] })
     }
 
-    // No matching command/category found
     await interaction.followUp('No matching command found')
-  },
+  }
 }
 
-/**
- * @param {CommandInteraction} interaction
- */
-async function getHelpMenu({ client, guild, member }) {
-  // Menu Row
-  const options = []
-  for (const [k, v] of Object.entries(CommandCategory)) {
-    if (v.enabled === false) continue
-    if (
-      (v.name.includes('Moderation') ||
-        v.name.includes('Admin') ||
-        v.name.includes('Automod') ||
-        v.name.includes('Ticket') ||
-        v.name.includes('Giveaway')) &&
-      !member.permissions.has('ManageGuild')
-    ) {
-      continue
-    }
-    if (
-      v.name === 'Developer' &&
-      !process.env.DEV_ID.split(',').includes(member.user.id)
-    )
-      continue
-    options.push({
+const getHelpMenu = async ({ client, guild, member }) => {
+  const options = Object.entries(CommandCategory)
+    .filter(([_, v]) => {
+      if (!v.enabled) return false
+      if (
+        (v.name.includes('Moderation') ||
+          v.name.includes('Admin') ||
+          v.name.includes('Automod') ||
+          v.name.includes('Ticket') ||
+          v.name.includes('Giveaway')) &&
+        !member.permissions.has('ManageGuild')
+      ) {
+        return false
+      }
+      if (
+        v.name === 'Developer' &&
+        !process.env.DEV_ID.split(',').includes(member.user.id)
+      )
+        return false
+      return true
+    })
+    .map(([k, v]) => ({
       label: v.name,
       value: k,
       description: `View commands in ${v.name} category`,
-      emoji: v.emoji,
-    })
-  }
+      emoji: v.emoji
+    }))
 
   const menuRow = new ActionRowBuilder().addComponents(
     new StringSelectMenuBuilder()
@@ -94,9 +84,7 @@ async function getHelpMenu({ client, guild, member }) {
       .addOptions(options)
   )
 
-  // Buttons Row
-  let components = []
-  components.push(
+  const components = [
     new ButtonBuilder()
       .setCustomId('previousBtn')
       .setEmoji('⬅️')
@@ -107,15 +95,15 @@ async function getHelpMenu({ client, guild, member }) {
       .setEmoji('➡️')
       .setStyle(ButtonStyle.Secondary)
       .setDisabled(true)
-  )
+  ]
 
-  let buttonsRow = new ActionRowBuilder().addComponents(components)
+  const buttonsRow = new ActionRowBuilder().addComponents(components)
 
   const embed = new EmbedBuilder()
     .setColor(EMBED_COLORS.BOT_EMBED)
     .setThumbnail(client.user.displayAvatarURL())
     .setDescription(
-      '**About Me:**\n' +
+      `**About Me:**\n` +
         `Hello I am ${guild.members.me.displayName}!\n` +
         'A cool multipurpose discord bot which can serve all your needs\n\n' +
         `**Invite Me:** [Here](${client.getInvite()})\n` +
@@ -124,21 +112,17 @@ async function getHelpMenu({ client, guild, member }) {
 
   return {
     embeds: [embed],
-    components: [menuRow, buttonsRow],
+    components: [menuRow, buttonsRow]
   }
 }
 
-/**
- * @param {import('discord.js').Message} msg
- * @param {import('discord.js').GuildMember} member
- */
 const waiter = (msg, member) => {
   const collector = msg.channel.createMessageComponentCollector({
     filter: reactor =>
       reactor.user.id === member.id && msg.id === reactor.message.id,
     idle: IDLE_TIMEOUT * 1000,
     dispose: true,
-    time: 5 * 60 * 1000,
+    time: 5 * 60 * 1000
   })
 
   let arrEmbeds = []
@@ -157,21 +141,15 @@ const waiter = (msg, member) => {
         arrEmbeds = getSlashCategoryEmbeds(msg.client, cat, member)
         currentPage = 0
 
-        // Buttons Row
-        let components = []
-        buttonsRow.components.forEach(button =>
-          components.push(
-            ButtonBuilder.from(button).setDisabled(
-              arrEmbeds.length > 1 ? false : true
-            )
-          )
+        const components = buttonsRow.components.map(button =>
+          ButtonBuilder.from(button).setDisabled(arrEmbeds.length <= 1)
         )
 
         buttonsRow = new ActionRowBuilder().addComponents(components)
         msg.editable &&
           (await msg.edit({
             embeds: [arrEmbeds[currentPage]],
-            components: [menuRow, buttonsRow],
+            components: [menuRow, buttonsRow]
           }))
         break
       }
@@ -182,7 +160,7 @@ const waiter = (msg, member) => {
           msg.editable &&
             (await msg.edit({
               embeds: [arrEmbeds[currentPage]],
-              components: [menuRow, buttonsRow],
+              components: [menuRow, buttonsRow]
             }))
         }
         break
@@ -193,7 +171,7 @@ const waiter = (msg, member) => {
           msg.editable &&
             (await msg.edit({
               embeds: [arrEmbeds[currentPage]],
-              components: [menuRow, buttonsRow],
+              components: [menuRow, buttonsRow]
             }))
         }
         break
@@ -206,95 +184,72 @@ const waiter = (msg, member) => {
   })
 }
 
-/**
- * Returns an array of message embeds for a particular command category [SLASH COMMANDS]
- * @param {BotClient} client
- * @param {string} category
- * @param {import('discord.js').GuildMember} member
- */
-function getSlashCategoryEmbeds(client, category, member) {
-  let collector = ''
-
-  // For IMAGE Category
+const getSlashCategoryEmbeds = (client, category, member) => {
   if (category === 'IMAGE') {
-    client.slashCommands
+    const collector = client.slashCommands
       .filter(cmd => cmd.category === category)
-      .forEach(
-        cmd => (collector += `\`/${cmd.name}\`\n ❯ ${cmd.description}\n\n`)
-      )
+      .map(cmd => `\`/${cmd.name}\`\n ❯ ${cmd.description}\n\n`)
+      .join('')
 
     const availableFilters = client.slashCommands
       .get('filter')
-      .slashCommand.options[0].choices.map(ch => ch.name)
+      ?.slashCommand.options[0].choices.map(ch => ch.name)
       .join(', ')
 
     const availableGens = client.slashCommands
       .get('generator')
-      .slashCommand.options[0].choices.map(ch => ch.name)
+      ?.slashCommand.options[0].choices.map(ch => ch.name)
       .join(', ')
-
-    collector +=
-      '**Available Filters:**\n' +
-      `${availableFilters}` +
-      `*\n\n**Available Generators**\n` +
-      `${availableGens}`
 
     const embed = new EmbedBuilder()
       .setColor(EMBED_COLORS.BOT_EMBED)
       .setThumbnail(CommandCategory[category]?.image)
       .setAuthor({ name: `${category} Commands` })
-      .setDescription(collector)
+      .setDescription(
+        `${collector}**Available Filters:**\n${availableFilters}\n\n**Available Generators**\n${availableGens}`
+      )
 
     return [embed]
   }
 
-  // For REMAINING Categories
   const commands = Array.from(
     client.slashCommands.filter(cmd => cmd.category === category).values()
   )
 
   if (commands.length === 0) {
-    const embed = new EmbedBuilder()
-      .setColor(EMBED_COLORS.BOT_EMBED)
-      .setThumbnail(CommandCategory[category]?.image)
-      .setAuthor({ name: `${category} Commands` })
-      .setDescription('No commands in this category')
-
-    return [embed]
+    return [
+      new EmbedBuilder()
+        .setColor(EMBED_COLORS.BOT_EMBED)
+        .setThumbnail(CommandCategory[category]?.image)
+        .setAuthor({ name: `${category} Commands` })
+        .setDescription('No commands in this category')
+    ]
   }
 
-  const arrSplitted = []
-  const arrEmbeds = []
+  return Array.from(
+    { length: Math.ceil(commands.length / CMDS_PER_PAGE) },
+    (_, i) => {
+      const start = i * CMDS_PER_PAGE
+      const end = start + CMDS_PER_PAGE
 
-  while (commands.length) {
-    let toAdd = commands.splice(
-      0,
-      commands.length > CMDS_PER_PAGE ? CMDS_PER_PAGE : commands.length
-    )
+      const pageCommands = commands
+        .slice(start, end)
+        .filter(
+          cmd =>
+            !cmd.userPermissions?.some(perm => !member.permissions.has(perm))
+        )
+        .map(
+          cmd => `\`/${cmd.name}\`\n ❯ **Description**: ${cmd.description}\n`
+        )
 
-    toAdd = toAdd
-      .map(cmd => {
-        // Check if the user has the required permissions for the command
-        if (cmd.userPermissions?.some(perm => !member.permissions.has(perm))) {
-          return null
-        }
-
-        return `\`/${cmd.name}\`\n ❯ **Description**: ${cmd.description}\n`
-      })
-      .filter(Boolean) // Filter out any null values (commands the user doesn't have perms for)
-
-    arrSplitted.push(toAdd)
-  }
-
-  arrSplitted.forEach((item, index) => {
-    const embed = new EmbedBuilder()
-      .setColor(EMBED_COLORS.BOT_EMBED)
-      .setThumbnail(CommandCategory[category]?.image)
-      .setAuthor({ name: `${category} Commands` })
-      .setDescription(item.join('\n'))
-      .setFooter({ text: `page ${index + 1} of ${arrSplitted.length}` })
-    arrEmbeds.push(embed)
-  })
-
-  return arrEmbeds
+      return new EmbedBuilder()
+        .setColor(EMBED_COLORS.BOT_EMBED)
+        .setThumbnail(CommandCategory[category]?.image)
+        .setAuthor({ name: `${category} Commands` })
+        .setDescription(pageCommands.join('\n'))
+        .setFooter({
+          text: `page ${i + 1} of ${Math.ceil(commands.length / CMDS_PER_PAGE)}`
+        })
+    }
+  )
 }

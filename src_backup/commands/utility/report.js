@@ -4,7 +4,7 @@ const {
   StringSelectMenuBuilder,
   ModalBuilder,
   TextInputBuilder,
-  TextInputStyle,
+  TextInputStyle
 } = require('discord.js')
 const { EMBED_COLORS, FEEDBACK } = require('@src/config.js')
 
@@ -16,7 +16,7 @@ module.exports = {
 
   slashCommand: {
     ephemeral: true,
-    enabled: FEEDBACK.ENABLED,
+    enabled: FEEDBACK.ENABLED
   },
 
   async interactionRun(interaction) {
@@ -35,7 +35,7 @@ module.exports = {
           {
             label: 'Report a Server',
             value: 'server',
-            emoji: '🏠',
+            emoji: '🏠'
           },
           { label: 'Report a User', value: 'user', emoji: '👤' },
           { label: 'Report a Bug', value: 'bug', emoji: '🐞' },
@@ -43,21 +43,21 @@ module.exports = {
           {
             label: 'Share Your Amazing Feedback',
             value: 'feedback',
-            emoji: '💡',
-          },
+            emoji: '💡'
+          }
         ])
     )
 
     await interaction.followUp({
       embeds: [embed],
       components: [row],
-      ephemeral: true,
+      ephemeral: true
     })
 
     const filter = i => i.user.id === interaction.user.id
     const collector = interaction.channel.createMessageComponentCollector({
       filter,
-      time: 30000,
+      time: 30000
     })
 
     collector.on('collect', async i => {
@@ -66,7 +66,7 @@ module.exports = {
         await showReportModal(i, selected)
       }
     })
-  },
+  }
 }
 
 async function showReportModal(interaction, type) {

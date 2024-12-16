@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const reqString = {
   type: String,
-  required: true,
+  required: true
 }
 
 const Schema = new mongoose.Schema(
@@ -14,15 +14,15 @@ const Schema = new mongoose.Schema(
       {
         _id: false,
         emote: reqString,
-        role_id: reqString,
-      },
-    ],
+        role_id: reqString
+      }
+    ]
   },
   {
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: false,
-    },
+      updatedAt: false
+    }
   }
 )
 
@@ -66,7 +66,7 @@ module.exports = {
     const filter = {
       guild_id: guildId,
       channel_id: channelId,
-      message_id: messageId,
+      message_id: messageId
     }
 
     // Pull if existing configuration is present
@@ -76,8 +76,8 @@ module.exports = {
       filter,
       {
         $push: {
-          roles: { emote, role_id: roleId },
-        },
+          roles: { emote, role_id: roleId }
+        }
       },
       { upsert: true, new: true }
     ).lean()
@@ -91,8 +91,8 @@ module.exports = {
     await Model.deleteOne({
       guild_id: guildId,
       channel_id: channelId,
-      message_id: messageId,
+      message_id: messageId
     })
     rrCache.delete(getKey(guildId, channelId, messageId))
-  },
+  }
 }

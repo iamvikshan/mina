@@ -13,8 +13,8 @@ class MongooseGiveaways extends GiveawaysManager {
           botsCanWin: false,
           embedColor: client.config.GIVEAWAYS.START_EMBED,
           embedColorEnd: client.config.GIVEAWAYS.END_EMBED,
-          reaction: client.config.GIVEAWAYS.REACTION,
-        },
+          reaction: client.config.GIVEAWAYS.REACTION
+        }
       },
       false // do not initialize manager yet
     )
@@ -31,7 +31,7 @@ class MongooseGiveaways extends GiveawaysManager {
 
   async editGiveaway(messageId, giveawayData) {
     await Model.updateOne({ messageId }, giveawayData, {
-      omitUndefined: true,
+      omitUndefined: true
     }).exec()
     return true
   }

@@ -1,59 +1,116 @@
-<center><img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header&text=Amina&fontSize=80&fontAlignY=35&animation=twinkling&fontColor=gradient" /></center>
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=150&section=header&text=Amina&fontSize=80&fontAlignY=35&animation=twinkling&fontColor=gradient" />
 
-<h1 align="center">
-  <br>
-  <a href="https://github.com/iamvikshan/amina/.astro/src/images/tmpng.png" height="200" alt="AMINA"></a>
-  <br>
-  AMINA
-  <br>
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C1PUABU)
-[![Version][version-shield]](version-url)
-[![Contributors][contributors-shield]][contributors-url]
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/vikshan)
+[![Version][version-shield]](version-url) [![Contributors][contributors-shield]][contributors-url]
 [![PRs][pr-shield]][pr-url] [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url] [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
-</h1>
+  <p>A Feature-Rich Discord Bot for Server Management and Entertainment</p>
 
-<p align="center">Admin, AutoMod, Anime, Economy, Fun, Giveaway, Image, Invite, Information, Moderation, Music, Owner, Social, Statistics, Suggestion, Ticket, Utility and More...</p>
+[Quick Links](#quick-links) • [Features](#features) • [Installation](#installation) •
+[Support](#support) • [Contributing](#contributing)
+
+</div>
+
+## About
+
+Amina is a versatile Discord bot that combines powerful moderation tools with fun entertainment
+features. From advanced server management to music playback and mini-games, Amina helps create
+engaging Discord communities.
+
+## Quick Links
+
+- [Invite Amina](https://discord.com/api/oauth2/authorize?client_id=1035629678632915055&scope=bot+applications.commands&permissions=1374891928950)
+- [Documentation](https://docs.vikshan.tech)
+- [Support Server](https://discord.gg/uMgS9evnmv)
+- [Buy me a Coffee](https://ko-fi.com/vikshan)
+
+## Features
+
+### 🛡️ Moderation & Administration
+
+- Advanced dashboard for server configuration
+- Comprehensive moderation tools (ban, kick, mute, etc.)
+- Auto-moderation (anti-spam, anti-raid, invite filtering)
+- Custom ticket system
+- Role management and autoroles
+
+### 🎵 Entertainment
+
+- High-quality music playback from multiple sources
+- Fun mini-games and commands
+- Anime reactions and content
+- Image manipulation tools
+- Custom economy system
+
+### 🤖 Utility
+
+- Server statistics and analytics
+- Invite tracking
+- Custom suggestion system
+- Multi-language support
+- Weather information
+- Translation services
+
+[Detailed feature list](https://docs.vikshan.tech/commands/commands/)
+
+## Installation
+
+For self-hosting instructions, please visit our
+[installation guide](https://docs.vikshan.tech/installation/installation).
+
+## Support
+
+Join our [Discord Support Server](https://discord.gg/uMgS9evnmv) for help and updates.
+
+<div align="center">
+  <img src="https://invidget.switchblade.xyz/uMgS9evnmv" alt="Discord Server Invite">
+</div>
+
+## Contributing
+
+1. [Fork the repository](https://github.com/iamvikshan/amina/fork)
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## Stats
+
+<div align="center">
+
+![Repobeats](https://repobeats.axiom.co/api/embed/27f7dae1dd9a92ee7b2d3dbe7889eb18ab7a4d61.svg)
+
+</div>
+
+## Powered By
 
 <p align="center">
-  <a href="ko-fi.com/vikshan">donate</a>
-  •
-  <a href="docs.vikshan.tech">docs</a>
-  •
-  <a href="https://discord.com/api/oauth2/authorize?client_id=1035629678632915055&scope=bot+applications.commands&permissions=1374891928950">invite me!</a>
+  <a href="https://www.digitalocean.com/?refcode=c5587212fe39&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">
+    <img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg" alt="DigitalOcean" height="50">
+  </a>
+  <a href="https://go.vikshan.tech/vultr">
+    <img src="https://www.vultr.com/media/logo_ondark.svg" alt="Vultr" height="50" width="100">
+  </a>
+  <a href="https://partnernetwork.ionos.com/partner/vikshan?origin=PartnerBadge">
+    <img src="https://images-2.partnerportal.ionos.com/items/0461b6bb-dabe-40bb-8d94-feb41be45e49/profiles/b6282cd9-10f6-4260-90dd-0bc4584f9c33/badges/normal_blue_eco" alt="IONOS" height="52" width="108">
+  </a>
 </p>
 
----
-
-
-> [!WARNING]
-> This JAVASCRIPT version is no longer maintained. Please use the TypeScript version instead.
-
----
-
-[version-shield]:
-  https://img.shields.io/github/package-json/v/iamvikshan/amina?style=for-the-badge
+[version-shield]: https://img.shields.io/github/package-json/v/iamvikshan/amina?style=for-the-badge
 [version-url]: https://github.com/iamvikshan/amina
-[pr-shield]:
-  https://img.shields.io/github/issues-pr/iamvikshan/amina?style=for-the-badge
+[pr-shield]: https://img.shields.io/github/issues-pr/iamvikshan/amina?style=for-the-badge
 [pr-url]: https://github.com/iamvikshan/amina/pulls
 [contributors-shield]:
   https://img.shields.io/github/contributors/iamvikshan/amina.svg?style=for-the-badge
 [contributors-url]: https://github.com/iamvikshan/amina/graphs/contributors
-[forks-shield]:
-  https://img.shields.io/github/forks/iamvikshan/amina.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/iamvikshan/amina.svg?style=for-the-badge
 [forks-url]: https://github.com/iamvikshan/amina/network/members
-[stars-shield]:
-  https://img.shields.io/github/stars/iamvikshan/amina.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/iamvikshan/amina.svg?style=for-the-badge
 [stars-url]: https://github.com/iamvikshan/amina/stargazers
-[issues-shield]:
-  https://img.shields.io/github/issues/iamvikshan/amina.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/iamvikshan/amina.svg?style=for-the-badge
 [issues-url]: https://github.com/iamvikshan/amina/issues
-[license-shield]:
-  https://img.shields.io/github/license/iamvikshan/amina.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/iamvikshan/amina.svg?style=for-the-badge
 [license-url]: https://github.com/iamvikshan/amina/blob/master/LICENSE
-
-![Alt](https://repobeats.axiom.co/api/embed/27f7dae1dd9a92ee7b2d3dbe7889eb18ab7a4d61.svg "Repobeats analytics image")

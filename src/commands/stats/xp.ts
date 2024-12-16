@@ -1,10 +1,10 @@
-const { STATS } = require('@src/config')
-const { ApplicationCommandOptionType, ChannelType } = require('discord.js')
+const { STATS } from '@src/config'
+const { ApplicationCommandOptionType, ChannelType } from 'discord.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'levelup',
   description: 'configure the levelling system',
   category: 'UTILITY',
@@ -22,9 +22,9 @@ module.exports = {
             name: 'message',
             description: 'message to display when a user levels up',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'channel',
@@ -36,11 +36,11 @@ module.exports = {
             description: 'channel to send level up messages to',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -60,7 +60,7 @@ module.exports = {
     else response = 'Invalid subcommand'
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function setMessage(message, settings) {

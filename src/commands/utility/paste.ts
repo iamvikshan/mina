@@ -1,10 +1,10 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
+import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
 const { postToBin } = require('@helpers/HttpUtils')
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'paste',
   description: 'Paste something in sourceb.in',
   category: 'UTILITY',
@@ -17,15 +17,15 @@ module.exports = {
         name: 'title',
         description: 'title for your content',
         required: true,
-        type: ApplicationCommandOptionType.String,
+        type: ApplicationCommandOptionType.String
       },
       {
         name: 'content',
         description: 'content to be posted to bin',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -33,7 +33,7 @@ module.exports = {
     const content = interaction.options.getString('content')
     const response = await paste(content, title)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function paste(content, title) {

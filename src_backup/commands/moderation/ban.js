@@ -1,5 +1,5 @@
 const { banTarget } = require('@helpers/ModUtils')
-const { ApplicationCommandOptionType } = require('discord.js')
+import { ApplicationCommandOptionType } from 'discord.js'
 const { MODERATION } = require('@src/config.js')
 
 /**
@@ -19,15 +19,15 @@ module.exports = {
         name: 'user',
         description: 'the target member',
         type: ApplicationCommandOptionType.User,
-        required: true,
+        required: true
       },
       {
         name: 'reason',
         description: 'reason for ban',
         type: ApplicationCommandOptionType.String,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -36,7 +36,7 @@ module.exports = {
 
     const response = await ban(interaction.member, target, reason)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

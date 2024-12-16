@@ -1,8 +1,8 @@
-const { EmbedBuilder } = require('discord.js')
-const { getUser } = require('@schemas/User')
-const { EMBED_COLORS, ECONOMY } = require('@src/config')
+import { EmbedBuilder } from 'discord.js'
+import { getUser } from '@schemas/User'
+import { EMBED_COLORS, ECONOMY } from '@src/config'
 
-module.exports = async user => {
+export default async user => {
   const economy = await getUser(user)
 
   const embed = new EmbedBuilder()
@@ -13,17 +13,17 @@ module.exports = async user => {
       {
         name: 'Wallet',
         value: `${economy?.coins || 0}${ECONOMY.CURRENCY}`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Bank',
         value: `${economy?.bank || 0}${ECONOMY.CURRENCY}`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Net Worth',
         value: `${(economy?.coins || 0) + (economy?.bank || 0)}${ECONOMY.CURRENCY}`,
-        inline: true,
+        inline: true
       }
     )
 

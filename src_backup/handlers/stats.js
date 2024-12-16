@@ -120,5 +120,5 @@ module.exports = {
         voiceStates.delete(member.id)
       }
     }
-  },
+  }
 }

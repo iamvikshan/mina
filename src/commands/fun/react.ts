@@ -1,7 +1,7 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
+import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
 const axios = require('axios')
-const { EMBED_COLORS } = require('@src/config')
-const { getUser } = require('@schemas/User')
+import { EMBED_COLORS } from '@src/config'
+import { getUser } from '@schemas/User'
 
 const choices = [
   'bite',
@@ -13,13 +13,13 @@ const choices = [
   'slap',
   'wink',
   'wave',
-  'kill',
+  'kill'
 ]
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'react',
   description: 'express yourself with anime style!',
   enabled: true,
@@ -33,15 +33,15 @@ module.exports = {
         description: 'pick your emotional adventure~',
         type: ApplicationCommandOptionType.String,
         required: true,
-        choices: choices.map(ch => ({ name: ch, value: ch })),
+        choices: choices.map(ch => ({ name: ch, value: ch }))
       },
       {
         name: 'target',
         description: "who's the lucky person?",
         type: ApplicationCommandOptionType.User,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -49,7 +49,7 @@ module.exports = {
     const target = interaction.options.getUser('target')
     const embed = await genReaction(choice, interaction.user, target)
     await interaction.followUp({ embeds: [embed] })
-  },
+  }
 }
 
 const getPronouns = async user => {
@@ -59,7 +59,7 @@ const getPronouns = async user => {
     if (userDb?.profile?.pronouns && userDb?.profile?.privacy?.showPronouns) {
       return {
         pronouns: userDb.profile.pronouns,
-        source: 'profile',
+        source: 'profile'
       }
     }
 
@@ -70,19 +70,19 @@ const getPronouns = async user => {
     if (response.data?.pronouns) {
       return {
         pronouns: response.data.pronouns,
-        source: 'pronoundb',
+        source: 'pronoundb'
       }
     }
 
     return {
       pronouns: null,
-      source: null,
+      source: null
     }
   } catch (error) {
     console.error('Error fetching pronouns:', error)
     return {
       pronouns: null,
-      source: null,
+      source: null
     }
   }
 }
@@ -91,7 +91,7 @@ const generatePronounForms = pronounString => {
   // Convert pronoun string (e.g. "he/him" or "they/them") to useful forms
   const [subject, object] = pronounString?.toLowerCase().split('/') || [
     'they',
-    'them',
+    'them'
   ]
 
   // Handle common pronoun sets
@@ -103,7 +103,7 @@ const generatePronounForms = pronounString => {
     it: { subject: 'it', object: 'it', possessive: 'its' },
     // Add any custom pronoun handling here
     xe: { subject: 'xe', object: 'xem', possessive: 'xyr' },
-    ze: { subject: 'ze', object: 'zir', possessive: 'zir' },
+    ze: { subject: 'ze', object: 'zir', possessive: 'zir' }
   }
 
   // Use the first pronoun (subject) to get the full set of forms
@@ -133,7 +133,7 @@ const generateReactionMessage = (reaction, author, target, pronounInfo) => {
     slap: `${author.username} dramatically slaps ${target.username} anime-style!`,
     wink: `${author.username} sends a playful wink to ${target.username}~`,
     wave: `${author.username} waves enthusiastically at ${target.username}!`,
-    kill: `${author.username} dramatically defeats ${target.username} in an anime battle!`,
+    kill: `${author.username} dramatically defeats ${target.username} in an anime battle!`
   }
 
   return messages[reaction] + pronounNote
@@ -145,7 +145,7 @@ const genReaction = async (reaction, author, target) => {
       axios.get(`https://api.waifu.pics/sfw/${reaction}`),
       target
         ? getPronouns(target)
-        : Promise.resolve({ pronouns: null, source: null }),
+        : Promise.resolve({ pronouns: null, source: null })
     ])
 
     const message = generateReactionMessage(

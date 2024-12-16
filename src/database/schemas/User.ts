@@ -1,17 +1,26 @@
-// @root/src/database/schemas/User.js
-
+// database/schemas/User.ts
 import mongoose from 'mongoose'
-import { CACHE_SIZE } from '../../config'
+import { CACHE_SIZE } from '@src/config'
 import FixedSizeMap from 'fixedsize-map'
+import type {
+  UserSettings,
+  BasicProfileData,
+  MiscProfileData,
+  ProfileData
+} from '@src/types'
+import { GuildMember, User } from 'discord.js'
 
-const cache = new FixedSizeMap(CACHE_SIZE.USERS)
+const cache = new FixedSizeMap<
+  string,
+  mongoose.Document<unknown, {}, UserSettings> & UserSettings
+>(CACHE_SIZE.USERS)
 
 const FlagSchema = new mongoose.Schema({
   reason: { type: String, required: true },
   flaggedBy: { type: String, required: true },
   flaggedAt: { type: Date, default: Date.now },
   serverId: { type: String, required: true },
-  serverName: { type: String, required: true },
+  serverName: { type: String, required: true }
 })
 
 const ProfileSchema = new mongoose.Schema({
@@ -30,13 +39,13 @@ const ProfileSchema = new mongoose.Schema({
     showAge: { type: Boolean, default: true },
     showRegion: { type: Boolean, default: true },
     showBirthdate: { type: Boolean, default: false },
-    showPronouns: { type: Boolean, default: true },
+    showPronouns: { type: Boolean, default: true }
   },
   lastUpdated: { type: Date, default: Date.now },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now }
 })
 
-const Schema = new mongoose.Schema(
+const Schema = new mongoose.Schema<UserSettings>(
   {
     _id: String,
     username: String,
@@ -47,60 +56,70 @@ const Schema = new mongoose.Schema(
     reputation: {
       received: { type: Number, default: 0 },
       given: { type: Number, default: 0 },
-      timestamp: Date,
+      timestamp: Date
     },
     daily: { streak: { type: Number, default: 0 }, timestamp: Date },
     flags: { type: [FlagSchema], default: [] },
     premium: {
       enabled: { type: Boolean, default: false },
-      expiresAt: { type: Date, default: null },
+      expiresAt: { type: Date, default: null }
     },
     afk: {
       enabled: { type: Boolean, default: false },
       reason: { type: String, default: null },
       since: { type: Date, default: null },
-      endTime: { type: Date, default: null },
+      endTime: { type: Date, default: null }
     },
-    profile: { type: ProfileSchema, default: () => ({}) },
+    profile: { type: ProfileSchema, default: () => ({}) }
   },
   {
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: 'updated_at',
-    },
+      updatedAt: 'updated_at'
+    }
   }
 )
 
-const Model = mongoose.model('user', Schema)
+const Model = mongoose.model<UserSettings>('user', Schema)
 
-async function getUser(user) {
+export async function getUser(user: User | GuildMember): Promise<UserSettings> {
   if (!user) throw new Error('User is required.')
-  if (!user.id) throw new Error('User Id is required.')
 
-  const cached = cache.get(user.id)
+  // If it's a GuildMember, get the User object
+  const userObj = user instanceof GuildMember ? user.user : user
+
+  if (!userObj.id) throw new Error('User Id is required.')
+
+  const cached = cache.get(userObj.id)
   if (cached) return cached
 
-  let userDb = await Model.findById(user.id)
+  let userDb = await Model.findById(userObj.id)
   if (!userDb) {
     userDb = await Model.create({
-      _id: user.id,
-      username: user.username,
-      discriminator: user.discriminator,
-      flags: [],
+      _id: userObj.id,
+      username: userObj.username,
+      discriminator: userObj.discriminator,
+      flags: []
     })
   }
 
-  cache.add(user.id, userDb)
+  cache.add(userObj.id, userDb)
   return userDb
 }
 
-async function addFlag(userId, reason, flaggedBy, serverId, serverName) {
+export async function addFlag(
+  userId: string,
+  reason: string,
+  flaggedBy: string,
+  serverId: string,
+  serverName: string
+): Promise<UserSettings> {
   const newFlag = {
     reason,
     flaggedBy,
     flaggedAt: new Date(),
     serverId,
-    serverName,
+    serverName
   }
   const user = await Model.findByIdAndUpdate(
     userId,
@@ -109,10 +128,13 @@ async function addFlag(userId, reason, flaggedBy, serverId, serverName) {
   )
 
   if (user) cache.add(userId, user)
-  return user
+  return user!
 }
 
-async function removeFlag(userId, flaggedBy) {
+export async function removeFlag(
+  userId: string,
+  flaggedBy: string
+): Promise<UserSettings> {
   const user = await Model.findByIdAndUpdate(
     userId,
     { $pull: { flags: { flaggedBy } } },
@@ -120,10 +142,10 @@ async function removeFlag(userId, flaggedBy) {
   )
 
   if (user) cache.add(userId, user)
-  return user
+  return user!
 }
 
-async function removeAllFlags(userId) {
+export async function removeAllFlags(userId: string): Promise<UserSettings> {
   const user = await Model.findByIdAndUpdate(
     userId,
     { $set: { flags: [] } },
@@ -131,10 +153,14 @@ async function removeAllFlags(userId) {
   )
 
   if (user) cache.add(userId, user)
-  return user
+  return user!
 }
 
-async function updatePremium(userId, enabled, expiresAt) {
+export async function updatePremium(
+  userId: string,
+  enabled: boolean,
+  expiresAt: Date | null
+): Promise<UserSettings> {
   const user = await Model.findByIdAndUpdate(
     userId,
     { $set: { 'premium.enabled': enabled, 'premium.expiresAt': expiresAt } },
@@ -142,10 +168,14 @@ async function updatePremium(userId, enabled, expiresAt) {
   )
 
   if (user) cache.add(userId, user)
-  return user
+  return user!
 }
 
-async function setAfk(userId, reason = null, duration = null) {
+export async function setAfk(
+  userId: string,
+  reason: string | null = null,
+  duration: number | null = null
+): Promise<UserSettings> {
   const since = new Date()
   const endTime = duration ? new Date(since.getTime() + duration * 60000) : null
   const user = await Model.findByIdAndUpdate(
@@ -155,17 +185,17 @@ async function setAfk(userId, reason = null, duration = null) {
         'afk.enabled': true,
         'afk.reason': reason,
         'afk.since': since,
-        'afk.endTime': endTime,
-      },
+        'afk.endTime': endTime
+      }
     },
     { new: true }
   )
 
   if (user) cache.add(userId, user)
-  return user
+  return user!
 }
 
-async function removeAfk(userId) {
+export async function removeAfk(userId: string): Promise<UserSettings> {
   const user = await Model.findByIdAndUpdate(
     userId,
     {
@@ -173,17 +203,17 @@ async function removeAfk(userId) {
         'afk.enabled': false,
         'afk.reason': null,
         'afk.since': null,
-        'afk.endTime': null,
-      },
+        'afk.endTime': null
+      }
     },
     { new: true }
   )
 
   if (user) cache.add(userId, user)
-  return user
+  return user!
 }
 
-function calculateAge(birthdate) {
+function calculateAge(birthdate: Date): number | null {
   if (!birthdate) return null
   const today = new Date()
   let age = today.getFullYear() - birthdate.getFullYear()
@@ -196,8 +226,11 @@ function calculateAge(birthdate) {
   return age
 }
 
-async function updateBasicProfile(userId, basicData) {
-  const updateData = {}
+export async function updateBasicProfile(
+  userId: string,
+  basicData: BasicProfileData
+): Promise<UserSettings> {
+  const updateData: Record<string, any> = {}
   if (basicData.pronouns !== undefined)
     updateData['profile.pronouns'] = basicData.pronouns
   if (basicData.birthdate) {
@@ -210,6 +243,7 @@ async function updateBasicProfile(userId, basicData) {
   if (basicData.timezone !== undefined)
     updateData['profile.timezone'] = basicData.timezone
   updateData['profile.lastUpdated'] = new Date()
+
   const user = await Model.findOneAndUpdate(
     { _id: userId },
     { $set: updateData },
@@ -217,17 +251,21 @@ async function updateBasicProfile(userId, basicData) {
   )
 
   if (user) cache.add(userId, user)
-  return user
+  return user!
 }
 
-async function updateMiscProfile(userId, miscData) {
-  const updateData = {}
+export async function updateMiscProfile(
+  userId: string,
+  miscData: MiscProfileData
+): Promise<UserSettings> {
+  const updateData: Record<string, any> = {}
   if (miscData.bio !== undefined) updateData['profile.bio'] = miscData.bio
   if (miscData.interests) updateData['profile.interests'] = miscData.interests
   if (miscData.socials) updateData['profile.socials'] = miscData.socials
   if (miscData.favorites) updateData['profile.favorites'] = miscData.favorites
   if (miscData.goals) updateData['profile.goals'] = miscData.goals
   updateData['profile.lastUpdated'] = new Date()
+
   const user = await Model.findOneAndUpdate(
     { _id: userId },
     { $set: updateData },
@@ -235,11 +273,14 @@ async function updateMiscProfile(userId, miscData) {
   )
 
   if (user) cache.add(userId, user)
-  return user
+  return user!
 }
 
-async function updateProfile(userId, profileData) {
-  const updateData = {}
+export async function updateProfile(
+  userId: string,
+  profileData: ProfileData
+): Promise<UserSettings> {
+  const updateData: Record<string, any> = {}
   Object.entries(profileData).forEach(([key, value]) => {
     if (value !== undefined) updateData[`profile.${key}`] = value
   })
@@ -249,6 +290,7 @@ async function updateProfile(userId, profileData) {
     updateData['profile.age'] = calculateAge(birthDate)
   }
   updateData['profile.lastUpdated'] = new Date()
+
   const user = await Model.findOneAndUpdate(
     { _id: userId },
     { $set: updateData },
@@ -256,10 +298,10 @@ async function updateProfile(userId, profileData) {
   )
 
   if (user) cache.add(userId, user)
-  return user
+  return user!
 }
 
-async function clearProfile(userId) {
+export async function clearProfile(userId: string): Promise<UserSettings> {
   const user = await Model.findByIdAndUpdate(
     userId,
     {
@@ -272,34 +314,36 @@ async function clearProfile(userId) {
           bio: null,
           birthdate: null,
           interests: [],
-          customFields: [],
+          socials: new Map(),
+          favorites: new Map(),
+          goals: [],
           privacy: {
             showAge: false,
             showRegion: false,
             showBirthdate: false,
-            showPronouns: false,
-          },
-        },
-      },
+            showPronouns: false
+          }
+        }
+      }
     },
     { new: true }
   )
 
   if (user) cache.add(userId, user)
-  return user
+  return user!
 }
 
-async function getUsersWithBirthdayToday() {
+export async function getUsersWithBirthdayToday(): Promise<UserSettings[]> {
   const today = new Date()
   const users = await Model.find({
     'profile.birthdate': {
       $exists: true,
-      $ne: null,
-    },
+      $ne: null
+    }
   })
 
   return users.filter(user => {
-    const birthdate = new Date(user.profile.birthdate)
+    const birthdate = new Date(user.profile.birthdate!)
     return (
       birthdate.getDate() === today.getDate() &&
       birthdate.getMonth() === today.getMonth()
@@ -320,5 +364,5 @@ export default {
   updateMiscProfile,
   updateProfile,
   clearProfile,
-  getUsersWithBirthdayToday,
+  getUsersWithBirthdayToday
 }

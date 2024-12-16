@@ -3,7 +3,7 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
   ApplicationCommandOptionType,
-  ButtonStyle,
+  ButtonStyle
 } = require('discord.js')
 const { SUGGESTIONS } = require('@src/config')
 const { addSuggestion } = require('@schemas/Suggestions')
@@ -24,9 +24,9 @@ module.exports = {
         name: 'suggestion',
         description: 'the suggestion',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -39,7 +39,7 @@ module.exports = {
     if (typeof response === 'boolean')
       interaction.followUp('Your suggestion has been submitted!')
     else await interaction.followUp(response)
-  },
+  }
 }
 
 /**
@@ -88,7 +88,7 @@ async function suggest(member, suggestion, settings) {
   try {
     const sentMsg = await channel.send({
       embeds: [embed],
-      components: [buttonsRow],
+      components: [buttonsRow]
     })
 
     await sentMsg.react(SUGGESTIONS.EMOJI.UP_VOTE)

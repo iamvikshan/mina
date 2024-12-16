@@ -1,11 +1,11 @@
-const {
+import {
   EmbedBuilder,
   WebhookClient,
   PermissionFlagsBits,
-  ChannelType,
-} = require('discord.js')
-const { EMBED_COLORS, FEEDBACK } = require('@src/config.js')
-const { getSettings, setInviteLink, inviteLink } = require('@schemas/Guild')
+  ChannelType
+} from 'discord.js'
+import { EMBED_COLORS, FEEDBACK } from '@src/config.js'
+import { getSettings, setInviteLink, inviteLink } from '@schemas/Guild'
 const { getQuestionById } = require('@schemas/TruthOrDare')
 
 async function handleReportModal(interaction) {
@@ -29,27 +29,27 @@ async function handleReportModal(interaction) {
             {
               name: 'Double-check the Server ID',
               value:
-                "Make sure you've entered the correct server ID. Here's how to find it:",
+                "Make sure you've entered the correct server ID. Here's how to find it:"
             },
             {
               name: '1. Enable Developer Mode',
               value:
-                'Go to User Settings > Appearance > Advanced and turn on Developer Mode.',
+                'Go to User Settings > Appearance > Advanced and turn on Developer Mode.'
             },
             {
               name: '2. Get the Server ID',
               value:
-                'Right-click on the server icon and select "Copy ID" at the bottom of the menu.',
+                'Right-click on the server icon and select "Copy ID" at the bottom of the menu.'
             },
             {
               name: 'Mina Not in Server',
               value:
-                "If the ID is correct, it's possible that Mina isn't a member of that server. Unfortunately, Mina can only report on servers she's a part of.",
+                "If the ID is correct, it's possible that Mina isn't a member of that server. Unfortunately, Mina can only report on servers she's a part of."
             },
             {
               name: 'Need Help?',
               value:
-                "If you're sure the ID is correct and Mina should be in the server, please try again later or contact support.",
+                "If you're sure the ID is correct and Mina should be in the server, please try again later or contact support."
             }
           )
           .setFooter({ text: 'Mina is always here to help! 💖' })
@@ -57,7 +57,7 @@ async function handleReportModal(interaction) {
 
         await interaction.reply({
           embeds: [errorEmbed],
-          ephemeral: true,
+          ephemeral: true
         })
         return
       }
@@ -81,7 +81,7 @@ async function handleReportModal(interaction) {
             if (targetChannel) {
               const invite = await targetChannel.createInvite({
                 maxAge: 0, // 0 = infinite expiration
-                maxUses: 0, // 0 = infinite uses
+                maxUses: 0 // 0 = infinite uses
               })
               inviteLink = invite.url
               await setInviteLink(guild.id, inviteLink)
@@ -123,13 +123,13 @@ async function handleReportModal(interaction) {
             value: additionalInfo
               .split('\n')
               .filter(line => !line.startsWith('Server Invite:'))
-              .join('\n'),
+              .join('\n')
           })
         }
 
         await interaction.reply({
           embeds: [confirmationEmbed],
-          ephemeral: true,
+          ephemeral: true
         })
       } else {
         const errorEmbed = new EmbedBuilder()
@@ -142,18 +142,18 @@ async function handleReportModal(interaction) {
             {
               name: 'What to Do',
               value:
-                'Please try again later. Mina believes in you! If the problem continues, it would be super helpful if you could let the support team know.',
+                'Please try again later. Mina believes in you! If the problem continues, it would be super helpful if you could let the support team know.'
             },
             {
               name: 'Error Details',
               value:
-                "There was an issue sending the report/feedback to Mina's team. This is likely a temporary problem.",
+                "There was an issue sending the report/feedback to Mina's team. This is likely a temporary problem."
             }
           )
           .setFooter({ text: 'Mina appreciates your patience and effort! 🌟' })
         await interaction.reply({
           embeds: [errorEmbed],
-          ephemeral: true,
+          ephemeral: true
         })
       }
     } catch (error) {
@@ -167,12 +167,12 @@ async function handleReportModal(interaction) {
         .addFields({
           name: 'What to Do',
           value:
-            'Please try again later. If the problem continues, it would be super helpful if you could let the support team know.',
+            'Please try again later. If the problem continues, it would be super helpful if you could let the support team know.'
         })
         .setFooter({ text: 'Mina appreciates your patience! 🌟' })
       await interaction.reply({
         embeds: [errorEmbed],
-        ephemeral: true,
+        ephemeral: true
       })
     }
   } else if (type === 'user') {
@@ -191,34 +191,34 @@ async function handleReportModal(interaction) {
           {
             name: 'Double-check the User ID',
             value:
-              "Make sure you've entered the correct user ID. Here's how to find it:",
+              "Make sure you've entered the correct user ID. Here's how to find it:"
           },
           {
             name: '1. Enable Developer Mode',
             value:
-              'Go to User Settings > Appearance > Advanced and turn on Developer Mode.',
+              'Go to User Settings > Appearance > Advanced and turn on Developer Mode.'
           },
           {
             name: '2. Get the User ID',
             value:
-              'Right-click on the user\'s name and select "Copy ID" at the bottom of the menu.',
+              'Right-click on the user\'s name and select "Copy ID" at the bottom of the menu.'
           },
           {
             name: 'User Not Visible',
             value:
-              "If the ID is correct, it's possible that the user is not in any servers that Mina is in, or their privacy settings prevent Mina from seeing them.",
+              "If the ID is correct, it's possible that the user is not in any servers that Mina is in, or their privacy settings prevent Mina from seeing them."
           },
           {
             name: 'Need Help?',
             value:
-              "If you're sure the ID is correct and Mina should be able to see the user, please try again later or contact support.",
+              "If you're sure the ID is correct and Mina should be able to see the user, please try again later or contact support."
           }
         )
         .setFooter({ text: 'Mina is always here to help! 💖' })
 
       await interaction.reply({
         embeds: [errorEmbed],
-        ephemeral: true,
+        ephemeral: true
       })
       return
     }
@@ -241,31 +241,31 @@ async function handleReportModal(interaction) {
           {
             name: 'Double-check the Question ID',
             value:
-              "Make sure you've entered the correct Question ID. You can find this in the footer of the question, after **QID:**.",
+              "Make sure you've entered the correct Question ID. You can find this in the footer of the question, after **QID:**."
           },
           {
             name: 'Example',
             value:
-              'If the footer says "**QID: T123**", then "T123" is the Question ID you should enter.',
+              'If the footer says "**QID: T123**", then "T123" is the Question ID you should enter.'
           },
           {
             name: 'Question Removed?',
             value:
-              "If you're sure the ID is correct, it's possible that the question has been removed from the database.",
+              "If you're sure the ID is correct, it's possible that the question has been removed from the database."
           },
           {
             name: 'Need Help?',
             value:
-              "If you're sure the ID is correct and the question should exist, please try again later or contact support.",
+              "If you're sure the ID is correct and the question should exist, please try again later or contact support."
           }
         )
         .setFooter({
-          text: 'Mina appreciates your help in making our ToD games awesome! 💖',
+          text: 'Mina appreciates your help in making our ToD games awesome! 💖'
         })
 
       await interaction.reply({
         embeds: [errorEmbed],
-        ephemeral: true,
+        ephemeral: true
       })
       return
     }
@@ -311,7 +311,7 @@ async function handleReportModal(interaction) {
           text:
             type === 'bug' || type === 'feedback'
               ? 'Thank you for helping make Mina better!'
-              : 'Thank you for your contribution!',
+              : 'Thank you for your contribution!'
         })
         .setTimestamp()
 
@@ -323,13 +323,13 @@ async function handleReportModal(interaction) {
               : type === 'feedback'
                 ? 'Additional Thoughts'
                 : 'Additional Information',
-          value: additionalInfo,
+          value: additionalInfo
         })
       }
 
       await interaction.reply({
         embeds: [confirmationEmbed],
-        ephemeral: true,
+        ephemeral: true
       })
     } else {
       const errorEmbed = new EmbedBuilder()
@@ -346,18 +346,18 @@ async function handleReportModal(interaction) {
           {
             name: 'What to Do',
             value:
-              'Please try again later. Mina believes in you! If the problem continues, it would be super helpful if you could let the support team know.',
+              'Please try again later. Mina believes in you! If the problem continues, it would be super helpful if you could let the support team know.'
           },
           {
             name: 'Error Details',
             value:
-              "There was an issue sending the report/feedback to Mina's team. This is likely a temporary problem.",
+              "There was an issue sending the report/feedback to Mina's team. This is likely a temporary problem."
           }
         )
         .setFooter({ text: 'Mina appreciates your patience and effort! 🌟' })
       await interaction.reply({
         embeds: [errorEmbed],
-        ephemeral: true,
+        ephemeral: true
       })
     }
   }
@@ -386,7 +386,7 @@ async function sendWebhook(
     text:
       type === 'bug' || type === 'feedback'
         ? `Submitted by: ${user.tag} (${user.id})`
-        : `Reported by: ${user.tag} (${user.id})`,
+        : `Reported by: ${user.tag} (${user.id})`
   })
 
   if (additionalInfo) {
@@ -397,14 +397,14 @@ async function sendWebhook(
           : type === 'feedback'
             ? 'Additional Thoughts 💭'
             : 'Extra Deets 🔍',
-      value: additionalInfo,
+      value: additionalInfo
     })
   }
 
   if (inviteLink) {
     embed.addFields({
       name: 'Server Invite',
-      value: inviteLink,
+      value: inviteLink
     })
   }
 
@@ -412,7 +412,7 @@ async function sendWebhook(
     await webhookClient.send({
       username: "Mina's Report System",
       avatarURL: client.user.displayAvatarURL(),
-      embeds: [embed],
+      embeds: [embed]
     })
     return true
   } catch (error) {

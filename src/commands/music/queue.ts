@@ -1,10 +1,10 @@
-const { EMBED_COLORS } = require('@src/config')
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
+import { EMBED_COLORS } from '@src/config'
+import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'queue',
   description: 'displays the current music queue',
   category: 'MUSIC',
@@ -17,16 +17,16 @@ module.exports = {
         name: 'page',
         description: 'page number',
         type: ApplicationCommandOptionType.Integer,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const page = interaction.options.getInteger('page')
     const response = await getQueue(interaction, page)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**
@@ -53,7 +53,7 @@ async function getQueue({ client, guild }, pgNo) {
     embed
       .addFields({
         name: 'Current',
-        value: `[${current.info.title}](${current.info.uri}) \`[${client.utils.formatTime(current.info.duration)}]\``,
+        value: `[${current.info.title}](${current.info.uri}) \`[${client.utils.formatTime(current.info.duration)}]\``
       })
       .setThumbnail(current.info.artworkUrl)
   }
@@ -71,7 +71,7 @@ async function getQueue({ client, guild }, pgNo) {
 
   const maxPages = Math.ceil(player.queue.tracks.length / 10)
   embed.setFooter({
-    text: `Page ${pgNo > maxPages ? maxPages : pgNo} of ${maxPages}`,
+    text: `Page ${pgNo > maxPages ? maxPages : pgNo} of ${maxPages}`
   })
 
   return { embeds: [embed] }

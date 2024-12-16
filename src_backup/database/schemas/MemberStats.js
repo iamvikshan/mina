@@ -6,7 +6,7 @@ const cache = new FixedSizeMap(CACHE_SIZE.MEMBERS)
 
 const ReqString = {
   type: String,
-  required: true,
+  required: true
 }
 
 const Schema = new mongoose.Schema(
@@ -16,23 +16,23 @@ const Schema = new mongoose.Schema(
     messages: { type: Number, default: 0 },
     voice: {
       connections: { type: Number, default: 0 },
-      time: { type: Number, default: 0 },
+      time: { type: Number, default: 0 }
     },
     commands: {
-      slash: { type: Number, default: 0 },
+      slash: { type: Number, default: 0 }
     },
     contexts: {
       message: { type: Number, default: 0 },
-      user: { type: Number, default: 0 },
+      user: { type: Number, default: 0 }
     },
     xp: { type: Number, default: 0 },
-    level: { type: Number, default: 1 },
+    level: { type: Number, default: 1 }
   },
   {
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: 'updated_at',
-    },
+      updatedAt: 'updated_at'
+    }
   }
 )
 
@@ -47,7 +47,7 @@ module.exports = {
     if (!member) {
       member = new Model({
         guild_id: guildId,
-        member_id: memberId,
+        member_id: memberId
       })
     }
 
@@ -57,9 +57,9 @@ module.exports = {
 
   getXpLb: async (guildId, limit = 10) =>
     Model.find({
-      guild_id: guildId,
+      guild_id: guildId
     })
       .limit(limit)
       .sort({ level: -1, xp: -1 })
-      .lean(),
+      .lean()
 }

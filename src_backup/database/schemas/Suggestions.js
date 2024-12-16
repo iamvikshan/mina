@@ -10,11 +10,11 @@ const Schema = new mongoose.Schema(
     status: {
       type: String,
       enum: ['PENDING', 'APPROVED', 'REJECTED', 'DELETED'],
-      default: 'PENDING',
+      default: 'PENDING'
     },
     stats: {
       upvotes: { type: Number, default: 0 },
-      downvotes: { type: Number, default: 0 },
+      downvotes: { type: Number, default: 0 }
     },
     status_updates: [
       {
@@ -22,18 +22,18 @@ const Schema = new mongoose.Schema(
         user_id: String,
         status: {
           type: String,
-          enum: ['APPROVED', 'REJECTED', 'DELETED'],
+          enum: ['APPROVED', 'REJECTED', 'DELETED']
         },
         reason: String,
-        timestamp: { type: Date, default: new Date() },
-      },
-    ],
+        timestamp: { type: Date, default: new Date() }
+      }
+    ]
   },
   {
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: 'updated_at',
-    },
+      updatedAt: 'updated_at'
+    }
   }
 )
 
@@ -48,7 +48,7 @@ module.exports = {
       channel_id: message.channelId,
       message_id: message.id,
       user_id: userId,
-      suggestion: suggestion,
+      suggestion: suggestion
     }).save()
   },
 
@@ -62,9 +62,9 @@ module.exports = {
       {
         status: 'DELETED',
         $push: {
-          status_updates: { user_id: memberId, status: 'DELETED', reason },
-        },
+          status_updates: { user_id: memberId, status: 'DELETED', reason }
+        }
       }
     )
-  },
+  }
 }

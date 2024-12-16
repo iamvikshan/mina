@@ -11,7 +11,7 @@ const FlagSchema = new mongoose.Schema({
   flaggedBy: { type: String, required: true },
   flaggedAt: { type: Date, default: Date.now },
   serverId: { type: String, required: true },
-  serverName: { type: String, required: true },
+  serverName: { type: String, required: true }
 })
 
 const ProfileSchema = new mongoose.Schema({
@@ -30,10 +30,10 @@ const ProfileSchema = new mongoose.Schema({
     showAge: { type: Boolean, default: true },
     showRegion: { type: Boolean, default: true },
     showBirthdate: { type: Boolean, default: false },
-    showPronouns: { type: Boolean, default: true },
+    showPronouns: { type: Boolean, default: true }
   },
   lastUpdated: { type: Date, default: Date.now },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now }
 })
 
 const Schema = new mongoose.Schema(
@@ -47,27 +47,27 @@ const Schema = new mongoose.Schema(
     reputation: {
       received: { type: Number, default: 0 },
       given: { type: Number, default: 0 },
-      timestamp: Date,
+      timestamp: Date
     },
     daily: { streak: { type: Number, default: 0 }, timestamp: Date },
     flags: { type: [FlagSchema], default: [] },
     premium: {
       enabled: { type: Boolean, default: false },
-      expiresAt: { type: Date, default: null },
+      expiresAt: { type: Date, default: null }
     },
     afk: {
       enabled: { type: Boolean, default: false },
       reason: { type: String, default: null },
       since: { type: Date, default: null },
-      endTime: { type: Date, default: null },
+      endTime: { type: Date, default: null }
     },
-    profile: { type: ProfileSchema, default: () => ({}) },
+    profile: { type: ProfileSchema, default: () => ({}) }
   },
   {
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: 'updated_at',
-    },
+      updatedAt: 'updated_at'
+    }
   }
 )
 
@@ -86,7 +86,7 @@ async function getUser(user) {
       _id: user.id,
       username: user.username,
       discriminator: user.discriminator,
-      flags: [],
+      flags: []
     })
   }
 
@@ -100,7 +100,7 @@ async function addFlag(userId, reason, flaggedBy, serverId, serverName) {
     flaggedBy,
     flaggedAt: new Date(),
     serverId,
-    serverName,
+    serverName
   }
   const user = await Model.findByIdAndUpdate(
     userId,
@@ -155,8 +155,8 @@ async function setAfk(userId, reason = null, duration = null) {
         'afk.enabled': true,
         'afk.reason': reason,
         'afk.since': since,
-        'afk.endTime': endTime,
-      },
+        'afk.endTime': endTime
+      }
     },
     { new: true }
   )
@@ -173,8 +173,8 @@ async function removeAfk(userId) {
         'afk.enabled': false,
         'afk.reason': null,
         'afk.since': null,
-        'afk.endTime': null,
-      },
+        'afk.endTime': null
+      }
     },
     { new: true }
   )
@@ -277,10 +277,10 @@ async function clearProfile(userId) {
             showAge: false,
             showRegion: false,
             showBirthdate: false,
-            showPronouns: false,
-          },
-        },
-      },
+            showPronouns: false
+          }
+        }
+      }
     },
     { new: true }
   )
@@ -294,8 +294,8 @@ async function getUsersWithBirthdayToday() {
   const users = await Model.find({
     'profile.birthdate': {
       $exists: true,
-      $ne: null,
-    },
+      $ne: null
+    }
   })
 
   return users.filter(user => {
@@ -320,5 +320,5 @@ module.exports = {
   updateMiscProfile,
   updateProfile,
   clearProfile,
-  getUsersWithBirthdayToday,
+  getUsersWithBirthdayToday
 }

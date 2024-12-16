@@ -62,7 +62,7 @@ module.exports = {
   slashCommand: {
     enabled: true,
     ephemeral: false,
-    options: [],
+    options: []
   },
-  interactionRun: (interaction, data) => {},
+  interactionRun: (interaction, data) => {}
 }

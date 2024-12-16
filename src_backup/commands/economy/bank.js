@@ -1,4 +1,4 @@
-const { ApplicationCommandOptionType } = require('discord.js')
+import { ApplicationCommandOptionType } from 'discord.js'
 const balance = require('./sub/balance')
 const deposit = require('./sub/deposit')
 const transfer = require('./sub/transfer')
@@ -25,9 +25,9 @@ module.exports = {
             name: 'user',
             description: 'name of the user',
             type: ApplicationCommandOptionType.User,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'deposit',
@@ -38,9 +38,9 @@ module.exports = {
             name: 'coins',
             description: 'number of coins to deposit',
             type: ApplicationCommandOptionType.Integer,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'withdraw',
@@ -51,9 +51,9 @@ module.exports = {
             name: 'coins',
             description: 'number of coins to withdraw',
             type: ApplicationCommandOptionType.Integer,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'transfer',
@@ -64,17 +64,17 @@ module.exports = {
             name: 'user',
             description: 'the user to whom coins must be transferred',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'coins',
             description: 'the amount of coins to transfer',
             type: ApplicationCommandOptionType.Integer,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -107,5 +107,5 @@ module.exports = {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }

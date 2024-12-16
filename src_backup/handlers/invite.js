@@ -14,7 +14,7 @@ const cacheInvite = (invite, isVanity) => ({
   code: invite.code,
   uses: invite.uses,
   maxUses: invite.maxUses,
-  inviterId: isVanity ? 'VANITY' : invite.inviter?.id,
+  inviterId: isVanity ? 'VANITY' : invite.inviter?.id
 })
 
 /**
@@ -168,5 +168,5 @@ module.exports = {
   cacheGuildInvites,
   checkInviteRewards,
   getEffectiveInvites,
-  cacheInvite,
+  cacheInvite
 }

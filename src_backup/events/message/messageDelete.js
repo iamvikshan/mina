@@ -28,12 +28,12 @@ module.exports = async (client, message) => {
           value: message.author
             ? `${message.author.tag} (${message.author.id})`
             : 'Unknown',
-          inline: true,
+          inline: true
         },
         { name: 'Channel', value: message.channel.toString(), inline: true },
         {
           name: 'Content',
-          value: message.content || 'None (possibly an embed or attachment)',
+          value: message.content || 'None (possibly an embed or attachment)'
         }
       )
       .setTimestamp()

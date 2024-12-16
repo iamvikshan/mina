@@ -1,4 +1,4 @@
-const { Guild, ChannelType } = require('discord.js')
+import { Guild, ChannelType } from 'discord.js'
 
 const ROLE_MENTION = /<?@?&?(\d{17,20})>?/
 const CHANNEL_MENTION = /<?#?(\d{17,20})>?/
@@ -149,7 +149,7 @@ Guild.prototype.resolveMember = async function (query, exact = false) {
 Guild.prototype.fetchMemberStats = async function () {
   const all = await this.members.fetch({
     force: false,
-    cache: false,
+    cache: false
   })
   const total = all.size
   const bots = all.filter(mem => mem.user.bot).size

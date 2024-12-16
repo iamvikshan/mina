@@ -1,5 +1,5 @@
 const { musicValidations } = require('@helpers/BotUtils')
-const { ApplicationCommandOptionType } = require('discord.js')
+import { ApplicationCommandOptionType } from 'discord.js'
 
 /**
  * @type {import("@structures/Command")}
@@ -17,9 +17,9 @@ module.exports = {
         name: 'time',
         description: 'The time you want to seek to',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -33,7 +33,7 @@ module.exports = {
     }
     const response = await seekTo(interaction, time)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

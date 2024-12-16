@@ -1,10 +1,10 @@
-const {
+import {
   EmbedBuilder,
   ButtonBuilder,
   ButtonStyle,
-  ActionRowBuilder,
-} = require('discord.js')
-const { EMBED_COLORS } = require('@src/config')
+  ActionRowBuilder
+} from 'discord.js'
+import { EMBED_COLORS } from '@src/config'
 
 module.exports = async (client, player, track) => {
   const guild = client.guilds.cache.get(player.guildId)
@@ -64,7 +64,7 @@ module.exports = async (client, player, track) => {
         )
         .setThumbnail(track.info.artworkUrl)
         .setFooter({
-          text: `Requested by: ${track.requester.username}`,
+          text: `Requested by: ${track.requester.username}`
         })
         .addFields(
           {
@@ -72,16 +72,16 @@ module.exports = async (client, player, track) => {
             value: track.info.isStream
               ? 'Live'
               : client.utils.formatTime(track.info.duration),
-            inline: true,
+            inline: true
           },
           {
             name: 'Author',
             value: track.info.author || 'Unknown',
-            inline: true,
+            inline: true
           }
-        ),
+        )
     ],
-    components: [row(player)],
+    components: [row(player)]
   })
 
   if (msg) player.set('message', msg)
@@ -91,7 +91,7 @@ module.exports = async (client, player, track) => {
       const sameVc =
         int.guild.members.me.voice.channelId === int.member.voice.channelId
       return sameVc
-    },
+    }
   })
 
   collector.on('collect', async int => {
@@ -145,8 +145,8 @@ module.exports = async (client, player, track) => {
       embeds: [
         new EmbedBuilder()
           .setDescription(description)
-          .setColor(EMBED_COLORS.BOT_EMBED),
-      ],
+          .setColor(EMBED_COLORS.BOT_EMBED)
+      ]
     })
   })
 }

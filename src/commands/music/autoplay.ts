@@ -4,20 +4,20 @@ const { autoplayFunction } = require('@handlers/player')
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'autoplay',
   description: 'Toggle autoplay feature for music player',
   category: 'MUSIC',
   validations: musicValidations,
   slashCommand: {
     enabled: true,
-    options: [],
+    options: []
   },
 
   async interactionRun(interaction) {
     const response = await toggleAutoplay(interaction)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function toggleAutoplay({ client, guildId }) {

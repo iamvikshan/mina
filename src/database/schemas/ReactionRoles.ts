@@ -1,11 +1,29 @@
-import mongoose from 'mongoose'
+import { Client } from 'discord.js'
+import mongoose, { Document, Schema } from 'mongoose'
+
+export interface IRole {
+  emote: string
+  role_id: string
+}
+
+export interface IReactionRole {
+  guild_id: string
+  channel_id: string
+  message_id: string
+  roles: IRole[]
+  created_at: Date
+}
+
+export interface IReactionRoleDocument extends IReactionRole, Document {}
+
+type CachedRoles = IRole[]
 
 const reqString = {
   type: String,
-  required: true,
-}
+  required: true
+} as const
 
-const Schema = new mongoose.Schema(
+export const reactionRoleSchema = new Schema<IReactionRoleDocument>(
   {
     guild_id: reqString,
     channel_id: reqString,
@@ -14,85 +32,97 @@ const Schema = new mongoose.Schema(
       {
         _id: false,
         emote: reqString,
-        role_id: reqString,
-      },
-    ],
+        role_id: reqString
+      }
+    ]
   },
   {
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: false,
-    },
+      updatedAt: false
+    }
   }
 )
 
-const Model = mongoose.model('reaction-roles', Schema)
+export const ReactionRoles = mongoose.model<IReactionRoleDocument>(
+  'reaction-roles',
+  reactionRoleSchema
+)
 
-// Cache
-const rrCache = new Map()
-const getKey = (guildId, channelId, messageId) =>
-  `${guildId}|${channelId}|${messageId}`
+const rrCache = new Map<string, CachedRoles>()
 
-export default {
-  model: Model,
+const getKey = (
+  guildId: string,
+  channelId: string,
+  messageId: string
+): string => `${guildId}|${channelId}|${messageId}`
 
-  cacheReactionRoles: async client => {
-    // clear previous cache
-    rrCache.clear()
+export async function cacheReactionRoles(client: Client): Promise<void> {
+  rrCache.clear()
+  const docs = await ReactionRoles.find().lean<IReactionRole[]>()
 
-    // load all docs from database
-    const docs = await Model.find().lean()
+  for (const doc of docs) {
+    const guild = client.guilds.cache.get(doc.guild_id)
 
-    // validate and cache docs
-    for (const doc of docs) {
-      const guild = client.guilds.cache.get(doc.guild_id)
-      if (!guild) {
-        // await Model.deleteMany({ guild_id: doc.guild_id });
-        continue
+    if (!guild) continue
+    if (!guild.channels.cache.has(doc.channel_id)) continue
+
+    const key = getKey(doc.guild_id, doc.channel_id, doc.message_id)
+    rrCache.set(key, doc.roles)
+  }
+}
+
+export function getReactionRoles(
+  guildId: string,
+  channelId: string,
+  messageId: string
+): CachedRoles {
+  return rrCache.get(getKey(guildId, channelId, messageId)) || []
+}
+
+export async function addReactionRole(
+  guildId: string,
+  channelId: string,
+  messageId: string,
+  emote: string,
+  roleId: string
+): Promise<void> {
+  const filter = {
+    guild_id: guildId,
+    channel_id: channelId,
+    message_id: messageId
+  }
+
+  await ReactionRoles.updateOne(filter, { $pull: { roles: { emote } } })
+
+  const data = await ReactionRoles.findOneAndUpdate(
+    filter,
+    {
+      $push: {
+        roles: { emote, role_id: roleId }
       }
-      if (!guild.channels.cache.has(doc.channel_id)) {
-        // await Model.deleteMany({ guild_id: doc.guild_id, channel_id: doc.channel_id });
-        continue
-      }
-      const key = getKey(doc.guild_id, doc.channel_id, doc.message_id)
-      rrCache.set(key, doc.roles)
-    }
-  },
+    },
+    { upsert: true, new: true }
+  ).lean<IReactionRole>()
 
-  getReactionRoles: (guildId, channelId, messageId) =>
-    rrCache.get(getKey(guildId, channelId, messageId)) || [],
+  if (!data) {
+    throw new Error('Failed to update reaction role')
+  }
 
-  addReactionRole: async (guildId, channelId, messageId, emote, roleId) => {
-    const filter = {
-      guild_id: guildId,
-      channel_id: channelId,
-      message_id: messageId,
-    }
+  const key = getKey(guildId, channelId, messageId)
+  rrCache.set(key, data.roles)
+}
 
-    // Pull if existing configuration is present
-    await Model.updateOne(filter, { $pull: { roles: { emote } } })
+export async function removeReactionRole(
+  guildId: string,
+  channelId: string,
+  messageId: string
+): Promise<void> {
+  await ReactionRoles.deleteOne({
+    guild_id: guildId,
+    channel_id: channelId,
+    message_id: messageId
+  })
 
-    const data = await Model.findOneAndUpdate(
-      filter,
-      {
-        $push: {
-          roles: { emote, role_id: roleId },
-        },
-      },
-      { upsert: true, new: true }
-    ).lean()
-
-    // update cache
-    const key = getKey(guildId, channelId, messageId)
-    rrCache.set(key, data.roles)
-  },
-
-  removeReactionRole: async (guildId, channelId, messageId) => {
-    await Model.deleteOne({
-      guild_id: guildId,
-      channel_id: channelId,
-      message_id: messageId,
-    })
-    rrCache.delete(getKey(guildId, channelId, messageId))
-  },
+  rrCache.delete(getKey(guildId, channelId, messageId))
 }

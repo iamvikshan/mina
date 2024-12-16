@@ -15,8 +15,8 @@ module.exports = class Validator {
     }
 
     // Validate Database Config
-    if (!process.env.MONGO_CONNECTION) {
-      error('env: MONGO_CONNECTION cannot be empty')
+    if (!process.env.MONGO_URL) {
+      error('env: MONGO_URL cannot be empty')
       process.exit(1)
     }
 
@@ -70,7 +70,7 @@ module.exports = class Validator {
           'scsearch',
           'spsearch',
           'dzsearch',
-          'jssearch',
+          'jssearch'
         ].includes(config.MUSIC.DEFAULT_SOURCE)
       ) {
         warn(

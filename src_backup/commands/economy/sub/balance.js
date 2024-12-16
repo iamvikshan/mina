@@ -13,17 +13,17 @@ module.exports = async user => {
       {
         name: 'Wallet',
         value: `${economy?.coins || 0}${ECONOMY.CURRENCY}`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Bank',
         value: `${economy?.bank || 0}${ECONOMY.CURRENCY}`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Net Worth',
         value: `${(economy?.coins || 0) + (economy?.bank || 0)}${ECONOMY.CURRENCY}`,
-        inline: true,
+        inline: true
       }
     )
 

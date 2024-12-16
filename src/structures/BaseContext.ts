@@ -1,27 +1,31 @@
-// src/structures/BaseContext.js
-/**
- * @typedef {Object} ContextData
- * @property {string} name - The name of the command (must be lowercase)
- * @property {string} description - A short description of the command
- * @property {import('discord.js').ApplicationCommandType} type - The type of application command
- * @property {boolean} [enabled] - Whether the slash command is enabled or not
- * @property {boolean} [ephemeral] - Whether the reply should be ephemeral
- * @property {boolean} [defaultPermission] - Whether default permission must be enabled
- * @property {import('discord.js').PermissionResolvable[]} [userPermissions] - Permissions required by the user to use the command.
- * @property {number} [cooldown] - Command cooldown in seconds
- * @property {function(import('discord.js').ContextMenuCommandInteraction)} run - The callback to be executed when the context is invoked
- */
+import {
+  ApplicationCommandType,
+  ContextMenuCommandInteraction,
+  PermissionResolvable
+} from 'discord.js'
 
-/**
- * @type {ContextData} data - The context information
- */
-export default {
+export interface ContextData {
+  name: string
+  description: string
+  type: ApplicationCommandType
+  enabled?: boolean
+  ephemeral?: boolean
+  defaultPermission?: boolean
+  options?: boolean
+  userPermissions?: PermissionResolvable[]
+  cooldown?: number
+  run: (interaction: ContextMenuCommandInteraction) => Promise<void> | void
+}
+
+export const BaseContext: ContextData = {
   name: '',
   description: '',
-  type: '',
+  type: ApplicationCommandType.User, // Default to User, can be changed to Message
   enabled: false,
   ephemeral: false,
+  defaultPermission: true,
   options: true,
   userPermissions: [],
   cooldown: 0,
+  run: async (_interaction: ContextMenuCommandInteraction) => {}
 }

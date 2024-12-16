@@ -5,12 +5,12 @@ const Schema = new mongoose.Schema(
     PRESENCE: {
       ENABLED: {
         type: Boolean,
-        default: true,
+        default: true
       },
       STATUS: {
         type: String,
         enum: ['online', 'idle', 'dnd', 'invisible'],
-        default: 'idle',
+        default: 'idle'
       },
       TYPE: {
         type: String,
@@ -20,28 +20,28 @@ const Schema = new mongoose.Schema(
           'PLAYING',
           'WATCHING',
           'STREAMING',
-          'CUSTOM',
+          'CUSTOM'
         ],
-        default: 'CUSTOM',
+        default: 'CUSTOM'
       },
       MESSAGE: {
         type: String,
-        default: "We'll show them. We'll show them all...",
+        default: "We'll show them. We'll show them all..."
       },
       URL: {
         type: String,
-        default: 'https://twitch.tv/iamvikshan',
-      },
+        default: 'https://twitch.tv/iamvikshan'
+      }
     },
     DEV_COMMANDS: {
       ENABLED: {
         type: Boolean,
-        default: false,
-      },
-    },
+        default: false
+      }
+    }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 )
 
@@ -82,5 +82,5 @@ module.exports = {
     document.DEV_COMMANDS.ENABLED = enabled
     await document.save()
     return document.DEV_COMMANDS
-  },
+  }
 }

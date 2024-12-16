@@ -7,7 +7,7 @@ GuildChannel.prototype.canSendEmbeds = function () {
   return this.permissionsFor(this.guild.members.me).has([
     'ViewChannel',
     'SendMessages',
-    'EmbedLinks',
+    'EmbedLinks'
   ])
 }
 

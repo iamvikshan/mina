@@ -1,5 +1,5 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
-const { EMBED_COLORS } = require('@src/config.js')
+import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
+import { EMBED_COLORS } from '@src/config.js'
 
 const NORMAL =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_,;.?!/\\'0123456789"
@@ -11,7 +11,7 @@ const coinTossIntros = [
   "*channels Player 001 energy* \nLet's play a little game~ 🦑",
   '*spins around* \nReady for some coin-flipping fun? ✨',
   '*giggles* \nYour fate is in my hands! Well, in this coin actually! 🎮',
-  "*eyes sparkling* \nWill luck be on your side? Let's find out! 🍀",
+  "*eyes sparkling* \nWill luck be on your side? Let's find out! 🍀"
 ]
 
 const waitingMessages = [
@@ -19,13 +19,13 @@ const waitingMessages = [
   '*holds breath dramatically* \nUp it goes! ✨',
   '*bouncing nervously* \nOh oh oh, where will it land?! 🎯',
   "*channel's Player 001's patience* \nJust a moment... 🦑",
-  '*can barely contain excitement* \nAlmost there! 💫',
+  '*can barely contain excitement* \nAlmost there! 💫'
 ]
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'flip',
   description: "Want to flip a coin or text? Let's play a fun game!",
   category: 'FUN',
@@ -36,7 +36,7 @@ module.exports = {
       {
         name: 'coin',
         description: "Ready to test your luck? Let's flip a coin!",
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'text',
@@ -47,11 +47,11 @@ module.exports = {
             name: 'input',
             description: 'What message should I flip for you? Make it fun! 🎨',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -72,10 +72,10 @@ module.exports = {
       const input = interaction.options.getString('input')
       const response = await flipText(input)
       await interaction.followUp({
-        content: `*giggles* Here's your text, but make it ✨chaos✨:\n${response}`,
+        content: `*giggles* Here's your text, but make it ✨chaos✨:\n${response}`
       })
     }
-  },
+  }
 }
 
 const firstEmbed = user => {
@@ -106,7 +106,7 @@ const secondEmbed = () => {
 const resultEmbed = toss => {
   const winMessages = {
     HEAD: '*jumps with joy* The coin shows its face! ✨',
-    TAIL: '*spins excitedly* The coin shows its tail! ✨',
+    TAIL: '*spins excitedly* The coin shows its tail! ✨'
   }
 
   return new EmbedBuilder()

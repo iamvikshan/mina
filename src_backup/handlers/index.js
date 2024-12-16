@@ -15,5 +15,5 @@ module.exports = {
   guildHandler: require('./guild'),
   profileHandler: require('./profile'),
   managerHandler: require('./manager'),
-  playerHandler: require('./player'),
+  playerHandler: require('./player')
 }

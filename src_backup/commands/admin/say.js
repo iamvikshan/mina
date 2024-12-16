@@ -15,35 +15,35 @@ module.exports = {
         name: 'message',
         description: 'The message to be sent.',
         type: 3,
-        required: true,
+        required: true
       },
       {
         name: 'channel',
         description: 'The channel where the message will be sent.',
         type: 7,
-        required: false,
+        required: false
       },
       {
         name: 'message_id',
         description: 'The ID of the message to edit or reply to.',
         type: 3,
-        required: false,
+        required: false
       },
       {
         name: 'edit',
         description:
           'Whether to edit the message specified by message_id instead of sending a new message.',
         type: 5,
-        required: false,
+        required: false
       },
       {
         name: 'ping',
         description:
           'Whether to ping everyone in the channel after sending the message.',
         type: 5,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async execute(interaction) {
@@ -75,7 +75,7 @@ module.exports = {
           await interaction.followUp({
             content:
               'Oopsie! 😅 That message ID seems invalid. Please try again! 💔',
-            ephemeral: true,
+            ephemeral: true
           })
           return
         }
@@ -84,30 +84,30 @@ module.exports = {
           await replyMessage.edit(message)
           await interaction.followUp({
             content: '✨ Message edited successfully! ✨',
-            ephemeral: true,
+            ephemeral: true
           })
         } else {
           await replyMessage.reply({
             content: `${message}\n${ping ? '@everyone' : ''}`,
-            allowedMentions: { parse: ['everyone', 'roles', 'users'] },
+            allowedMentions: { parse: ['everyone', 'roles', 'users'] }
           })
           await interaction.followUp({
             content: '🎉 Message replied successfully! 🎉',
-            ephemeral: true,
+            ephemeral: true
           })
         }
       } else {
         // If no message ID is provided, send a new message
         await channel.send({
           content: message,
-          allowedMentions: { parse: ['everyone', 'roles', 'users'] },
+          allowedMentions: { parse: ['everyone', 'roles', 'users'] }
         })
 
         if (ping) {
           setTimeout(async () => {
             await channel.send({
               content: '@everyone',
-              allowedMentions: { parse: ['everyone', 'roles', 'users'] },
+              allowedMentions: { parse: ['everyone', 'roles', 'users'] }
             })
           }, 2000) // wait 2 seconds before sending the second message
         }
@@ -115,7 +115,7 @@ module.exports = {
         // Send the final reply
         await interaction.followUp({
           content: '✨ Your message has been sent! ✨',
-          ephemeral: true,
+          ephemeral: true
         })
       }
     } catch (error) {
@@ -123,12 +123,12 @@ module.exports = {
       await interaction.followUp({
         content:
           'Oh no! 😱 An error occurred while processing this command. Please try again later! 💖',
-        ephemeral: true,
+        ephemeral: true
       })
     }
   },
 
   async interactionRun(interaction) {
     await this.execute(interaction)
-  },
+  }
 }

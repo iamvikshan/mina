@@ -1,12 +1,12 @@
 const {
   ApplicationCommandOptionType,
-  PermissionFlagsBits,
+  PermissionFlagsBits
 } = require('discord.js')
 const {
   getUser,
   addFlag,
   removeFlag,
-  removeAllFlags,
+  removeAllFlags
 } = require('@schemas/User')
 
 const MAX_FLAGS = 5
@@ -16,7 +16,7 @@ const DANGER_RATINGS = {
   2: { label: 'Moderate Risk ⚠️⚠️', color: 0xff9900 },
   3: { label: 'High Risk ⚠️⚠️⚠️', color: 0xff6600 },
   4: { label: 'Very High Risk ⚠️⚠️⚠️⚠️', color: 0xff3300 },
-  5: { label: 'Extremely Dangerous ⚠️⚠️⚠️⚠️⚠️', color: 0xff0000 },
+  5: { label: 'Extremely Dangerous ⚠️⚠️⚠️⚠️⚠️', color: 0xff0000 }
 }
 
 /**
@@ -40,15 +40,15 @@ module.exports = {
             name: 'user',
             description: 'User to add a red flag to',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'reason',
             description: 'Reason for adding a red flag',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'remove',
@@ -59,9 +59,9 @@ module.exports = {
             name: 'user',
             description: 'User to remove your red flag from',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'check',
@@ -72,9 +72,9 @@ module.exports = {
             name: 'user',
             description: 'User to check red flags on',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'clear',
@@ -85,11 +85,11 @@ module.exports = {
             name: 'user',
             description: 'User to clear all red flags from',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -106,7 +106,7 @@ module.exports = {
 
     const response = await handleRedFlag(interaction, subcommand, user, reason)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function handleRedFlag(interaction, action, user, reason) {
@@ -118,7 +118,7 @@ async function handleRedFlag(interaction, action, user, reason) {
       _id: user.id,
       username: user.username,
       discriminator: user.discriminator,
-      flags: [],
+      flags: []
     })
   }
 
@@ -182,8 +182,8 @@ async function handleRedFlag(interaction, action, user, reason) {
             {
               name: `Red Flag #${index + 1}`,
               value: `**By:** ${flagger.tag}\n**Server:** ${flag.serverName}\n**When:** <t:${Math.floor(flag.flaggedAt.getTime() / 1000)}:R>\n**Reason:** ${flag.reason}`,
-              inline: false,
-            },
+              inline: false
+            }
           ]
         })
       )
@@ -206,10 +206,10 @@ async function handleRedFlag(interaction, action, user, reason) {
             fields: flagFields.flat(),
             color: rating.color,
             footer: {
-              text: 'Remember: Users can remove their own flags, and admins can go flag-clearing crazy!',
-            },
-          },
-        ],
+              text: 'Remember: Users can remove their own flags, and admins can go flag-clearing crazy!'
+            }
+          }
+        ]
       }
 
     default:

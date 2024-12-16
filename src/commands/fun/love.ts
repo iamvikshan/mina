@@ -1,34 +1,34 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
-const { EMBED_COLORS } = require('@src/config.js')
+import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
+import { EMBED_COLORS } from '@src/config.js'
 
 // Amina's creative love responses
 const loveResponses = {
   perfect: [
     "💖 OMG they're literally soulmates! The stars aligned! 💫",
     '✨ This is like something straight out of my favorite romance anime! ✨',
-    "💝 My heart can't handle how perfect they are together! 💝",
+    "💝 My heart can't handle how perfect they are together! 💝"
   ],
   good: [
     "💕 Aww, they've got such sweet chemistry! 💕",
     "💫 I'm getting such good vibes from this match! ✨",
-    '🌟 They could write a really cute love story together! 🌟',
+    '🌟 They could write a really cute love story together! 🌟'
   ],
   decent: [
     '💛 With a little magic, this could become something special! ✨',
     "🌟 There's potential here - just needs some sparkle! 🌟",
-    '💫 I see a spark waiting to bloom! 💫',
+    '💫 I see a spark waiting to bloom! 💫'
   ],
   low: [
     '💜 Sometimes opposites attract in the most unexpected ways! 💫',
     "✨ Maybe they're better as adventure buddies! 🌟",
-    '🎨 Every relationship is its own unique masterpiece! 💫',
-  ],
+    '🎨 Every relationship is its own unique masterpiece! 💫'
+  ]
 }
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'love',
   description: 'Let me check the stars and see if love is in the air! ✨',
   category: 'FUN',
@@ -39,15 +39,15 @@ module.exports = {
         name: 'user1',
         description: 'First person in this potential love story! 💫',
         type: ApplicationCommandOptionType.User,
-        required: true,
+        required: true
       },
       {
         name: 'user2',
         description: 'Second person in this magical equation! ✨',
         type: ApplicationCommandOptionType.User,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -55,7 +55,7 @@ module.exports = {
     const user2 = interaction.options.getUser('user2')
     const response = await getUserLove(user1, user2, interaction.user)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function getUserLove(user1, user2, mauthor) {
@@ -98,19 +98,19 @@ async function getUserLove(user1, user2, mauthor) {
       {
         name: '💫 The Magic Result 💫',
         value: `**${user1}** and **${user2}** are a **${result}%** match!\n${customResponse}`,
-        inline: false,
+        inline: false
       },
       {
         name: '✨ Love Status ✨',
         value: loveStatus,
-        inline: false,
+        inline: false
       }
     )
     .setColor(EMBED_COLORS.BOT_EMBED)
     .setImage(loveImage)
     .setThumbnail('https://www.wownow.net.in/assets/images/love.gif')
     .setFooter({
-      text: `Requested by ${mauthor.tag} (I ship it! 💖)`,
+      text: `Requested by ${mauthor.tag} (I ship it! 💖)`
     })
     .setTimestamp()
 

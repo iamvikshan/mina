@@ -1,11 +1,11 @@
-const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js')
-const { getUser, setAfk } = require('@schemas/User')
-const { EMBED_COLORS } = require('@src/config.js')
+const { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js'
+import { getUser, setAfk } from '@schemas/User'
+import { EMBED_COLORS } from '@src/config.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'afk',
   description: 'Set your AFK status',
   category: 'UTILITY',
@@ -18,7 +18,7 @@ module.exports = {
         name: 'reason',
         description: 'The reason for going AFK',
         type: ApplicationCommandOptionType.String,
-        required: true,
+        required: true
       },
       {
         name: 'duration',
@@ -26,9 +26,9 @@ module.exports = {
         type: ApplicationCommandOptionType.Integer,
         required: false,
         min_value: 1,
-        max_value: 43200, // 30 days in minutes
-      },
-    ],
+        max_value: 43200 // 30 days in minutes
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -69,5 +69,5 @@ module.exports = {
         }
       }, duration * 60000)
     }
-  },
+  }
 }

@@ -1,11 +1,11 @@
 const { kickTarget } = require('@helpers/ModUtils')
-const { ApplicationCommandOptionType } = require('discord.js')
-const { MODERATION } = require('@src/config.js')
+import { ApplicationCommandOptionType } from 'discord.js'
+const { MODERATION } from '@src/config.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'kick',
   description: 'Kicks the specified member',
   category: 'MODERATION',
@@ -22,16 +22,16 @@ module.exports = {
           name: 'user',
           description: 'The target member',
           type: ApplicationCommandOptionType.User, // Use .User instead of .USER
-          required: true,
+          required: true
         },
         {
           name: 'reason',
           description: 'Reason for kick',
           type: ApplicationCommandOptionType.String, // Use .String instead of .STRING
-          required: false,
-        },
-      ],
-    },
+          required: false
+        }
+      ]
+    }
   },
 
   async interactionRun(interaction) {
@@ -41,7 +41,7 @@ module.exports = {
 
     const response = await kick(interaction.member, target, reason)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function kick(issuer, target, reason) {

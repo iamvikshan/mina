@@ -1,4 +1,4 @@
-const { ApplicationCommandOptionType } = require('discord.js')
+import { ApplicationCommandOptionType } from 'discord.js'
 const { AUTOMOD } = require('@src/config.js')
 
 /**
@@ -26,15 +26,15 @@ module.exports = {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'invites',
@@ -49,15 +49,15 @@ module.exports = {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'links',
@@ -72,15 +72,15 @@ module.exports = {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'maxlines',
@@ -91,11 +91,11 @@ module.exports = {
             name: 'amount',
             description: 'Configuration amount (0 to disable)',
             required: true,
-            type: ApplicationCommandOptionType.Integer,
-          },
-        ],
-      },
-    ],
+            type: ApplicationCommandOptionType.Integer
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -128,7 +128,7 @@ module.exports = {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function antiAttachments(settings, input) {

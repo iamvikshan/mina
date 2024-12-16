@@ -3,7 +3,7 @@ const channelInfo = require('./shared/channel')
 const guildInfo = require('./shared/guild')
 const avatar = require('./shared/avatar')
 const emojiInfo = require('./shared/emoji')
-const { ApplicationCommandOptionType } = require('discord.js')
+import { ApplicationCommandOptionType } from 'discord.js'
 
 /**
  * @type {import("@structures/Command")}
@@ -26,9 +26,9 @@ module.exports = {
             name: 'name',
             description: 'name of the user',
             type: ApplicationCommandOptionType.User,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'channel',
@@ -39,14 +39,14 @@ module.exports = {
             name: 'name',
             description: 'name of the channel',
             type: ApplicationCommandOptionType.Channel,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'guild',
         description: 'get guild information',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'avatar',
@@ -57,9 +57,9 @@ module.exports = {
             name: 'name',
             description: 'name of the user',
             type: ApplicationCommandOptionType.User,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'emoji',
@@ -70,11 +70,11 @@ module.exports = {
             name: 'name',
             description: 'name of the emoji',
             type: ApplicationCommandOptionType.String,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -119,5 +119,5 @@ module.exports = {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }

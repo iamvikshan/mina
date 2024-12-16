@@ -1,10 +1,10 @@
-const { EmbedBuilder } = require('discord.js')
-const { EMBED_COLORS } = require('@src/config')
+import { EmbedBuilder } from 'discord.js'
+import { EMBED_COLORS } from '@src/config'
 
 /**
  * @param {import('discord.js').User} user
  */
-module.exports = user => {
+export default user => {
   const x64 = user.displayAvatarURL({ extension: 'png', size: 64 })
   const x128 = user.displayAvatarURL({ extension: 'png', size: 128 })
   const x256 = user.displayAvatarURL({ extension: 'png', size: 256 })
@@ -26,6 +26,6 @@ module.exports = user => {
     )
 
   return {
-    embeds: [embed],
+    embeds: [embed]
   }
 }

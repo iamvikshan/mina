@@ -16,7 +16,7 @@ let client
 async function initializeBot() {
   try {
     // initialize client
-    client = new BotClient() // Remove 'const' here since we're using the global client
+    client = new BotClient()
 
     // check for updates
     await checkForUpdates()

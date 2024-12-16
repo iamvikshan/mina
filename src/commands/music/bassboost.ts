@@ -1,11 +1,11 @@
 const { musicValidations } = require('@helpers/BotUtils')
-const { ApplicationCommandOptionType } = require('discord.js')
+import { ApplicationCommandOptionType } from 'discord.js'
 const { EQList } = require('lavalink-client')
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'bassboost',
   description: 'Set bassboost level',
   category: 'MUSIC',
@@ -22,17 +22,17 @@ module.exports = {
           { name: 'High', value: 'high' },
           { name: 'Medium', value: 'medium' },
           { name: 'Low', value: 'low' },
-          { name: 'Off', value: 'off' },
-        ],
-      },
-    ],
+          { name: 'Off', value: 'off' }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     let level = interaction.options.getString('level')
     const response = await setBassBoost(interaction, level)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

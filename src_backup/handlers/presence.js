@@ -10,7 +10,7 @@ async function updatePresence(client) {
   if (!config.PRESENCE.ENABLED) {
     return client.user.setPresence({
       status: 'invisible',
-      activities: [],
+      activities: []
     })
   }
 
@@ -48,7 +48,7 @@ async function updatePresence(client) {
 
   const activity = {
     name: message,
-    type: getType(config.PRESENCE.TYPE),
+    type: getType(config.PRESENCE.TYPE)
   }
 
   // Handle streaming activity type with URL support
@@ -63,7 +63,7 @@ async function updatePresence(client) {
 
   await client.user.setPresence({
     status: config.PRESENCE.STATUS,
-    activities: [activity],
+    activities: [activity]
   })
 
   // Log the presence update

@@ -1,5 +1,5 @@
-const { EMBED_COLORS, MUSIC } = require('@src/config')
-const { EmbedBuilder } = require('discord.js')
+import { EMBED_COLORS, MUSIC } from '@src/config'
+import { EmbedBuilder } from 'discord.js'
 
 module.exports = {
   autoplayFunction: async (client, track, player) => {
@@ -45,8 +45,8 @@ module.exports = {
           embeds: [
             new EmbedBuilder()
               .setColor(EMBED_COLORS.WARNING)
-              .setDescription('> Autoplay, No results found'),
-          ],
+              .setDescription('> Autoplay, No results found')
+          ]
         },
         10
       )
@@ -75,12 +75,12 @@ module.exports = {
           embeds: [
             new EmbedBuilder()
               .setColor(EMBED_COLORS.WARNING)
-              .setDescription('> Autoplay, No unique track found'),
-          ],
+              .setDescription('> Autoplay, No unique track found')
+          ]
         },
         10
       )
       return player.destroy()
     }
-  },
+  }
 }

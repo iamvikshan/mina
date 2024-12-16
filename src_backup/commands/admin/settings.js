@@ -6,7 +6,7 @@ const {
   ComponentType,
   ApplicationCommandOptionType,
   ChannelType,
-  PermissionFlagsBits,
+  PermissionFlagsBits
 } = require('discord.js')
 const { EMBED_COLORS } = require('@src/config.js')
 const { model: ReactionRoleModel } = require('@schemas/ReactionRoles')
@@ -33,11 +33,11 @@ module.exports = {
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [
               ChannelType.GuildText,
-              ChannelType.GuildAnnouncement,
+              ChannelType.GuildAnnouncement
             ],
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'staffadd',
@@ -48,9 +48,9 @@ module.exports = {
             name: 'role',
             description: 'Select a role to add as staff',
             type: ApplicationCommandOptionType.Role,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'staffremove',
@@ -61,16 +61,16 @@ module.exports = {
             name: 'role',
             description: 'Select a role to remove from staff',
             type: ApplicationCommandOptionType.Role,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'status',
         description: 'List all current settings and their values',
-        type: ApplicationCommandOptionType.Subcommand,
-      },
-    ],
+        type: ApplicationCommandOptionType.Subcommand
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -94,7 +94,7 @@ module.exports = {
     if (sub === 'status') {
       return await statusSettings(interaction, data.settings)
     }
-  },
+  }
 }
 
 async function updateChannel(interaction, channel, settings) {
@@ -197,14 +197,14 @@ function createSetupEmbed(settings) {
         name: 'Updates Channel',
         value: settings.server.updates_channel
           ? `✅ Set to <#${settings.server.updates_channel}>`
-          : '❌ Not set yet\nUse `/settings updateschannel` to set it up!',
+          : '❌ Not set yet\nUse `/settings updateschannel` to set it up!'
       },
       {
         name: 'Staff Roles',
         value:
           settings.server.staff_roles && settings.server.staff_roles.length > 0
             ? `✅ ${settings.server.staff_roles.map(id => `<@&${id}>`).join(', ')}`
-            : '❌ No staff roles set\nUse `/settings staffadd` to add a staff role!',
+            : '❌ No staff roles set\nUse `/settings staffadd` to add a staff role!'
       }
     )
 
@@ -212,7 +212,7 @@ function createSetupEmbed(settings) {
     embed.setFooter({ text: "Yay! Your setup is complete! You're amazing! 🎉" })
   } else {
     embed.setFooter({
-      text: "Almost there! Complete the setup to unlock all of Mina's awesome features! 💕",
+      text: "Almost there! Complete the setup to unlock all of Mina's awesome features! 💕"
     })
   }
 
@@ -225,62 +225,62 @@ async function statusSettings(interaction, settings) {
       name: '1. Updates Channel 📢',
       value: settings.server.updates_channel
         ? `- Updates Channel set to <#${settings.server.updates_channel}> ✨\n> Use \`/settings updateschannel\` to change it`
-        : "- Oopsie! 🙈 We haven't set this up yet.\n> Use `/settings updateschannel` to get all the cool updates!",
+        : "- Oopsie! 🙈 We haven't set this up yet.\n> Use `/settings updateschannel` to get all the cool updates!"
     },
     {
       name: '2. Staff Roles 👑',
       value:
         settings.server.staff_roles && settings.server.staff_roles.length > 0
           ? `- Current staff roles: ${settings.server.staff_roles.map(id => `<@&${id}>`).join(', ')} ✨\n> Use \`/settings staffadd/staffremove\` to manage staff roles`
-          : "- Uh-oh! 😮 We don't have any staff roles yet. \n> Add some with `/settings staffadd`!",
+          : "- Uh-oh! 😮 We don't have any staff roles yet. \n> Add some with `/settings staffadd`!"
     },
     {
       name: '3. Stats 📊',
-      value: `1. XP/Leveling: ${settings.stats.enabled ? "✅ Let's level up! 🎮" : "❌ Aww, XP/Leveling's off. We're missing out! 😢"}\n2. Invite Tracking: ${settings.invite.tracking ? "✅ We're keeping track!" : "❌ Oh no, we're not tracking invites. 😕"}\n> Want to change these? Use \`/levelup\` for XP stuff and \`/invites\` for invite tracking!`,
+      value: `1. XP/Leveling: ${settings.stats.enabled ? "✅ Let's level up! 🎮" : "❌ Aww, XP/Leveling's off. We're missing out! 😢"}\n2. Invite Tracking: ${settings.invite.tracking ? "✅ We're keeping track!" : "❌ Oh no, we're not tracking invites. 😕"}\n> Want to change these? Use \`/levelup\` for XP stuff and \`/invites\` for invite tracking!`
     },
     {
       name: '4. Logs📝',
       value: settings.logs_channel
         ? `- Logging is all set up in <#${settings.logs_channel}>!\n> Use \`/logs\` to change it`
-        : "- Oops! 🙊 We don't have a logs channel yet.\n> Let's set one up with `/logs`!",
+        : "- Oops! 🙊 We don't have a logs channel yet.\n> Let's set one up with `/logs`!"
     },
     {
       name: '5. Welcome & Farewell 👋',
-      value: `1. Welcome: ${settings.welcome?.enabled ? "✅ We're greeting new friends! 🤗" : "❌ Aww, we're not saying hi to newbies. 😢"}\n2. Farewell: ${settings.farewell?.enabled ? "✅ We're saying bye-bye! 👋" : "❌ We're not saying goodbye. So sad! 😭"}\n> Wanna change this? Use \`/welcome\` and \`/farewell\` to make it just right!`,
+      value: `1. Welcome: ${settings.welcome?.enabled ? "✅ We're greeting new friends! 🤗" : "❌ Aww, we're not saying hi to newbies. 😢"}\n2. Farewell: ${settings.farewell?.enabled ? "✅ We're saying bye-bye! 👋" : "❌ We're not saying goodbye. So sad! 😭"}\n> Wanna change this? Use \`/welcome\` and \`/farewell\` to make it just right!`
     },
     {
       name: '6. Tickets 🎫',
       value: settings.ticket?.enabled
         ? `- Ticket system is up and running! Category: ${settings.ticket.category || "Not set yet, but that's okay!"}\n> Use \`/tickets\` to manage tickets!`
-        : "- Uh-oh! 😮 Our ticket system isn't set up.\n> Let's fix that with `/tickets setup`!",
+        : "- Uh-oh! 😮 Our ticket system isn't set up.\n> Let's fix that with `/tickets setup`!"
     },
     {
       name: '7. Automod 🛡️',
-      value: `- Automod ${settings.automod?.debug ? 'is in debug mode' : 'is active'}!\n- Strikes: ${settings.automod?.strikes || 10}, Action: ${settings.automod?.action || 'TIMEOUT'}\n> Use \`/automod\` to configure automod settings!`,
+      value: `- Automod ${settings.automod?.debug ? 'is in debug mode' : 'is active'}!\n- Strikes: ${settings.automod?.strikes || 10}, Action: ${settings.automod?.action || 'TIMEOUT'}\n> Use \`/automod\` to configure automod settings!`
     },
     {
       name: '8. Max Warn Settings ⚠️',
-      value: `- Action: ${settings.max_warn?.action || 'KICK'}, Limit: ${settings.max_warn?.limit || 5}\n> Use \`/warnconfig\` to adjust these settings!`,
+      value: `- Action: ${settings.max_warn?.action || 'KICK'}, Limit: ${settings.max_warn?.limit || 5}\n> Use \`/warnconfig\` to adjust these settings!`
     },
     {
       name: '9. Counters 🔢',
       value:
         settings.counters && settings.counters.length > 0
           ? `- ${settings.counters.length} counter${settings.counters.length > 1 ? 's' : ''} set up!\n> Use \`/counter\` to manage your counters!`
-          : "- No counters set up yet. Let's add some with `/counter`!",
+          : "- No counters set up yet. Let's add some with `/counter`!"
     },
     {
       name: '10. Autorole 🎭',
       value: settings.autorole
         ? `- Autorole is set to <@&${settings.autorole}>!\n> Use \`/autorole\` to change it`
-        : "- Autorole isn't set up. Use `/autorole` to automatically assign roles to new members!",
+        : "- Autorole isn't set up. Use `/autorole` to automatically assign roles to new members!"
     },
     {
       name: '11. Suggestions 💡',
       value: settings.suggestions?.enabled
         ? `- Suggestions are enabled! Channel: <#${settings.suggestions.channel_id}>\n> Use \`/suggestion\` to manage suggestion settings!`
-        : '- Suggestions are not set up. Enable them with `/suggestion`!',
-    },
+        : '- Suggestions are not set up. Enable them with `/suggestion`!'
+    }
   ]
 
   // Add Giveaways information if there are any active giveaways
@@ -313,13 +313,13 @@ async function statusSettings(interaction, settings) {
 
     allFields.push({
       name: '12. Active Giveaways 🎁',
-      value: `${activeGiveaways.length} active giveaway(s):\n\n${giveawayInfo.join('\n\n')}\n\n> Use \`/giveaway\` to manage giveaways!`,
+      value: `${activeGiveaways.length} active giveaway(s):\n\n${giveawayInfo.join('\n\n')}\n\n> Use \`/giveaway\` to manage giveaways!`
     })
   }
 
   // Add Reaction Roles information if there are any set up
   const reactionRoles = await ReactionRoleModel.find({
-    guild_id: interaction.guild.id,
+    guild_id: interaction.guild.id
   }).lean()
 
   if (reactionRoles.length > 0) {
@@ -338,7 +338,7 @@ async function statusSettings(interaction, settings) {
 
     allFields.push({
       name: '13. Reaction Roles 🎭',
-      value: `${reactionRoles.length} reaction role message(s) set up:\n\n${rrInfo.join('\n\n')}\n\n> Use \`/reactionrole\` to manage reaction roles!`,
+      value: `${reactionRoles.length} reaction role message(s) set up:\n\n${rrInfo.join('\n\n')}\n\n> Use \`/reactionrole\` to manage reaction roles!`
     })
   }
 
@@ -358,7 +358,7 @@ async function statusSettings(interaction, settings) {
       )
       .addFields(fieldsToShow)
       .setFooter({
-        text: `Page ${page}/${totalPages} • Remember, I'm always here to help you set things up! Don't be shy to ask! 💖`,
+        text: `Page ${page}/${totalPages} • Remember, I'm always here to help you set things up! Don't be shy to ask! 💖`
       })
   }
   const generateButtons = page => {
@@ -392,12 +392,12 @@ async function statusSettings(interaction, settings) {
 
   const reply = await interaction.followUp({
     embeds: [initialEmbed],
-    components: [initialButtons],
+    components: [initialButtons]
   })
 
   const collector = reply.createMessageComponentCollector({
     componentType: ComponentType.Button,
-    time: 890000, // Set to 14 minutes and 50 seconds (just under Discord's 15-minute limit)
+    time: 890000 // Set to 14 minutes and 50 seconds (just under Discord's 15-minute limit)
   })
 
   collector.on('collect', async i => {
@@ -421,7 +421,7 @@ async function statusSettings(interaction, settings) {
             "Oopsie! 😅 I had a little hiccup updating the message. Here's a fresh one for you!",
           embeds: [newEmbed],
           components: [newButtons],
-          ephemeral: true,
+          ephemeral: true
         })
       } catch (followUpError) {
         console.error('Failed to send follow-up message:', followUpError)

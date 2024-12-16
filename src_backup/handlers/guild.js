@@ -6,7 +6,7 @@ const {
   ModalBuilder,
   TextInputBuilder,
   TextInputStyle,
-  ChannelType,
+  ChannelType
 } = require('discord.js')
 const { getSettings } = require('@schemas/Guild')
 const { EMBED_COLORS } = require('@src/config')
@@ -100,7 +100,7 @@ async function handleSetupModal(interaction) {
     return interaction.reply({
       content:
         "Oopsie! I couldn't find that channel or role. (◞‸◟；) Can you double-check the names?",
-      ephemeral: true,
+      ephemeral: true
     })
   }
 
@@ -114,7 +114,7 @@ async function handleSetupModal(interaction) {
     return interaction.reply({
       content:
         "Uh-oh! I don't have permission to send messages in that channel. (╥﹏╥) Can you give me the right permissions?",
-      ephemeral: true,
+      ephemeral: true
     })
   }
 
@@ -196,7 +196,7 @@ async function handleRemindModal(interaction) {
     return interaction.reply({
       content:
         "Oopsie! That's not a valid number of minutes. (◞‸◟；) Can you try again?",
-      ephemeral: true,
+      ephemeral: true
     })
   }
 
@@ -215,7 +215,7 @@ async function handleRemindModal(interaction) {
             'Hey there! Just a friendly reminder to finish setting me up in your server. Run `/settings` to get started!'
           )
           .setFooter({
-            text: "I can't wait to be fully operational and super awesome in your server! (◠‿◠✿)",
+            text: "I can't wait to be fully operational and super awesome in your server! (◠‿◠✿)"
           })
 
         await owner.send({ embeds: [reminderEmbed] }).catch(() => {})
@@ -226,7 +226,7 @@ async function handleRemindModal(interaction) {
 
   await interaction.reply({
     content: `Okie dokie! I'll remind you to finish the setup in ${minutes} minutes~ (≧◡≦)`,
-    ephemeral: true,
+    ephemeral: true
   })
 }
 
@@ -235,5 +235,5 @@ module.exports = {
   handleSetupButton,
   handleSetupModal,
   handleRemindButton,
-  handleRemindModal,
+  handleRemindModal
 }

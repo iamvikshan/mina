@@ -1,48 +1,64 @@
-const { getReactionRoles } = require('@schemas/ReactionRoles')
+import { MessageReaction, User, Role } from 'discord.js'
+import { getReactionRoles } from '@schemas/ReactionRoles'
 
-module.exports = {
-  /**
-   * @param {import('discord.js').MessageReaction} reaction
-   * @param {import('discord.js').User} user
-   */
-  async handleReactionAdd(reaction, user) {
-    const role = await getRole(reaction)
-    if (!role) return
-
-    const member = await reaction.message.guild.members.fetch(user.id)
-    if (!member) return
-
-    await member.roles.add(role).catch(() => {})
-  },
-
-  /**
-   * @param {import('discord.js').MessageReaction} reaction
-   * @param {import('discord.js').User} user
-   */
-  async handleReactionRemove(reaction, user) {
-    const role = await getRole(reaction)
-    if (!role) return
-
-    const member = await reaction.message.guild.members.fetch(user.id)
-    if (!member) return
-
-    await member.roles.remove(role).catch(() => {})
-  },
+interface ReactionDocument {
+  emote: string
+  role_id: string
 }
 
-/**
- * @param {import('discord.js').MessageReaction} reaction
- */
-async function getRole(reaction) {
+async function getRole(reaction: MessageReaction): Promise<Role | null> {
   const { message, emoji } = reaction
-  if (!message || !message.channel) return
+  if (!message?.channel) return null
 
-  const rr = getReactionRoles(message.guildId, message.channelId, message.id)
-  const emote = emoji.id ? emoji.id : emoji.toString()
-  const found = rr.find(doc => doc.emote === emote)
+  const reactionRoles = getReactionRoles(
+    message.guildId,
+    message.channelId,
+    message.id
+  )
 
-  const reactionRole = found
-    ? await message.guild.roles.fetch(found.role_id)
-    : null
-  return reactionRole
+  const emote = emoji.id ?? emoji.toString()
+  const found = reactionRoles.find(
+    (doc: ReactionDocument) => doc.emote === emote
+  )
+
+  return found ? await message.guild?.roles.fetch(found.role_id) : null
+}
+
+export const handleReactionAdd = async (
+  reaction: MessageReaction,
+  user: User
+): Promise<void> => {
+  const role = await getRole(reaction)
+  if (!role) return
+
+  const member = await reaction.message.guild?.members.fetch(user.id)
+  if (!member) return
+
+  try {
+    await member.roles.add(role)
+  } catch (error) {
+    // Handle error silently
+  }
+}
+
+export const handleReactionRemove = async (
+  reaction: MessageReaction,
+  user: User
+): Promise<void> => {
+  const role = await getRole(reaction)
+  if (!role) return
+
+  const member = await reaction.message.guild?.members.fetch(user.id)
+  if (!member) return
+
+  try {
+    await member.roles.remove(role)
+  } catch (error) {
+    // Handle error silently
+  }
+}
+
+export const reactionRoleHandler = {
+  handleReactionAdd,
+  handleReactionRemove
 }

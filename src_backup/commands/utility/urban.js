@@ -19,16 +19,16 @@ module.exports = {
         name: 'word',
         description: 'the word for which you want to urban meaning',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const word = interaction.options.getString('word')
     const response = await urban(word)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function urban(word) {
@@ -50,22 +50,22 @@ async function urban(word) {
       {
         name: 'Author',
         value: data.author,
-        inline: true,
+        inline: true
       },
       {
         name: 'ID',
         value: data.defid.toString(),
-        inline: true,
+        inline: true
       },
       {
         name: 'Likes / Dislikes',
         value: `👍 ${data.thumbs_up} | 👎 ${data.thumbs_down}`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Example',
         value: data.example,
-        inline: false,
+        inline: false
       }
     )
     .setFooter({ text: `Created ${moment(data.written_on).fromNow()}` })

@@ -1,7 +1,7 @@
 const { getBuffer } = require('@helpers/HttpUtils')
 const {
   AttachmentBuilder,
-  ApplicationCommandOptionType,
+  ApplicationCommandOptionType
 } = require('discord.js')
 
 const PROXY_TYPES = ['all', 'http', 'socks4', 'socks5']
@@ -23,9 +23,9 @@ module.exports = {
         description: 'type of proxy',
         type: ApplicationCommandOptionType.String,
         required: true,
-        choices: PROXY_TYPES.map(p => ({ name: p, value: p })),
-      },
-    ],
+        choices: PROXY_TYPES.map(p => ({ name: p, value: p }))
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -33,7 +33,7 @@ module.exports = {
     await interaction.followUp('Fetching proxies... Please wait')
     const response = await getProxies(type)
     await interaction.editReply(response)
-  },
+  }
 }
 
 async function getProxies(type) {
@@ -46,10 +46,10 @@ async function getProxies(type) {
     return 'Could not fetch data. Try again later'
 
   const attachment = new AttachmentBuilder(response.buffer, {
-    name: `${type.toLowerCase()}_proxies.txt`,
+    name: `${type.toLowerCase()}_proxies.txt`
   })
   return {
     content: `${type.toUpperCase()} Proxies fetched`,
-    files: [attachment],
+    files: [attachment]
   }
 }

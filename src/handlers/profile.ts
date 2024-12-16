@@ -1,6 +1,6 @@
-const { EmbedBuilder } = require('discord.js')
-const { EMBED_COLORS } = require('@src/config.js')
-const { updateProfile, clearProfile, getUser } = require('@schemas/User')
+import { EmbedBuilder } from 'discord.js'
+import { EMBED_COLORS } from '@src/config.js'
+const { updateProfile, clearProfile, getUser } from '@schemas/User'
 
 /**
  * Validates and parses a birthdate string
@@ -26,7 +26,7 @@ function validateBirthdate(birthdate) {
   } else {
     return {
       isValid: false,
-      error: 'invalid date format! use DD/MM/YYYY or MM/YYYY',
+      error: 'invalid date format! use DD/MM/YYYY or MM/YYYY'
     }
   }
 
@@ -45,7 +45,7 @@ function validateBirthdate(birthdate) {
   if (date > new Date()) {
     return {
       isValid: false,
-      error: "time traveler detected! date can't be in the future",
+      error: "time traveler detected! date can't be in the future"
     }
   }
 
@@ -57,7 +57,7 @@ function validateBirthdate(birthdate) {
   if (age > 100) {
     return {
       isValid: false,
-      error: 'hmm, that seems a bit too far back. check the year?',
+      error: 'hmm, that seems a bit too far back. check the year?'
     }
   }
 
@@ -99,7 +99,7 @@ async function handleProfileModal(interaction) {
       if (!birthdateValidation.isValid) {
         return interaction.reply({
           content: birthdateValidation.error,
-          ephemeral: true,
+          ephemeral: true
         })
       }
 
@@ -113,7 +113,7 @@ async function handleProfileModal(interaction) {
             .getTextInputValue('languages')
             ?.split(',')
             .map(lang => lang.trim()) || [],
-        timezone: interaction.fields.getTextInputValue('timezone') || null,
+        timezone: interaction.fields.getTextInputValue('timezone') || null
       }
     } else if (customId === 'profile_set_misc_modal') {
       // Parse socials string into a Map
@@ -152,7 +152,7 @@ async function handleProfileModal(interaction) {
             .getTextInputValue('goals')
             ?.split(',')
             .map(g => g.trim())
-            .filter(Boolean) || [],
+            .filter(Boolean) || []
       }
     }
 
@@ -166,8 +166,8 @@ async function handleProfileModal(interaction) {
         showAge: true,
         showRegion: true,
         showBirthdate: false,
-        showPronouns: true,
-      },
+        showPronouns: true
+      }
     }
 
     // Update user profile in database
@@ -179,19 +179,19 @@ async function handleProfileModal(interaction) {
       .setDescription('your story has been beautifully updated!')
       .addFields({
         name: 'want to see?',
-        value: 'use `/profile view` to see your masterpiece!',
+        value: 'use `/profile view` to see your masterpiece!'
       })
 
     return interaction.reply({
       embeds: [embed],
-      ephemeral: true,
+      ephemeral: true
     })
   } catch (error) {
     console.error('Error handling profile modal:', error)
     return interaction.reply({
       content:
         'oops! something went wrong while updating your profile. want to try again?',
-      ephemeral: true,
+      ephemeral: true
     })
   }
 }
@@ -204,7 +204,7 @@ async function handleProfileClear(interaction) {
     return interaction.update({
       content: 'keeping your profile just as it is!',
       embeds: [],
-      components: [],
+      components: []
     })
   }
 
@@ -219,14 +219,14 @@ async function handleProfileClear(interaction) {
 
     return interaction.update({
       embeds: [embed],
-      components: [],
+      components: []
     })
   } catch (error) {
     console.error('Error clearing profile:', error)
     return interaction.update({
       content:
         'oh no! something went wrong while clearing your profile. want to try again?',
-      components: [],
+      components: []
     })
   }
 }

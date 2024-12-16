@@ -1,30 +1,51 @@
-// src/structures/BotClient.js
-const {
+import {
   Client,
+  ClientOptions,
   Collection,
   GatewayIntentBits,
   Partials,
   WebhookClient,
   ApplicationCommandType,
-} = require('discord.js')
-const path = require('path')
-const { table } = require('table')
-const Logger = require('../helpers/Logger')
-const { recursiveReadDirSync } = require('../helpers/Utils')
-const { validateCommand, validateContext } = require('../helpers/Validator')
-const { schemas } = require('@src/database/mongoose')
-const CommandCategory = require('./CommandCategory')
-const Manager = require('../handlers/manager')
-const giveawaysHandler = require('../handlers/giveaway')
-const { DiscordTogether } = require('discord-together')
+  ApplicationCommandDataResolvable,
+  User,
+  InviteGenerationOptions,
+  OAuth2Scopes,
+  PermissionsBitField
+} from 'discord.js'
+import path from 'path'
+import { table } from 'table'
+import config from '../config'
+import Logger from '../helpers/Logger'
+import { validateCommand, validateContext } from '../helpers/Validator'
+import { schemas } from '@src/database/mongoose'
+import Manager from '../handlers/manager'
+import giveawaysHandler from '../handlers/giveaway'
+import { DiscordTogether } from 'discord-together'
+import { promisify } from 'util'
+import { recursiveReadDirSync } from '../helpers/Utils'
+import CommandCategory from './CommandCategory'
 
+// Constants
 const MAX_SLASH_COMMANDS = 100
 const MAX_USER_CONTEXTS = 3
 const MAX_MESSAGE_CONTEXTS = 3
 
 export class BotClient extends Client {
+  public readonly wait: (ms: number) => Promise<void>
+  public readonly config: any
+  public readonly slashCommands: Collection<string, any>
+  public readonly contextMenus: Collection<string, any>
+  public readonly counterUpdateQueue: any[]
+  public readonly joinLeaveWebhook?: WebhookClient
+  public readonly musicManager?: any
+  public readonly giveawaysManager?: any
+  public readonly logger: any
+  public readonly database: any
+  public readonly utils: any
+  public discordTogether: DiscordTogether<{ [key: string]: string }>
+
   constructor() {
-    super({
+    const clientOptions: ClientOptions = {
       intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
@@ -33,80 +54,72 @@ export class BotClient extends Client {
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildPresences,
         GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildVoiceStates
       ],
       partials: [Partials.User, Partials.Message, Partials.Reaction],
       allowedMentions: { repliedUser: false },
-      restRequestTimeout: 20000,
-    })
+      rest: {
+        timeout: 20000
+      }
+    }
 
-    // Promisify setTimeout for use with async/await
-    this.wait = require('util').promisify(setTimeout)
-    // Load configuration
-    this.config = require('@src/config')
+    super(clientOptions)
 
-    // Initialize collections for slash commands and context menus
+    // Initialize properties
+    this.wait = promisify(setTimeout)
+    this.config = config
     this.slashCommands = new Collection()
     this.contextMenus = new Collection()
     this.counterUpdateQueue = []
 
-    // Initialize webhook for join/leave logs if provided
+    // Initialize webhook if URL is provided
     this.joinLeaveWebhook = process.env.LOGS_WEBHOOK
       ? new WebhookClient({ url: process.env.LOGS_WEBHOOK })
       : undefined
 
-    // Music Player
-    if (this.config.MUSIC.ENABLED) this.musicManager = new Manager(this)
+    // Initialize optional managers
+    if (this.config.MUSIC?.ENABLED) {
+      this.musicManager = new Manager(this)
+    }
 
-    // Giveaways Manager
-    if (this.config.GIVEAWAYS.ENABLED)
+    if (this.config.GIVEAWAYS?.ENABLED) {
       this.giveawaysManager = giveawaysHandler(this)
+    }
 
-    // Initialize logger, database schemas, and DiscordTogether
+    // Initialize utilities
     this.logger = Logger
-
-    // Database
     this.database = schemas
-
-    // Utils
-    this.utils = require('../helpers/Utils')
-
     this.discordTogether = new DiscordTogether(this)
   }
 
-  // Load and register events from a directory
-  loadEvents(directory) {
+  public loadEvents(directory: string): void {
     this.logger.log('Loading events...')
-    const clientEvents = []
+    const clientEvents: [string, string][] = []
     let success = 0
     let failed = 0
 
-    // Recursively read all files in the directory
-    recursiveReadDirSync(directory).forEach(filePath => {
+    recursiveReadDirSync(directory).forEach((filePath: string) => {
       const file = path.basename(filePath)
       try {
-        const eventName = path.basename(file, '.js')
+        const eventName = path.basename(file, '.ts')
         const event = require(filePath)
 
-        // Bind the event to the client
         this.on(eventName, event.bind(null, this))
         clientEvents.push([file, '✓'])
 
-        // Clear the require cache
         delete require.cache[require.resolve(filePath)]
-        success += 1
+        success++
       } catch (ex) {
-        failed += 1
+        failed++
         this.logger.error(`loadEvent - ${file}`, ex)
       }
     })
 
-    // Log the loaded events
     console.log(
       table(clientEvents, {
         header: { alignment: 'center', content: 'Client Events' },
         singleLine: true,
-        columns: [{ width: 25 }, { width: 5, alignment: 'center' }],
+        columns: [{ width: 25 }, { width: 5, alignment: 'center' }]
       })
     )
 
@@ -115,9 +128,7 @@ export class BotClient extends Client {
     )
   }
 
-  // Load and register a single command
-  loadCommand(cmd) {
-    // First check category
+  private loadCommand(cmd: any): void {
     if (cmd.category && CommandCategory[cmd.category]?.enabled === false) {
       this.logger.debug(
         `Skipping Command ${cmd.name}. Category ${cmd.category} is disabled`
@@ -125,19 +136,16 @@ export class BotClient extends Client {
       return
     }
 
-    // Check if slash command is enabled
     if (cmd.slashCommand?.enabled) {
       if (this.slashCommands.has(cmd.name)) {
         throw new Error(`Slash Command ${cmd.name} already registered`)
       }
 
-      // Load test/dev commands regardless of GLOBAL setting
       if (cmd.testGuildOnly || cmd.devOnly) {
         this.slashCommands.set(cmd.name, cmd)
         return
       }
 
-      // Only load regular commands if GLOBAL is true
       if (!this.config.INTERACTIONS.GLOBAL) {
         this.logger.debug(
           `Skipping command ${cmd.name}. Command is global but GLOBAL=false`
@@ -145,17 +153,16 @@ export class BotClient extends Client {
         return
       }
 
-      // If we get here, either GLOBAL=true or it's a special command
       this.slashCommands.set(cmd.name, cmd)
     } else {
       this.logger.debug(`Skipping slash command ${cmd.name}. Disabled!`)
     }
   }
 
-  // Load and register all commands from a directory
-  loadCommands(directory) {
+  public loadCommands(directory: string): void {
     this.logger.log('Loading commands...')
     const files = recursiveReadDirSync(directory)
+
     for (const file of files) {
       try {
         const cmd = require(file)
@@ -175,23 +182,27 @@ export class BotClient extends Client {
     }
   }
 
-  // Load and register all context menus from a directory
-  loadContexts(directory) {
+  public loadContexts(directory: string): void {
     this.logger.log('Loading contexts...')
     const files = recursiveReadDirSync(directory)
+
     for (const file of files) {
       try {
         const ctx = require(file)
         if (typeof ctx !== 'object') continue
         validateContext(ctx)
+
         if (!ctx.enabled) {
           this.logger.debug(`Skipping context ${ctx.name}. Disabled!`)
           continue
         }
+
         if (this.contextMenus.has(ctx.name)) {
-          throw new Error(`Context already exists with that name`)
+          throw new Error('Context already exists with that name')
         }
+
         this.contextMenus.set(ctx.name, ctx)
+        this.logger.debug(`Loaded context ${ctx.name}`)
       } catch (ex) {
         this.logger.error(`Failed to load ${file} Reason: ${ex.message}`)
       }
@@ -200,6 +211,7 @@ export class BotClient extends Client {
     const userContexts = this.contextMenus.filter(
       ctx => ctx.type === ApplicationCommandType.User
     ).size
+
     const messageContexts = this.contextMenus.filter(
       ctx => ctx.type === ApplicationCommandType.Message
     ).size
@@ -209,6 +221,7 @@ export class BotClient extends Client {
         `A maximum of ${MAX_USER_CONTEXTS} USER contexts can be enabled`
       )
     }
+
     if (messageContexts > MAX_MESSAGE_CONTEXTS) {
       throw new Error(
         `A maximum of ${MAX_MESSAGE_CONTEXTS} MESSAGE contexts can be enabled`
@@ -219,9 +232,8 @@ export class BotClient extends Client {
     this.logger.success(`Loaded ${messageContexts} MESSAGE contexts`)
   }
 
-  // Register interactions (slash commands and context menus) with Discord
-  async registerInteractions(guildId) {
-    const toRegister = []
+  public async registerInteractions(guildId?: string): Promise<void> {
+    const toRegister: ApplicationCommandDataResolvable[] = []
 
     if (this.config.INTERACTIONS.SLASH) {
       this.slashCommands.forEach(cmd => {
@@ -229,7 +241,7 @@ export class BotClient extends Client {
           name: cmd.name,
           description: cmd.description,
           type: ApplicationCommandType.ChatInput,
-          options: cmd.slashCommand.options,
+          options: cmd.slashCommand.options
         })
       })
     }
@@ -238,42 +250,39 @@ export class BotClient extends Client {
       this.contextMenus.forEach(ctx => {
         toRegister.push({
           name: ctx.name,
-          type: ctx.type,
+          type: ctx.type
         })
       })
     }
 
     try {
       if (!guildId) {
-        await this.application.commands.set(toRegister)
-      } else if (typeof guildId === 'string') {
+        await this.application?.commands.set(toRegister)
+      } else {
         const guild = this.guilds.cache.get(guildId)
         if (!guild) {
           throw new Error('No matching guild')
         }
         await guild.commands.set(toRegister)
-      } else {
-        throw new Error(
-          'Did you provide a valid guildId to register interactions'
-        )
       }
       this.logger.success('Successfully registered interactions')
     } catch (error) {
-      this.logger.error(`Failed to register interactions: ${error.message}`)
+      this.logger.error(
+        `Failed to register interactions: ${error instanceof Error ? error.message : String(error)}`
+      )
     }
   }
 
-  // Resolve users based on a search string
-  async resolveUsers(search, exact = false) {
+  public async resolveUsers(search: string, exact = false): Promise<User[]> {
     if (!search || typeof search !== 'string') return []
-    const users = []
+    const users: User[] = []
 
     const patternMatch = search.match(/(\d{17,20})/)
     if (patternMatch) {
       const id = patternMatch[1]
       const fetched = await this.users
         .fetch(id, { cache: true })
-        .catch(() => {})
+        .catch(() => undefined)
       if (fetched) {
         users.push(fetched)
         return users
@@ -282,7 +291,7 @@ export class BotClient extends Client {
 
     const matchingTags = this.users.cache.filter(user => user.tag === search)
     if (exact && matchingTags.size === 1) {
-      users.push(matchingTags.first())
+      users.push(matchingTags.first()!)
     } else {
       matchingTags.forEach(match => users.push(match))
     }
@@ -301,10 +310,9 @@ export class BotClient extends Client {
     return users
   }
 
-  // Generate an invite link for the bot with specific permissions
-  getInvite() {
-    return this.generateInvite({
-      scopes: ['bot', 'applications.commands'],
+  public getInvite(): string {
+    const options: InviteGenerationOptions = {
+      scopes: ['bot', 'applications.commands'] as OAuth2Scopes[],
       permissions: [
         'AddReactions',
         'AttachFiles',
@@ -328,8 +336,10 @@ export class BotClient extends Client {
         'SendMessages',
         'SendMessagesInThreads',
         'Speak',
-        'ViewChannel',
-      ],
-    })
+        'ViewChannel'
+      ] as (keyof typeof PermissionsBitField.Flags)[]
+    }
+
+    return this.generateInvite(options)
   }
 }

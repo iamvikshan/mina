@@ -1,11 +1,11 @@
-const { EmbedBuilder } = require('discord.js')
-const { getUser } = require('@schemas/User')
-const { EMBED_COLORS, ECONOMY } = require('@src/config.js')
+import { EmbedBuilder } from 'discord.js'
+import { getUser } from '@schemas/User'
+import { EMBED_COLORS, ECONOMY } from '@src/config.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'beg',
   description: 'beg from someone',
   category: 'ECONOMY',
@@ -13,13 +13,13 @@ module.exports = {
   botPermissions: ['EmbedLinks'],
 
   slashCommand: {
-    enabled: ECONOMY.ENABLED,
+    enabled: ECONOMY.ENABLED
   },
 
   async interactionRun(interaction) {
     const response = await beg(interaction.user)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function beg(user) {
@@ -78,7 +78,7 @@ async function beg(user) {
     'Will Smith',
     'Someone from the HUB',
     "A sugar daddy who probably ain't after you",
-    "A sugar mommy who probably ain't after you",
+    "A sugar mommy who probably ain't after you"
   ]
 
   let amount = Math.floor(

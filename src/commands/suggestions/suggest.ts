@@ -1,18 +1,18 @@
-const {
+import {
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   ApplicationCommandOptionType,
-  ButtonStyle,
-} = require('discord.js')
-const { SUGGESTIONS } = require('@src/config')
-const { addSuggestion } = require('@schemas/Suggestions')
-const { stripIndent } = require('common-tags')
+  ButtonStyle
+} from 'discord.js'
+import { SUGGESTIONS } from '@src/config'
+const { addSuggestion } from '@schemas/Suggestions'
+const { stripIndent } from 'common-tags'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'suggest',
   description: 'submit a suggestion',
   category: 'SUGGESTION',
@@ -24,9 +24,9 @@ module.exports = {
         name: 'suggestion',
         description: 'the suggestion',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -39,7 +39,7 @@ module.exports = {
     if (typeof response === 'boolean')
       interaction.followUp('Your suggestion has been submitted!')
     else await interaction.followUp(response)
-  },
+  }
 }
 
 /**
@@ -88,7 +88,7 @@ async function suggest(member, suggestion, settings) {
   try {
     const sentMsg = await channel.send({
       embeds: [embed],
-      components: [buttonsRow],
+      components: [buttonsRow]
     })
 
     await sentMsg.react(SUGGESTIONS.EMOJI.UP_VOTE)

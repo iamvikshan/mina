@@ -1,19 +1,19 @@
-const { getSettings: registerGuild, setInviteLink } = require('@schemas/Guild')
-const {
+import { getSettings as registerGuild, setInviteLink } from '@schemas/Guild'
+import {
   ButtonBuilder,
   ActionRowBuilder,
   EmbedBuilder,
   ButtonStyle,
   PermissionFlagsBits,
-  ChannelType,
-} = require('discord.js')
-const { EMBED_COLORS } = require('@src/config')
+  ChannelType
+} from 'discord.js'
+const { EMBED_COLORS } from '@src/config'
 
 /**
  * @param {import('@src/structures').BotClient} client
  * @param {import('discord.js').Guild} guild
  */
-module.exports = async (client, guild) => {
+export default async (client, guild) => {
   if (!guild.available) return
   if (!guild.members.cache.has(guild.ownerId)) {
     await guild.fetchOwner({ cache: true }).catch(() => {})
@@ -22,8 +22,8 @@ module.exports = async (client, guild) => {
   const guildSettings = await registerGuild(guild)
 
   // Ensure owner_id is set
-  if (!guildSettings.server.owner_id) {
-    guildSettings.server.owner_id = guild.ownerId
+  if (!guildSettings.server.owner) {
+    guildSettings.server.owner = guild.ownerId
     await guildSettings.save()
   }
 
@@ -42,7 +42,7 @@ module.exports = async (client, guild) => {
       if (targetChannel) {
         const invite = await targetChannel.createInvite({
           maxAge: 0,
-          maxUses: 0,
+          maxUses: 0
         })
         inviteLink = invite.url
         await setInviteLink(guild.id, inviteLink)
@@ -70,7 +70,7 @@ module.exports = async (client, guild) => {
     new ButtonBuilder()
       .setLabel('Support Server')
       .setStyle(ButtonStyle.Link)
-      .setURL(process.env.SUPPORT_SERVER),
+      .setURL(process.env.SUPPORT_SERVER)
   ]
 
   const row = new ActionRowBuilder().addComponents(components)
@@ -105,15 +105,15 @@ module.exports = async (client, guild) => {
         )
         .addFields({
           name: '🤗 Need Help?',
-          value: `Don't be shy! Join our [support server](${process.env.SUPPORT_SERVER}) - Rick, Aisha and me hang out there too!`,
+          value: `Don't be shy! Join our [support server](${process.env.SUPPORT_SERVER}) - Rick, Aisha and me hang out there too!`
         })
         .setFooter({
-          text: 'Made with ❤️ and a sprinkle of chaos',
+          text: 'Made with ❤️ and a sprinkle of chaos'
         })
 
       const sentMessage = await targetChannel.send({
         embeds: [serverEmbed],
-        components: [row],
+        components: [row]
       })
       serverMessageLink = sentMessage.url
 
@@ -143,20 +143,20 @@ module.exports = async (client, guild) => {
           )
           .addFields({
             name: '✨ Need my help?',
-            value: `Just join our [support server](${process.env.SUPPORT_SERVER}) - I'm always there to help! You can also hang out with my bffs Rick and Aisha🤖🎉`,
+            value: `Just join our [support server](${process.env.SUPPORT_SERVER}) - I'm always there to help! You can also hang out with my bffs Rick and Aisha🤖🎉`
           })
           .setFooter({ text: 'Your new creative companion ♥' })
 
         if (serverMessageLink) {
           dmEmbed.addFields({
             name: '📜 Server Message',
-            value: `Oopsie! I might have already sent a message in the server! [Click here](${serverMessageLink}) to see what my excited self said! 🙈`,
+            value: `Oopsie! I might have already sent a message in the server! [Click here](${serverMessageLink}) to see what my excited self said! 🙈`
           })
         }
 
         await owner.send({
           embeds: [dmEmbed],
-          components: [row],
+          components: [row]
         })
       }
     } catch (err) {
@@ -179,7 +179,7 @@ module.exports = async (client, guild) => {
                   `Can't wait to show you what I can really do! 💖`
               )
               .setFooter({
-                text: "Let's make your server amazing together! (◠‿◠✿)",
+                text: "Let's make your server amazing together! (◠‿◠✿)"
               })
 
             await owner.send({ embeds: [reminderEmbed] }).catch(() => {})
@@ -202,17 +202,17 @@ module.exports = async (client, guild) => {
         {
           name: 'Owner',
           value: `${client.users.cache.get(guild.ownerId).tag} [\`${guild.ownerId}\`]`,
-          inline: false,
+          inline: false
         },
         {
           name: 'Members',
           value: `\`\`\`yaml\n${guild.memberCount}\`\`\``,
-          inline: false,
+          inline: false
         },
         {
           name: 'Invite Link',
           value: inviteLink,
-          inline: false,
+          inline: false
         }
       )
       .setFooter({ text: `Guild #${client.guilds.cache.size}` })
@@ -220,7 +220,7 @@ module.exports = async (client, guild) => {
     client.joinLeaveWebhook.send({
       username: 'Join',
       avatarURL: client.user.displayAvatarURL(),
-      embeds: [embed],
+      embeds: [embed]
     })
   }
 }

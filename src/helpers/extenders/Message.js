@@ -1,4 +1,4 @@
-const { Message } = require('discord.js')
+import { Message } from 'discord.js'
 
 /**
  * @param {string|import('discord.js').MessagePayload|import('discord.js').MessageOptions} content

@@ -1,72 +1,80 @@
-const { getSettings } = require('@schemas/Guild')
+import { getSettings } from '@schemas/Guild'
+import { Guild } from 'discord.js'
+import { BotClient } from '@src/structures'
+import { GuildSettings } from '../types'
 
-/**
- * Updates the counter channel for all the guildId's present in the update queue
- * @param {import('@src/structures').BotClient} client
- */
-async function updateCounterChannels(client) {
-  client.counterUpdateQueue.forEach(async guildId => {
+const updateCounterChannels = async (client: BotClient): Promise<void> => {
+  for (const guildId of client.counterUpdateQueue) {
     const guild = client.guilds.cache.get(guildId)
-    if (!guild) return
+    if (!guild) continue
 
     try {
       const settings = await getSettings(guild)
-
       const all = guild.memberCount
       const bots = settings.server.bots
       const members = all - bots
 
-      for (const config of settings.counters) {
-        const chId = config.channel_id
-        const vc = guild.channels.cache.get(chId)
-        if (!vc) continue
+      await Promise.all(
+        settings.counters.map(async config => {
+          const vc = guild.channels.cache.get(config.channel_id)
+          if (!vc?.manageable) return
 
-        let channelName
-        if (config.counter_type.toUpperCase() === 'USERS')
-          channelName = `${config.name} : ${all}`
-        if (config.counter_type.toUpperCase() === 'MEMBERS')
-          channelName = `${config.name} : ${members}`
-        if (config.counter_type.toUpperCase() === 'BOTS')
-          channelName = `${config.name} : ${bots}`
+          const channelName = (() => {
+            switch (config.counter_type.toUpperCase()) {
+              case 'USERS':
+                return `${config.name} : ${all}`
+              case 'MEMBERS':
+                return `${config.name} : ${members}`
+              case 'BOTS':
+                return `${config.name} : ${bots}`
+              default:
+                return null
+            }
+          })()
 
-        if (vc.manageable)
-          vc.setName(channelName).catch(err =>
-            vc.client.logger.log('Set Name error: ', err)
-          )
-      }
+          if (channelName) {
+            try {
+              await vc.setName(channelName)
+            } catch (err) {
+              client.logger.log('Set Name error: ', err)
+            }
+          }
+        })
+      )
     } catch (ex) {
       client.logger.error(
         `Error updating counter channels for guildId: ${guildId}`,
         ex
       )
     } finally {
-      // remove guildId from cache
-      const i = client.counterUpdateQueue.indexOf(guild.id)
-      if (i > -1) client.counterUpdateQueue.splice(i, 1)
+      const index = client.counterUpdateQueue.indexOf(guild.id)
+      if (index > -1) client.counterUpdateQueue.splice(index, 1)
     }
-  })
+  }
 }
 
-/**
- * Initialize guild counters at startup
- * @param {import("discord.js").Guild} guild
- * @param {Object} settings
- */
-async function init(guild, settings) {
-  if (
-    settings.counters.find(doc =>
-      ['MEMBERS', 'BOTS'].includes(doc.counter_type.toUpperCase())
-    )
-  ) {
-    const stats = await guild.fetchMemberStats()
-    settings.server.bots = stats[1] // update bot count in database
+const init = async (
+  guild: Guild,
+  settings: GuildSettings
+): Promise<boolean> => {
+  const hasSpecialCounters = settings.counters.some(doc =>
+    ['MEMBERS', 'BOTS'].includes(doc.counter_type.toUpperCase())
+  )
+
+  if (hasSpecialCounters) {
+    const bots = guild.members.cache.filter(member => member.user.bot).size
+    settings.server.bots = bots
     await settings.save()
   }
 
-  // schedule for update
-  if (!guild.client.counterUpdateQueue.includes(guild.id))
-    guild.client.counterUpdateQueue.push(guild.id)
+  if (!(guild.client as BotClient).counterUpdateQueue.includes(guild.id)) {
+    ;(guild.client as BotClient).counterUpdateQueue.push(guild.id)
+  }
+
   return true
 }
 
-module.exports = { init, updateCounterChannels }
+export const counterHandler = {
+  init,
+  updateCounterChannels
+}

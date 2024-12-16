@@ -78,18 +78,18 @@ export class BotUtils {
       {
         callback: ({ client, guildId }) =>
           client.musicManager.getPlayer(guildId),
-        message: "🚫 I'm not in a voice channel.",
+        message: "🚫 I'm not in a voice channel."
       },
       {
         callback: ({ member }) => member.voice?.channelId,
-        message: '🚫 You need to join my voice channel.',
+        message: '🚫 You need to join my voice channel.'
       },
       {
         callback: ({ member, client, guildId }) =>
           member.voice?.channelId ===
           client.musicManager.getPlayer(guildId)?.voiceChannelId,
-        message: "🚫 You're not in the same voice channel.",
-      },
+        message: "🚫 You're not in the same voice channel."
+      }
     ]
   }
 }

@@ -23,5 +23,5 @@ module.exports = {
   ephemeral: false,
   options: true,
   userPermissions: [],
-  cooldown: 0,
+  cooldown: 0
 }

@@ -1,19 +1,17 @@
-module.exports = {
-  automodHandler: require('./automod'),
-  commandHandler: require('./command'),
-  contextHandler: require('./context'),
-  counterHandler: require('./counter'),
-  greetingHandler: require('./greeting'),
-  inviteHandler: require('./invite'),
-  presenceHandler: require('./presence'),
-  reactionRoleHandler: require('./reactionRoles'),
-  statsHandler: require('./stats'),
-  suggestionHandler: require('./suggestion'),
-  ticketHandler: require('./ticket'),
-  todHandler: require('./tod'),
-  reportHandler: require('./report'),
-  guildHandler: require('./guild'),
-  profileHandler: require('./profile'),
-  managerHandler: require('./manager'),
-  playerHandler: require('./player'),
-}
+export * from './automod'
+export * from './command'
+export * from './context'
+export * from './counter'
+export * from './greeting'
+export * from './invite'
+export * from './presence'
+export * from './reactionRoles'
+export * from './stats'
+export * from './suggestion'
+export * from './ticket'
+export * from './tod'
+export * from './report'
+export * from './guild'
+export * from './profile'
+export * from './manager'
+export * from './player'

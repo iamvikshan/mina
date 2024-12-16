@@ -1,12 +1,12 @@
 const { timeoutTarget } = require('@helpers/ModUtils')
-const { MODERATION } = require('@src/config')
-const { ApplicationCommandOptionType } = require('discord.js')
+const { MODERATION } from '@src/config'
+import { ApplicationCommandOptionType } from 'discord.js'
 const ems = require('enhanced-ms')
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'timeout',
   description: 'timeouts the specified member',
   category: 'MODERATION',
@@ -20,21 +20,21 @@ module.exports = {
         name: 'user',
         description: 'the target member',
         type: ApplicationCommandOptionType.User,
-        required: true,
+        required: true
       },
       {
         name: 'duration',
         description: 'the time to timeout the member for',
         type: ApplicationCommandOptionType.String,
-        required: true,
+        required: true
       },
       {
         name: 'reason',
         description: 'reason for timeout',
         type: ApplicationCommandOptionType.String,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -53,7 +53,7 @@ module.exports = {
 
     const response = await timeout(interaction.member, target, ms, reason)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function timeout(issuer, target, ms, reason) {

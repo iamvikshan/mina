@@ -1,11 +1,11 @@
 const { unTimeoutTarget } = require('@helpers/ModUtils')
-const { MODERATION } = require('@src/config')
-const { ApplicationCommandOptionType } = require('discord.js')
+const { MODERATION } from '@src/config'
+import { ApplicationCommandOptionType } from 'discord.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'untimeout',
   description: 'remove timeout from a member',
   category: 'MODERATION',
@@ -19,15 +19,15 @@ module.exports = {
         name: 'user',
         description: 'the target member',
         type: ApplicationCommandOptionType.User,
-        required: true,
+        required: true
       },
       {
         name: 'reason',
         description: 'reason for timeout',
         type: ApplicationCommandOptionType.String,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -37,7 +37,7 @@ module.exports = {
 
     const response = await untimeout(interaction.member, target, reason)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function untimeout(issuer, target, reason) {

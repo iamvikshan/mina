@@ -1,5 +1,5 @@
-const { getMemberStats } = require('@schemas/MemberStats')
-const { getRandomInt } = require('@helpers/Utils')
+import { getMemberStats } from '@schemas/MemberStats'
+import { getRandomInt } from '@helpers/Utils'
 
 const cooldownCache = new Map()
 const voiceStates = new Map()
@@ -23,7 +23,7 @@ const parse = (content, member, level) => {
     .replaceAll(/{level}/g, level)
 }
 
-module.exports = {
+export const statsHandler = {
   /**
    * This function saves stats for a new message
    * @param {import("discord.js").Message} message
@@ -120,5 +120,5 @@ module.exports = {
         voiceStates.delete(member.id)
       }
     }
-  },
+  }
 }

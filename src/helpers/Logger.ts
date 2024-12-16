@@ -4,14 +4,14 @@ import pino from 'pino'
 
 const webhookLogger = process.env.LOGS_WEBHOOK
   ? new WebhookClient({
-      url: process.env.LOGS_WEBHOOK,
+      url: process.env.LOGS_WEBHOOK
     })
   : undefined
 
 const today = new Date()
 const pinoLogger = pino(
   {
-    level: 'debug',
+    level: 'debug'
   },
   pino.multistream([
     {
@@ -24,18 +24,18 @@ const pinoLogger = pino(
           ignore: 'pid,hostname',
           singleLine: false,
           hideObject: true,
-          customColors: 'info:blue,warn:yellow,error:red',
-        },
-      }),
+          customColors: 'info:blue,warn:yellow,error:red'
+        }
+      })
     },
     {
       level: 'debug',
       stream: pino.destination({
         dest: `${process.cwd()}/logs/combined-${today.getFullYear()}.${today.getMonth() + 1}.${today.getDate()}.log`,
         sync: true,
-        mkdir: true,
-      }),
-    },
+        mkdir: true
+      })
+    }
   ])
 )
 
@@ -58,12 +58,12 @@ function sendWebhook(content, err) {
 
   embed.addFields({
     name: 'Description',
-    value: content || err?.message || 'NA',
+    value: content || err?.message || 'NA'
   })
   webhookLogger
     .send({
       username: 'Logs',
-      embeds: [embed],
+      embeds: [embed]
     })
     .catch(ex => {})
 }
@@ -123,3 +123,5 @@ export const error = (content: string, ex?: any) => {
 }
 export const debug = (content: string) => pinoLogger.debug(content)
 export const success = (content: string) => pinoLogger.info(content)
+
+export default Logger

@@ -1,12 +1,12 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
-const { getMemberStats } = require('@schemas/MemberStats')
-const { EMBED_COLORS, STATS } = require('@src/config')
-const { stripIndents } = require('common-tags')
+import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
+import { getMemberStats } = require('@schemas/MemberStats')
+import { EMBED_COLORS, STATS } from '@src/config'
+import { stripIndents } from 'common-tags'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'stats',
   description: 'displays members stats in this server',
   category: 'UTILITY',
@@ -18,16 +18,16 @@ module.exports = {
         name: 'user',
         description: 'target user',
         type: ApplicationCommandOptionType.User,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
     const member = interaction.options.getMember('user') || interaction.member
     const response = await stats(member, data.settings)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**
@@ -46,17 +46,17 @@ async function stats(member, settings) {
       {
         name: 'Username',
         value: member.user.username,
-        inline: true,
+        inline: true
       },
       {
         name: 'ID',
         value: member.id,
-        inline: true,
+        inline: true
       },
       {
         name: '⌚ Member since',
         value: member.joinedAt.toLocaleString(),
-        inline: false,
+        inline: false
       },
       {
         name: '💬 Messages sent',
@@ -66,14 +66,14 @@ async function stats(member, settings) {
       ❯ XP Earned: ${memberStats.xp}
       ❯ Current Level: ${memberStats.level}
     `,
-        inline: false,
+        inline: false
       },
       {
         name: '🎙️ Voice Stats',
         value: stripIndents`
       ❯ Total Connections: ${memberStats.voice.connections}
       ❯ Time Spent: ${Math.floor(memberStats.voice.time / 60)} min
-    `,
+    `
       }
     )
     .setFooter({ text: 'Stats Generated' })

@@ -3,20 +3,20 @@ const { musicValidations } = require('@helpers/BotUtils')
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'pause',
   description: 'Pause the music player',
   category: 'MUSIC',
   validations: musicValidations,
 
   slashCommand: {
-    enabled: true,
+    enabled: true
   },
 
   async interactionRun(interaction) {
     const response = await pause(interaction)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

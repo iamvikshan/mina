@@ -1,8 +1,8 @@
-const { EmbedBuilder } = require('discord.js')
-const { getUser } = require('@schemas/User')
-const { EMBED_COLORS, ECONOMY } = require('@src/config')
+import { EmbedBuilder } from 'discord.js'
+import { getUser } from '@schemas/User'
+import { EMBED_COLORS, ECONOMY } from '@src/config'
 
-module.exports = async (user, coins) => {
+export default async (user, coins) => {
   if (isNaN(coins) || coins <= 0)
     return 'Please enter a valid amount of coins to deposit'
   const userDb = await getUser(user)
@@ -22,17 +22,17 @@ module.exports = async (user, coins) => {
       {
         name: 'Wallet',
         value: `${userDb.coins}${ECONOMY.CURRENCY}`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Bank',
         value: `${userDb.bank}${ECONOMY.CURRENCY}`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Net Worth',
         value: `${userDb.coins + userDb.bank}${ECONOMY.CURRENCY}`,
-        inline: true,
+        inline: true
       }
     )
 

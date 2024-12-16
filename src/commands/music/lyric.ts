@@ -1,13 +1,13 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
+import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
 const { getJson } = require('@helpers/HttpUtils')
-const { MESSAGES, EMBED_COLORS } = require('@src/config')
+const { MESSAGES, EMBED_COLORS } from '@src/config'
 
 const BASE_URL = 'https://some-random-api.com/lyrics'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'lyric',
   description: 'find lyric of the song',
   category: 'MUSIC',
@@ -19,16 +19,16 @@ module.exports = {
         name: 'query',
         type: ApplicationCommandOptionType.String,
         description: 'find lyric of the song',
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const choice = interaction.options.getString('query')
     const response = await getLyric(interaction.user, choice)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function getLyric(user, choice) {

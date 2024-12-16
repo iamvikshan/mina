@@ -9,5 +9,5 @@ module.exports = {
   BaseContext,
   BotClient,
   Command,
-  CommandCategory,
+  CommandCategory
 }

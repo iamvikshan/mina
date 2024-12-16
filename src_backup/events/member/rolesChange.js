@@ -34,7 +34,7 @@ module.exports = async (client, oldMember, newMember) => {
   // Fetch the audit log to get the user who made the change
   const auditLogs = await newMember.guild.fetchAuditLogs({
     type: AuditLogEvent.MemberRoleUpdate,
-    limit: 1,
+    limit: 1
   })
 
   const roleUpdateLog = auditLogs.entries.first()
@@ -48,18 +48,18 @@ module.exports = async (client, oldMember, newMember) => {
       {
         name: 'Member',
         value: `${newMember.user.tag} (${newMember.id})`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Updated by',
         value: executor ? `${executor.tag} (${executor.id})` : 'Unknown',
-        inline: true,
+        inline: true
       },
       {
         name: 'Added Roles',
         value:
           addedRoles.size > 0 ? addedRoles.map(r => r.name).join(', ') : 'None',
-        inline: false,
+        inline: false
       },
       {
         name: 'Removed Roles',
@@ -67,7 +67,7 @@ module.exports = async (client, oldMember, newMember) => {
           removedRoles.size > 0
             ? removedRoles.map(r => r.name).join(', ')
             : 'None',
-        inline: false,
+        inline: false
       }
     )
     .setTimestamp()

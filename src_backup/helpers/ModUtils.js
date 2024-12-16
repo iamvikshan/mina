@@ -38,7 +38,7 @@ const logModeration = async (issuer, target, reason, type, data = {}) => {
 
   const embed = new EmbedBuilder().setFooter({
     text: `By ${issuer.displayName} • ${issuer.id}`,
-    iconURL: issuer.displayAvatarURL(),
+    iconURL: issuer.displayAvatarURL()
   })
 
   const fields = []
@@ -51,7 +51,7 @@ const logModeration = async (issuer, target, reason, type, data = {}) => {
         {
           name: 'Channel',
           value: `#${data.channel.name} [${data.channel.id}]`,
-          inline: false,
+          inline: false
         }
       )
       break
@@ -114,27 +114,27 @@ const logModeration = async (issuer, target, reason, type, data = {}) => {
       fields.push({
         name: 'Member',
         value: `${target.displayName} [${target.id}]`,
-        inline: false,
+        inline: false
       })
     } else {
       fields.push({
         name: 'User',
         value: `${target.tag} [${target.id}]`,
-        inline: false,
+        inline: false
       })
     }
 
     fields.push({
       name: 'Reason',
       value: reason || 'No reason provided',
-      inline: false,
+      inline: false
     })
 
     if (type.toUpperCase() === 'TIMEOUT') {
       fields.push({
         name: 'Expires',
         value: `<t:${Math.round(target.communicationDisabledUntilTimestamp / 1000)}:R>`,
-        inline: true,
+        inline: true
       })
     }
     if (type.toUpperCase() === 'MOVE') {
@@ -220,7 +220,7 @@ module.exports = class ModUtils {
           messages = await channel.messages.fetch({
             limit: amount,
             cache: false,
-            force: true,
+            force: true
           })
           break
         case 'BOT': {
@@ -300,7 +300,7 @@ module.exports = class ModUtils {
       await logModeration(issuer, '', '', 'Purge', {
         purgeType: type,
         channel: channel,
-        deletedCount: deletedMessages.size,
+        deletedCount: deletedMessages.size
       })
 
       return deletedMessages.size

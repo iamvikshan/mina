@@ -1,11 +1,17 @@
-const { EmbedBuilder } = require('discord.js')
-const { containsLink, containsDiscordInvite } = require('@helpers/Utils')
-const { getMember } = require('@schemas/Member')
-const { addModAction } = require('@helpers/ModUtils')
-const { AUTOMOD } = require('@src/config')
-const { addAutoModLogToDb } = require('@schemas/AutomodLogs')
+import {
+  EmbedBuilder,
+  Message,
+  TextChannel,
+  PermissionsBitField
+} from 'discord.js'
+import { Utils } from '@helpers/Utils'
+import { getMember } from '@schemas/Member'
+import { ModUtils } from '@helpers/ModUtils'
+import config from '@src/config'
+import { addAutoModLogToDb } from '@schemas/AutomodLogs'
+import { AntispamInfo, AutomodSettings } from '../types'
 
-const antispamCache = new Map()
+const antispamCache = new Map<string, AntispamInfo>()
 const MESSAGE_SPAM_THRESHOLD = 3000
 
 // Cleanup the cache
@@ -20,41 +26,64 @@ setInterval(
   10 * 60 * 1000
 )
 
-/**
- * Check if the message needs to be moderated and has required permissions
- * @param {import('discord.js').Message} message
- */
-const shouldModerate = message => {
+const shouldModerate = (message: Message): boolean => {
   const { member, guild, channel } = message
+  if (!guild || !member || !channel) return false
 
   // Ignore if bot cannot delete channel messages
-  if (!channel.permissionsFor(guild.members.me)?.has('ManageMessages'))
+  const botMember = guild.members.me
+  if (!botMember) return false
+
+  // Check if channel is a GuildChannel (has permissions)
+  if (!('permissionsFor' in channel)) return false
+
+  if (
+    !channel
+      .permissionsFor(botMember)
+      ?.has(PermissionsBitField.Flags.ManageMessages)
+  ) {
     return false
+  }
 
   // Ignore Possible Guild Moderators
-  if (member.permissions.has(['KickMembers', 'BanMembers', 'ManageGuild']))
+  if (
+    member.permissions.has([
+      PermissionsBitField.Flags.KickMembers,
+      PermissionsBitField.Flags.BanMembers,
+      PermissionsBitField.Flags.ManageGuild
+    ])
+  ) {
     return false
+  }
 
   // Ignore Possible Channel Moderators
-  if (channel.permissionsFor(message.member).has('ManageMessages')) return false
+  if (
+    channel
+      .permissionsFor(member)
+      ?.has(PermissionsBitField.Flags.ManageMessages)
+  ) {
+    return false
+  }
+
   return true
 }
 
-/**
- * Perform moderation on the message
- * @param {import('discord.js').Message} message
- * @param {object} settings
- */
-async function performAutomod(message, settings) {
+const performAutomod = async (
+  message: Message,
+  settings: AutomodSettings
+): Promise<void> => {
   const { automod } = settings
+  if (!automod) return
 
   if (automod.wh_channels.includes(message.channelId)) return
   if (!automod.debug) return
   if (!shouldModerate(message)) return
 
   const { channel, member, guild, content, author, mentions } = message
+  if (!guild || !member || !author || !channel || !content) return
+
   const logChannel = settings.logs_channel
-    ? channel.guild.channels.cache.get(settings.logs_channel)
+    ? (guild.channels.cache.get(settings.logs_channel) as TextChannel)
     : null
 
   let shouldDelete = false
@@ -63,13 +92,12 @@ async function performAutomod(message, settings) {
   const fields = []
 
   // Max mentions
-  if (mentions.members.size > automod.max_mentions) {
+  if (mentions.members && mentions.members.size > automod.max_mentions) {
     fields.push({
       name: 'Mentions',
       value: `${mentions.members.size}/${automod.max_mentions}`,
-      inline: true,
+      inline: true
     })
-    // strikesTotal += mentions.members.size - automod.max_mentions;
     strikesTotal += 1
   }
 
@@ -78,9 +106,8 @@ async function performAutomod(message, settings) {
     fields.push({
       name: 'RoleMentions',
       value: `${mentions.roles.size}/${automod.max_role_mentions}`,
-      inline: true,
+      inline: true
     })
-    // strikesTotal += mentions.roles.size - automod.max_role_mentions;
     strikesTotal += 1
   }
 
@@ -96,9 +123,8 @@ async function performAutomod(message, settings) {
       fields.push({
         name: 'User/Role Mentions',
         value: `${mentions.users.size + mentions.roles.size}/${automod.anti_massmention}`,
-        inline: true,
+        inline: true
       })
-      // strikesTotal += mentions.users.size + mentions.roles.size - automod.anti_massmention;
       strikesTotal += 1
     }
   }
@@ -110,10 +136,9 @@ async function performAutomod(message, settings) {
       fields.push({
         name: 'New Lines',
         value: `${count}/${automod.max_lines}`,
-        inline: true,
+        inline: true
       })
       shouldDelete = true
-      // strikesTotal += Math.ceil((count - automod.max_lines) / automod.max_lines);
       strikesTotal += 1
     }
   }
@@ -129,7 +154,7 @@ async function performAutomod(message, settings) {
 
   // Anti links
   if (automod.anti_links) {
-    if (containsLink(content)) {
+    if (Utils.containsLink(content)) {
       fields.push({ name: 'Links Found', value: '✓', inline: true })
       shouldDelete = true
       strikesTotal += 1
@@ -138,11 +163,12 @@ async function performAutomod(message, settings) {
 
   // Anti Spam
   if (!automod.anti_links && automod.anti_spam) {
-    if (containsLink(content)) {
-      const key = author.id + '|' + message.guildId
+    if (Utils.containsLink(content)) {
+      const key = `${author.id}|${message.guildId}`
       if (antispamCache.has(key)) {
-        let antispamInfo = antispamCache.get(key)
+        const antispamInfo = antispamCache.get(key)
         if (
+          antispamInfo &&
           antispamInfo.channelId !== message.channelId &&
           antispamInfo.content === content &&
           Date.now() - antispamInfo.timestamp < MESSAGE_SPAM_THRESHOLD
@@ -152,10 +178,10 @@ async function performAutomod(message, settings) {
           strikesTotal += 1
         }
       } else {
-        let antispamInfo = {
+        const antispamInfo: AntispamInfo = {
           channelId: message.channelId,
           content,
-          timestamp: Date.now(),
+          timestamp: Date.now()
         }
         antispamCache.set(key, antispamInfo)
       }
@@ -164,7 +190,7 @@ async function performAutomod(message, settings) {
 
   // Anti Invites
   if (!automod.anti_links && automod.anti_invites) {
-    if (containsDiscordInvite(content)) {
+    if (Utils.containsDiscordInvite(content)) {
       fields.push({ name: 'Discord Invites', value: '✓', inline: true })
       shouldDelete = true
       strikesTotal += 1
@@ -173,10 +199,12 @@ async function performAutomod(message, settings) {
 
   // delete message if deletable
   if (shouldDelete && message.deletable) {
-    message
-      .delete()
-      .then(() => channel.safeSend('> Auto-Moderation! Message deleted', 5))
-      .catch(() => {})
+    try {
+      await message.delete()
+      await (channel as TextChannel).send('> Auto-Moderation! Message deleted')
+    } catch (error) {
+      // Ignore deletion errors
+    }
   }
 
   if (strikesTotal > 0) {
@@ -188,29 +216,35 @@ async function performAutomod(message, settings) {
     const reason = fields
       .map(field => field.name + ': ' + field.value)
       .join('\n')
-    addAutoModLogToDb(member, content, reason, strikesTotal).catch(() => {})
+    try {
+      await addAutoModLogToDb(member, content, reason, strikesTotal)
+    } catch (error) {
+      // Ignore logging errors
+    }
 
     // send automod log
     if (logChannel) {
+      const avatarUrl = author.avatarURL() ?? undefined
+
       const logEmbed = new EmbedBuilder()
         .setAuthor({ name: 'Auto Moderation' })
         .setThumbnail(author.displayAvatarURL())
-        .setColor(AUTOMOD.LOG_EMBED)
+        .setColor(config.AUTOMOD.LOG_EMBED)
         .addFields(fields)
         .setDescription(
           `**Channel:** ${channel.toString()}\n**Content:**\n${content}`
         )
         .setFooter({
           text: `By ${author.username} | ${author.id}`,
-          iconURL: author.avatarURL(),
+          iconURL: avatarUrl
         })
 
-      logChannel.safeSend({ embeds: [logEmbed] })
+      await logChannel.send({ embeds: [logEmbed] }).catch(() => {})
     }
 
     // DM strike details
     const strikeEmbed = new EmbedBuilder()
-      .setColor(AUTOMOD.DM_EMBED)
+      .setColor(config.AUTOMOD.DM_EMBED)
       .setThumbnail(guild.iconURL())
       .setAuthor({ name: 'Auto Moderation' })
       .addFields(fields)
@@ -220,7 +254,11 @@ async function performAutomod(message, settings) {
           `**Total Strikes:** ${memberDb.strikes} out of ${automod.strikes}`
       )
 
-    author.send({ embeds: [strikeEmbed] }).catch(ex => {})
+    try {
+      await author.send({ embeds: [strikeEmbed] })
+    } catch (error) {
+      // Ignore DM errors
+    }
 
     // check if max strikes are received
     if (memberDb.strikes >= automod.strikes) {
@@ -228,18 +266,25 @@ async function performAutomod(message, settings) {
       memberDb.strikes = 0
 
       // Add Moderation Action
-      await addModAction(
-        guild.members.me,
-        member,
-        'Automod: Max strikes received',
-        automod.action
-      ).catch(() => {})
+      try {
+        const botMember = guild.members.me
+        if (botMember) {
+          await ModUtils.addModAction(
+            botMember,
+            member,
+            'Automod: Max strikes received',
+            automod.action
+          )
+        }
+      } catch (error) {
+        // Ignore moderation action errors
+      }
     }
 
     await memberDb.save()
   }
 }
 
-module.exports = {
-  performAutomod,
+export const automodHandler = {
+  performAutomod
 }

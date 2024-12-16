@@ -1,15 +1,15 @@
-const {
+import {
   EmbedBuilder,
   ApplicationCommandOptionType,
-  ChannelType,
-} = require('discord.js')
-const { EMBED_COLORS, AUTOMOD } = require('@src/config.js')
-const { stripIndent } = require('common-tags')
+  ChannelType
+} from 'discord.js'
+import { EMBED_COLORS, AUTOMOD } from '@src/config.js'
+import { stripIndent } from 'common-tags'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'automod',
   description: 'Various automod configuration!',
   category: 'AUTOMOD',
@@ -22,7 +22,7 @@ module.exports = {
       {
         name: 'status',
         description: 'Check automod configuration',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'strikes',
@@ -33,9 +33,9 @@ module.exports = {
             name: 'amount',
             description: 'Number of strikes (default 5)',
             required: true,
-            type: ApplicationCommandOptionType.Integer,
-          },
-        ],
+            type: ApplicationCommandOptionType.Integer
+          }
+        ]
       },
       {
         name: 'action',
@@ -51,19 +51,19 @@ module.exports = {
             choices: [
               {
                 name: 'TIMEOUT',
-                value: 'TIMEOUT',
+                value: 'TIMEOUT'
               },
               {
                 name: 'KICK',
-                value: 'KICK',
+                value: 'KICK'
               },
               {
                 name: 'BAN',
-                value: 'BAN',
-              },
-            ],
-          },
-        ],
+                value: 'BAN'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'debug',
@@ -79,20 +79,20 @@ module.exports = {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'whitelist',
         description: 'View whitelisted channels',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       {
         name: 'whitelistadd',
@@ -104,9 +104,9 @@ module.exports = {
             description: 'Channel to add',
             required: true,
             type: ApplicationCommandOptionType.Channel,
-            channelTypes: [ChannelType.GuildText],
-          },
-        ],
+            channelTypes: [ChannelType.GuildText]
+          }
+        ]
       },
       {
         name: 'whitelistremove',
@@ -118,11 +118,11 @@ module.exports = {
             description: 'Channel to remove',
             required: true,
             type: ApplicationCommandOptionType.Channel,
-            channelTypes: [ChannelType.GuildText],
-          },
-        ],
-      },
-    ],
+            channelTypes: [ChannelType.GuildText]
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -160,7 +160,7 @@ module.exports = {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function getStatus(settings, guild) {
@@ -184,7 +184,7 @@ async function getStatus(settings, guild) {
   const embed = new EmbedBuilder()
     .setAuthor({
       name: '✨ Automod Configuration ✨',
-      iconURL: guild.iconURL(),
+      iconURL: guild.iconURL()
     })
     .setColor(EMBED_COLORS.BOT_EMBED)
     .setDescription(desc)
@@ -192,22 +192,22 @@ async function getStatus(settings, guild) {
       {
         name: '🔍 Log Channel',
         value: logChannel,
-        inline: true,
+        inline: true
       },
       {
         name: '⚠️ Max Strikes',
         value: automod.strikes.toString(),
-        inline: true,
+        inline: true
       },
       {
         name: '💔 Action',
         value: automod.action,
-        inline: true,
+        inline: true
       },
       {
         name: '🔧 Debug',
         value: automod.debug ? '✓' : '✕',
-        inline: true,
+        inline: true
       }
     )
 

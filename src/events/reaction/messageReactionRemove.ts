@@ -1,18 +1,26 @@
-const { reactionRoleHandler } = require('@src/handlers')
+import { Client } from 'discord.js'
+import { MessageReaction, PartialMessageReaction, User } from 'discord.js'
+import { BotClient } from '@src/structures'
+import { reactionRoleHandler } from '@src/handlers'
 
-/**
- * @param {import('@src/structures').BotClient} client
- * @param {import('discord.js').MessageReaction|import('discord.js').PartialMessageReaction} reaction
- * @param {import('discord.js').User} user
- */
-module.exports = async (client, reaction, user) => {
+export const messageReactionRemove = async (
+  client: BotClient,
+  reaction: MessageReaction | PartialMessageReaction,
+  user: User
+): Promise<void> => {
   if (reaction.partial) {
     try {
-      await reaction.fetch()
-    } catch (ex) {
-      return // Possibly deleted
+      reaction = await reaction.fetch()
+    } catch (error: unknown) {
+      // Possibly deleted reaction
+      return
     }
   }
 
-  await reactionRoleHandler.handleReactionRemove(reaction, user)
+  await reactionRoleHandler.handleReactionRemove(
+    reaction as MessageReaction,
+    user
+  )
 }
+
+export default messageReactionRemove

@@ -1,4 +1,4 @@
-const { ChannelType } = require('discord.js')
+const { ChannelType } from 'discord.js'
 
 /**
  * @param {number} type

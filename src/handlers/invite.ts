@@ -1,36 +1,75 @@
-const { Collection } = require('discord.js')
-const { getSettings } = require('@schemas/Guild')
-const { getMember } = require('@schemas/Member')
+import {
+  Collection,
+  Guild,
+  GuildMember,
+  User,
+  Invite,
+  APIInvite
+} from 'discord.js'
+import { getSettings } from '@schemas/Guild'
+import { getMember } from '@schemas/Member'
+import { InviteData, IMember, GuildSettings } from '../types'
 
-const inviteCache = new Collection()
+const inviteCache = new Collection<string, Collection<string, InviteData>>()
 
-const getInviteCache = guild => inviteCache.get(guild.id)
-const resetInviteCache = guild => inviteCache.delete(guild.id)
+export const getInviteCache = (
+  guild: Guild
+): Collection<string, InviteData> | undefined => inviteCache.get(guild.id)
 
-const getEffectiveInvites = (inviteData = {}) =>
-  inviteData.tracked + inviteData.added - inviteData.fake - inviteData.left || 0
+export const resetInviteCache = (guild: Guild): boolean =>
+  inviteCache.delete(guild.id)
 
-const cacheInvite = (invite, isVanity) => ({
-  code: invite.code,
-  uses: invite.uses,
-  maxUses: invite.maxUses,
-  inviterId: isVanity ? 'VANITY' : invite.inviter?.id,
+export const getEffectiveInvites = (
+  inviteData: Partial<InviteData> = {}
+): number =>
+  (inviteData.tracked || 0) +
+  (inviteData.added || 0) -
+  (inviteData.fake || 0) -
+  (inviteData.left || 0)
+
+export const cacheInvite = (
+  invite:
+    | Invite
+    | APIInvite
+    | { code: string | null; uses?: number; maxUses?: number },
+  isVanity = false
+): InviteData => ({
+  code: invite.code || 'UNKNOWN',
+  uses: 'uses' in invite ? (invite.uses as number) : 0,
+  maxUses: 'maxUses' in invite ? ((invite.maxUses as number) ?? 0) : 0,
+  inviterId: isVanity
+    ? 'VANITY'
+    : 'inviter' in invite && invite.inviter
+      ? invite.inviter.id
+      : 'VANITY'
 })
 
 /**
  * This function caches all invites for the provided guild
- * @param {import("discord.js").Guild} guild
  */
-async function cacheGuildInvites(guild) {
-  if (!guild.members.me.permissions.has('ManageGuild')) return new Collection()
+export async function cacheGuildInvites(
+  guild: Guild
+): Promise<Collection<string, InviteData>> {
+  if (!guild.members.me?.permissions.has('ManageGuild')) return new Collection()
   const invites = await guild.invites.fetch()
 
-  const tempMap = new Collection()
+  const tempMap = new Collection<string, InviteData>()
   invites.forEach(inv => tempMap.set(inv.code, cacheInvite(inv)))
-  if (guild.vanityURLCode) {
+
+  // Handle vanity URL code - ensure it's not null before using
+  const vanityURLCode = guild.vanityURLCode
+  if (vanityURLCode) {
+    const vanityData = await guild.fetchVanityData()
     tempMap.set(
-      guild.vanityURLCode,
-      cacheInvite(await guild.fetchVanityData(), true)
+      vanityURLCode,
+      cacheInvite(
+        {
+          code: vanityData.code,
+          uses: vanityData.uses,
+          maxUses: 0
+        },
+        true
+      )
     )
   }
 
@@ -40,16 +79,17 @@ async function cacheGuildInvites(guild) {
 
 /**
  * Add roles to inviter based on invites count
- * @param {import("discord.js").Guild} guild
- * @param {Object} inviterData
- * @param {boolean} isAdded
  */
-const checkInviteRewards = async (guild, inviterData = {}, isAdded) => {
+export const checkInviteRewards = async (
+  guild: Guild,
+  inviterData: IMember | null = null,
+  isAdded: boolean
+): Promise<void> => {
   const settings = await getSettings(guild)
   if (settings.invite.ranks.length > 0 && inviterData?.member_id) {
     const inviter = await guild.members
-      .fetch(inviterData?.member_id)
-      .catch(() => {})
+      .fetch(inviterData.member_id)
+      .catch(() => undefined)
     if (!inviter) return
 
     const invites = getEffectiveInvites(inviterData.invite_data)
@@ -70,32 +110,30 @@ const checkInviteRewards = async (guild, inviterData = {}, isAdded) => {
 
 /**
  * Track inviter by comparing new invites with cached invites
- * @param {import("discord.js").GuildMember} member
  */
-async function trackJoinedMember(member) {
+export async function trackJoinedMember(
+  member: GuildMember
+): Promise<IMember | null> {
   const { guild } = member
 
-  if (member.user.bot) return {}
+  if (member.user.bot) return null
 
   const cachedInvites = inviteCache.get(guild.id)
   const newInvites = await cacheGuildInvites(guild)
 
-  // return if no cached data
-  if (!cachedInvites) return {}
-  let usedInvite
+  if (!cachedInvites) return null
+  let usedInvite: InviteData | undefined
 
-  // compare newInvites with cached invites
   usedInvite = newInvites.find(
     inv =>
       inv.uses !== 0 &&
       cachedInvites.get(inv.code) &&
-      cachedInvites.get(inv.code).uses < inv.uses
+      (cachedInvites.get(inv.code)?.uses || 0) < inv.uses
   )
 
-  // Special case: Invitation was deleted after member's arrival and
-  // just before GUILD_MEMBER_ADD (https://github.com/iamvikshan/amina/blob/29202ee8e85bb1651f19a466e2c0721b2373fefb/index.ts#L46)
+  // Special case: Invitation was deleted after member's arrival
   if (!usedInvite) {
-    cachedInvites
+    ;[...cachedInvites.values()]
       .sort((a, b) =>
         a.deletedTimestamp && b.deletedTimestamp
           ? b.deletedTimestamp - a.deletedTimestamp
@@ -103,50 +141,51 @@ async function trackJoinedMember(member) {
       )
       .forEach(invite => {
         if (
-          !newInvites.get(invite.code) && // If the invitation is no longer present
-          invite.maxUses > 0 && // If the invitation was indeed an invitation with a limited number of uses
-          invite.uses === invite.maxUses - 1 // What if the invitation was about to reach the maximum number of uses
+          !newInvites.get(invite.code) &&
+          invite.maxUses > 0 &&
+          invite.uses === invite.maxUses - 1
         ) {
           usedInvite = invite
         }
       })
   }
 
-  let inviterData = {}
+  let inviterData: IMember | null = null
   if (usedInvite) {
     const inviterId =
       usedInvite.code === guild.vanityURLCode ? 'VANITY' : usedInvite.inviterId
 
-    // log invite data
     const memberDb = await getMember(guild.id, member.id)
     memberDb.invite_data.inviter = inviterId
     memberDb.invite_data.code = usedInvite.code
     await memberDb.save()
 
-    // increment inviter's invites
     const inviterDb = await getMember(guild.id, inviterId)
     inviterDb.invite_data.tracked += 1
     await inviterDb.save()
     inviterData = inviterDb
   }
 
-  checkInviteRewards(guild, inviterData, true)
+  await checkInviteRewards(guild, inviterData, true)
   return inviterData
 }
 
 /**
  * Fetch inviter data from database
- * @param {import("discord.js").Guild} guild
- * @param {import("discord.js").User} user
  */
-async function trackLeftMember(guild, user) {
-  if (user.bot) return {}
+export async function trackLeftMember(
+  guild: Guild,
+  user: User
+): Promise<IMember | null> {
+  if (user.bot) return null
 
-  const settings = await getSettings(guild)
-  if (!settings.invite.tracking) return
-  const inviteData = (await getMember(guild.id, user.id)).invite_data
+  const settings = (await getSettings(guild)) as GuildSettings
+  if (!settings.invite.tracking) return null
 
-  let inviterData = {}
+  const memberDb = await getMember(guild.id, user.id)
+  const inviteData = memberDb.invite_data
+
+  let inviterData: IMember | null = null
   if (inviteData.inviter) {
     const inviterId =
       inviteData.inviter === 'VANITY' ? 'VANITY' : inviteData.inviter
@@ -156,11 +195,11 @@ async function trackLeftMember(guild, user) {
     inviterData = inviterDb
   }
 
-  checkInviteRewards(guild, inviterData, false)
+  await checkInviteRewards(guild, inviterData, false)
   return inviterData
 }
 
-module.exports = {
+export const inviteHandler = {
   getInviteCache,
   resetInviteCache,
   trackJoinedMember,
@@ -168,5 +207,5 @@ module.exports = {
   cacheGuildInvites,
   checkInviteRewards,
   getEffectiveInvites,
-  cacheInvite,
+  cacheInvite
 }

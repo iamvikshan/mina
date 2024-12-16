@@ -27,7 +27,7 @@ module.exports = {
     if (!member) return
 
     await member.roles.remove(role).catch(() => {})
-  },
+  }
 }
 
 /**

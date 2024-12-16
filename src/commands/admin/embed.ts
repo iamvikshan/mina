@@ -8,14 +8,14 @@ const {
   ButtonBuilder,
   ButtonStyle,
   ComponentType,
-  EmbedBuilder,
-} = require('discord.js')
-const { isValidColor, isHex } = require('@helpers/Utils')
+  EmbedBuilder
+} from 'discord.js'
+const { isValidColor, isHex } from '@helpers/Utils'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'embed',
   description: 'Send a beautiful embed message!',
   category: 'ADMIN',
@@ -29,9 +29,9 @@ module.exports = {
         description: 'Choose a channel to send the embed',
         type: ApplicationCommandOptionType.Channel,
         channelTypes: [ChannelType.GuildText],
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -45,7 +45,7 @@ module.exports = {
       `✨ Embed setup started in ${channel}! Let's create something pretty!`
     )
     await embedSetup(channel, interaction.member)
-  },
+  }
 }
 
 /**
@@ -61,8 +61,8 @@ async function embedSetup(channel, member) {
           .setCustomId('EMBED_ADD')
           .setLabel('Create Embed 💖')
           .setStyle(ButtonStyle.Primary)
-      ),
-    ],
+      )
+    ]
   })
 
   const btnInteraction = await channel
@@ -72,14 +72,14 @@ async function embedSetup(channel, member) {
         i.customId === 'EMBED_ADD' &&
         i.member.id === member.id &&
         i.message.id === sentMsg.id,
-      time: 20000,
+      time: 20000
     })
     .catch(ex => {})
 
   if (!btnInteraction) {
     return sentMsg.edit({
       content: 'No response received 😔. Embed setup cancelled.',
-      components: [],
+      components: []
     })
   }
 
@@ -122,8 +122,8 @@ async function embedSetup(channel, member) {
             .setLabel('Embed Footer ✍️')
             .setStyle(TextInputStyle.Short)
             .setRequired(false)
-        ),
-      ],
+        )
+      ]
     })
   )
 
@@ -134,14 +134,14 @@ async function embedSetup(channel, member) {
       filter: m =>
         m.customId === 'EMBED_MODAL' &&
         m.member.id === member.id &&
-        m.message.id === sentMsg.id,
+        m.message.id === sentMsg.id
     })
     .catch(ex => {})
 
   if (!modal) {
     return sentMsg.edit({
       content: 'No response received, cancelling setup 🥺',
-      components: [],
+      components: []
     })
   }
 
@@ -157,7 +157,7 @@ async function embedSetup(channel, member) {
     return sentMsg.edit({
       content:
         "Oops! 🙈 You can't send an empty embed! Please add some content.",
-      components: [],
+      components: []
     })
   }
 
@@ -190,14 +190,14 @@ async function embedSetup(channel, member) {
     content:
       '✨ Please add fields using the buttons below. Click "Done" when you are ready! ✨',
     embeds: [embed],
-    components: [buttonRow],
+    components: [buttonRow]
   })
 
   const collector = channel.createMessageComponentCollector({
     componentType: ComponentType.Button,
     filter: i => i.member.id === member.id,
     message: sentMsg,
-    idle: 5 * 60 * 1000,
+    idle: 5 * 60 * 1000
   })
 
   collector.on('collect', async interaction => {
@@ -228,8 +228,8 @@ async function embedSetup(channel, member) {
                 .setStyle(TextInputStyle.Short)
                 .setValue('true')
                 .setRequired(true)
-            ),
-          ],
+            )
+          ]
         })
       )
 
@@ -238,7 +238,7 @@ async function embedSetup(channel, member) {
         .awaitModalSubmit({
           time: 5 * 60 * 1000,
           filter: m =>
-            m.customId === 'EMBED_ADD_FIELD_MODAL' && m.member.id === member.id,
+            m.customId === 'EMBED_ADD_FIELD_MODAL' && m.member.id === member.id
         })
         .catch(ex => {})
 
@@ -271,7 +271,7 @@ async function embedSetup(channel, member) {
       } else {
         interaction.reply({
           content: 'Oops! 😅 There are no fields to remove!',
-          ephemeral: true,
+          ephemeral: true
         })
       }
     }

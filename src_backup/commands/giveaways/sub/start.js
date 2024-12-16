@@ -66,8 +66,8 @@ module.exports = async (
         giveawayEnded: '🎉 **GIVEAWAY ENDED** 🎉',
         inviteToParticipate: 'React with 🎁 to enter',
         dropMessage: 'Be the first to react with 🎁 to win!',
-        hostedBy: `\nHosted by: ${host.username}`,
-      },
+        hostedBy: `\nHosted by: ${host.username}`
+      }
     }
 
     if (allowedRoles.length > 0) {

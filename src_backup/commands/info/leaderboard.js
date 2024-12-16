@@ -1,7 +1,7 @@
 const {
   EmbedBuilder,
   escapeInlineCode,
-  ApplicationCommandOptionType,
+  ApplicationCommandOptionType
 } = require('discord.js')
 const { EMBED_COLORS } = require('@src/config')
 const { getInvitesLb } = require('@schemas/Member')
@@ -29,10 +29,10 @@ module.exports = {
         type: ApplicationCommandOptionType.String,
         choices: leaderboardTypes.map(type => ({
           name: type,
-          value: type,
-        })),
-      },
-    ],
+          value: type
+        }))
+      }
+    ]
   },
   async interactionRun(interaction) {
     const type = interaction.options.getString('type')
@@ -53,7 +53,7 @@ module.exports = {
           'Invalid Leaderboard type. Choose either `xp`, `invite`, or `rep`'
     }
     await interaction.followUp(response)
-  },
+  }
 }
 
 // Create a Map object to store cache entries

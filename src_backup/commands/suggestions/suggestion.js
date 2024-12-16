@@ -8,7 +8,7 @@ const CHANNEL_PERMS = [
   'SendMessages',
   'EmbedLinks',
   'ManageMessages',
-  'ReadMessageHistory',
+  'ReadMessageHistory'
 ]
 
 /**
@@ -36,15 +36,15 @@ module.exports = {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'channel',
@@ -56,9 +56,9 @@ module.exports = {
             description: 'the channel where suggestions will be sent',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'appch',
@@ -70,9 +70,9 @@ module.exports = {
             description: 'the channel where approved suggestions will be sent',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'rejch',
@@ -84,9 +84,9 @@ module.exports = {
             description: 'the channel where rejected suggestions will be sent',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'approve',
@@ -98,21 +98,21 @@ module.exports = {
             description: 'the channel where the suggestion exists',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
+            required: true
           },
           {
             name: 'message_id',
             description: 'the message id of the suggestion',
             type: ApplicationCommandOptionType.String,
-            required: true,
+            required: true
           },
           {
             name: 'reason',
             description: 'the reason for the approval',
             type: ApplicationCommandOptionType.String,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'reject',
@@ -124,23 +124,23 @@ module.exports = {
             description: 'the channel where the suggestion exists',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
+            required: true
           },
           {
             name: 'message_id',
             description: 'the message id of the suggestion',
             type: ApplicationCommandOptionType.String,
-            required: true,
+            required: true
           },
           {
             name: 'reason',
             description: 'the reason for the rejection',
             type: ApplicationCommandOptionType.String,
-            required: false,
-          },
-        ],
-      },
-    ],
+            required: false
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -202,7 +202,7 @@ module.exports = {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function setStatus(settings, status) {

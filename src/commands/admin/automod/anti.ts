@@ -1,10 +1,10 @@
-const { ApplicationCommandOptionType } = require('discord.js')
-const { AUTOMOD } = require('@src/config.js')
+import { ApplicationCommandOptionType } from 'discord.js'
+import { AUTOMOD } from '@src/config.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'anti',
   description: 'Manage various automod settings for the server',
   category: 'AUTOMOD',
@@ -26,15 +26,15 @@ module.exports = {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'spam',
@@ -49,15 +49,15 @@ module.exports = {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'massmention',
@@ -72,23 +72,23 @@ module.exports = {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
+                value: 'OFF'
+              }
+            ]
           },
           {
             name: 'threshold',
             description: 'Configuration threshold (default is 3 mentions)',
             required: true,
-            type: ApplicationCommandOptionType.Integer,
-          },
-        ],
-      },
-    ],
+            type: ApplicationCommandOptionType.Integer
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -115,7 +115,7 @@ module.exports = {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function antiGhostPing(settings, input) {

@@ -22,9 +22,9 @@ module.exports = {
             description: 'Select the channel to send mod logs',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'toggle',
@@ -40,9 +40,9 @@ module.exports = {
                 name: 'status',
                 description: 'Enable or disable',
                 type: ApplicationCommandOptionType.Boolean,
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           },
           {
             name: 'msg-edit',
@@ -53,9 +53,9 @@ module.exports = {
                 name: 'status',
                 description: 'Enable or disable',
                 type: ApplicationCommandOptionType.Boolean,
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           },
           {
             name: 'msg-del',
@@ -66,9 +66,9 @@ module.exports = {
                 name: 'status',
                 description: 'Enable or disable',
                 type: ApplicationCommandOptionType.Boolean,
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           },
           {
             name: 'mbr-role',
@@ -79,9 +79,9 @@ module.exports = {
                 name: 'status',
                 description: 'Enable or disable',
                 type: ApplicationCommandOptionType.Boolean,
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           },
           {
             name: 'chnl-create',
@@ -92,9 +92,9 @@ module.exports = {
                 name: 'status',
                 description: 'Enable or disable',
                 type: ApplicationCommandOptionType.Boolean,
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           },
           {
             name: 'chnl-edit',
@@ -105,9 +105,9 @@ module.exports = {
                 name: 'status',
                 description: 'Enable or disable',
                 type: ApplicationCommandOptionType.Boolean,
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           },
           {
             name: 'chnl-del',
@@ -118,9 +118,9 @@ module.exports = {
                 name: 'status',
                 description: 'Enable or disable',
                 type: ApplicationCommandOptionType.Boolean,
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           },
           {
             name: 'role-create',
@@ -131,9 +131,9 @@ module.exports = {
                 name: 'status',
                 description: 'Enable or disable',
                 type: ApplicationCommandOptionType.Boolean,
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           },
           {
             name: 'role-edit',
@@ -144,9 +144,9 @@ module.exports = {
                 name: 'status',
                 description: 'Enable or disable',
                 type: ApplicationCommandOptionType.Boolean,
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           },
           {
             name: 'role-del',
@@ -157,11 +157,11 @@ module.exports = {
                 name: 'status',
                 description: 'Enable or disable',
                 type: ApplicationCommandOptionType.Boolean,
-                required: true,
-              },
-            ],
-          },
-        ],
+                required: true
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'all',
@@ -172,11 +172,11 @@ module.exports = {
             name: 'status',
             description: 'Enable or disable all logging',
             type: ApplicationCommandOptionType.Boolean,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -272,7 +272,7 @@ module.exports = {
       const response = await toggleAllLogging(status, data.settings)
       return interaction.followUp(response)
     }
-  },
+  }
 }
 
 async function setChannel(targetChannel, settings) {
@@ -298,17 +298,17 @@ async function setChannel(targetChannel, settings) {
     settings.logs.member = {
       message_edit: true,
       message_delete: true,
-      role_changes: true,
+      role_changes: true
     }
     settings.logs.channel = {
       create: true,
       edit: true,
-      delete: true,
+      delete: true
     }
     settings.logs.role = {
       create: true,
       edit: true,
-      delete: true,
+      delete: true
     }
     if (!settings.automod) settings.automod = {}
     settings.automod.anti_ghostping = true

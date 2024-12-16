@@ -1,9 +1,9 @@
-const { ApplicationCommandOptionType } = require('discord.js')
+import { ApplicationCommandOptionType } from 'discord.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'autorole',
   description: 'Set up a role to be given when a member joins the server!',
   category: 'ADMIN',
@@ -21,22 +21,22 @@ module.exports = {
             name: 'role',
             description: 'The role to be given',
             type: ApplicationCommandOptionType.Role,
-            required: false,
+            required: false
           },
           {
             name: 'role_id',
             description: 'The role ID to be given',
             type: ApplicationCommandOptionType.String,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'remove',
         description: 'Disable the autorole',
-        type: ApplicationCommandOptionType.Subcommand,
-      },
-    ],
+        type: ApplicationCommandOptionType.Subcommand
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -74,7 +74,7 @@ module.exports = {
     else response = 'Oops! Invalid subcommand. Please try again! 🤔'
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

@@ -2,7 +2,7 @@ const {
   getEffectiveInvites,
   checkInviteRewards,
   cacheGuildInvites,
-  resetInviteCache,
+  resetInviteCache
 } = require('@handlers/invite')
 const { EMBED_COLORS, INVITE } = require('@src/config.js')
 const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
@@ -31,9 +31,9 @@ module.exports = {
             name: 'user',
             description: 'the user to get the invites for',
             type: ApplicationCommandOptionType.User,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'codes',
@@ -44,9 +44,9 @@ module.exports = {
             name: 'user',
             description: 'the user to get the invite codes for',
             type: ApplicationCommandOptionType.User,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'inviter',
@@ -57,14 +57,14 @@ module.exports = {
             name: 'user',
             description: 'the user to get the inviter information for',
             type: ApplicationCommandOptionType.User,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'ranks',
         description: 'Shows the invite ranks configured on this guild',
-        type: ApplicationCommandOptionType.Subcommand,
+        type: ApplicationCommandOptionType.Subcommand
       },
       // Admin commands
       {
@@ -76,15 +76,15 @@ module.exports = {
             name: 'user',
             description: 'the user to give invites to',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'invites',
             description: 'the number of invites to give',
             type: ApplicationCommandOptionType.Integer,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'reset',
@@ -95,9 +95,9 @@ module.exports = {
             name: 'user',
             description: 'the user to clear invites for',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'import',
@@ -108,9 +108,9 @@ module.exports = {
             name: 'user',
             description: 'the user to import invites for',
             type: ApplicationCommandOptionType.User,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'rank',
@@ -126,15 +126,15 @@ module.exports = {
                 name: 'role',
                 description: 'role to be given',
                 type: ApplicationCommandOptionType.Role,
-                required: true,
+                required: true
               },
               {
                 name: 'invites',
                 description: 'number of invites required',
                 type: ApplicationCommandOptionType.Integer,
-                required: true,
-              },
-            ],
+                required: true
+              }
+            ]
           },
           {
             name: 'remove',
@@ -145,11 +145,11 @@ module.exports = {
                 name: 'role',
                 description: 'role to remove from ranks',
                 type: ApplicationCommandOptionType.Role,
-                required: true,
-              },
-            ],
-          },
-        ],
+                required: true
+              }
+            ]
+          }
+        ]
       },
       {
         name: 'tracking',
@@ -164,17 +164,17 @@ module.exports = {
             choices: [
               {
                 name: 'ON',
-                value: 'ON',
+                value: 'ON'
               },
               {
                 name: 'OFF',
-                value: 'OFF',
-              },
-            ],
-          },
-        ],
-      },
-    ],
+                value: 'OFF'
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -262,7 +262,7 @@ module.exports = {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function getInvites({ guild }, user, settings) {
@@ -282,17 +282,17 @@ async function getInvites({ guild }, user, settings) {
       {
         name: 'Total Invites',
         value: `**${inviteData?.tracked + inviteData?.added || 0}**`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Fake Invites',
         value: `**${inviteData?.fake || 0}**`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Left Invites',
         value: `**${inviteData?.left || 0}**`,
-        inline: true,
+        inline: true
       }
     )
 

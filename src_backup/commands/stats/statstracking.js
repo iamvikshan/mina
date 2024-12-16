@@ -1,5 +1,5 @@
 const { STATS } = require('@src/config')
-const { ApplicationCommandOptionType } = require('discord.js')
+import { ApplicationCommandOptionType } from 'discord.js'
 
 /**
  * @type {import("@structures/Command")}
@@ -22,15 +22,15 @@ module.exports = {
         choices: [
           {
             name: 'ON',
-            value: 'ON',
+            value: 'ON'
           },
           {
             name: 'OFF',
-            value: 'OFF',
-          },
-        ],
-      },
-    ],
+            value: 'OFF'
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -39,7 +39,7 @@ module.exports = {
       data.settings
     )
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function setStatus(input, settings) {

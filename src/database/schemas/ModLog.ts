@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const reqString = {
   type: String,
-  required: true,
+  required: true
 }
 
 const Schema = new mongoose.Schema(
@@ -12,7 +12,7 @@ const Schema = new mongoose.Schema(
     reason: String,
     admin: {
       id: reqString,
-      tag: reqString,
+      tag: reqString
     },
     type: {
       type: String,
@@ -31,17 +31,17 @@ const Schema = new mongoose.Schema(
         'DEAFEN',
         'UNDEAFEN',
         'DISCONNECT',
-        'MOVE',
-      ],
-    },
+        'MOVE'
+      ]
+    }
   },
   {
     versionKey: false,
     autoIndex: false,
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: false,
-    },
+      updatedAt: false
+    }
   }
 )
 
@@ -57,22 +57,22 @@ export default {
       reason,
       admin: {
         id: admin.id,
-        tag: admin.user.tag,
+        tag: admin.user.tag
       },
-      type,
+      type
     }).save(),
 
   getWarningLogs: async (guildId, targetId) =>
     Model.find({
       guild_id: guildId,
       member_id: targetId,
-      type: 'WARN',
+      type: 'WARN'
     }).lean(),
 
   clearWarningLogs: async (guildId, targetId) =>
     Model.deleteMany({
       guild_id: guildId,
       member_id: targetId,
-      type: 'WARN',
-    }),
+      type: 'WARN'
+    })
 }

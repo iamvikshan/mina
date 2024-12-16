@@ -6,8 +6,7 @@
 
 ## Developer Notes
 
-- Added `/dev onboarding` command for triggering the settingsing for one or all
-  guilds.
+- Added `/dev onboarding` command for triggering the settingsing for one or all guilds.
 
 # Amina V2.0.3
 
@@ -18,8 +17,8 @@
 
 ## Fixes & Improvements
 
-- Fixed `require` to a `dynamic import` in `./src/commands/bot/bot.js` to fix
-  the `/changelog` command not working.
+- Fixed `require` to a `dynamic import` in `./src/commands/bot/bot.js` to fix the `/changelog`
+  command not working.
 - Fixed OWNER/DEV permissions not working.
 
 ## Developer Notes
@@ -31,8 +30,7 @@
 
 ## New
 
-- `/bot changelog` command now pulls the bot's mini-changelog for the latest 3
-  releases.
+- `/bot changelog` command now pulls the bot's mini-changelog for the latest 3 releases.
 
 ## Fixes & Improvements
 
@@ -51,8 +49,8 @@
 
 ## Developer Notes
 
-- Renamed `./src/commands/developer` to `./src/commands/dev` and
-  `./src/commands/information` to `./src/commands/info`
+- Renamed `./src/commands/developer` to `./src/commands/dev` and `./src/commands/information` to
+  `./src/commands/info`
 - Added sponsors workflow for GitHub sponsors
 - Updated dependencies
 
@@ -77,8 +75,7 @@
 
 - fix: upgrade mongoose from 7.3.4 to 8.0.0
 - Fix contexts count always 0
-- Renamed `./src/commands/moderation/shared` to
-  `./src/commands/moderation/message`
+- Renamed `./src/commands/moderation/shared` to `./src/commands/moderation/message`
 
   # Amina v1.1.3
 
@@ -88,14 +85,11 @@
 
 ## What's Changed
 
-- Bump prettier from 3.1.0 to 3.1.1 by @dependabot in
-  https://github.com/iamvikshan/amina/pull/206
+- Bump prettier from 3.1.0 to 3.1.1 by @dependabot in https://github.com/iamvikshan/amina/pull/206
 - Bump eslint-plugin-jsdoc from 46.10.1 to 48.0.2 by @dependabot in
   https://github.com/iamvikshan/amina/pull/210
-- Bump canvacord from 5.4.10 to 6.0.1 by @dependabot in
-  https://github.com/iamvikshan/amina/pull/211
-- Bump prettier from 3.1.1 to 3.2.4 by @dependabot in
-  https://github.com/iamvikshan/amina/pull/214
+- Bump canvacord from 5.4.10 to 6.0.1 by @dependabot in https://github.com/iamvikshan/amina/pull/211
+- Bump prettier from 3.1.1 to 3.2.4 by @dependabot in https://github.com/iamvikshan/amina/pull/214
 
 ## Amina v1.1.2
 
@@ -105,16 +99,15 @@
 
 ### Fixes
 
-- [x] 🛠 Fixed `leaderboard` command in which servers whose leaderboard is not
-      set would send error instead of explaining it
+- [x] 🛠 Fixed `leaderboard` command in which servers whose leaderboard is not set would send error
+      instead of explaining it
 
 ### Developer
 
-- [ ] ⚙️ removed `npm run format` from the `npm run update` script to eliminate
-      the possibility of formatting an already formatted code resulting in git
-      errors
-- [ ] ⚙️ excluded `docs` folder from `npm run format` script to prevent
-      formatting the documentation files, which breaks links in gitbook.
+- [ ] ⚙️ removed `npm run format` from the `npm run update` script to eliminate the possibility of
+      formatting an already formatted code resulting in git errors
+- [ ] ⚙️ excluded `docs` folder from `npm run format` script to prevent formatting the documentation
+      files, which breaks links in gitbook.
 
 ## Amina v1.1.1
 

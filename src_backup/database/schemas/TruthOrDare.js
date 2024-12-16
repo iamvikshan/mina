@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const reqString = {
   type: String,
-  required: true,
+  required: true
 }
 
 const Schema = new mongoose.Schema({
@@ -12,8 +12,8 @@ const Schema = new mongoose.Schema({
   rating: {
     type: String,
     required: true,
-    enum: ['PG', 'PG-13', 'PG-16', 'R'],
-  },
+    enum: ['PG', 'PG-13', 'PG-16', 'R']
+  }
 })
 
 const Model = mongoose.model('tod', Schema)
@@ -23,7 +23,7 @@ module.exports = {
 
   addQuestion: async (category, question, rating) => {
     const latestQuestion = await Model.findOne({ category }).sort({
-      questionId: -1,
+      questionId: -1
     })
 
     let questionId = 'T1'
@@ -33,7 +33,7 @@ module.exports = {
       nhie: 'NHIE',
       wyr: 'WYR',
       hye: 'HYE',
-      wwyd: 'WWYD',
+      wwyd: 'WWYD'
     }
 
     if (prefixMap[category]) {
@@ -51,7 +51,7 @@ module.exports = {
       category,
       questionId,
       question,
-      rating,
+      rating
     })
 
     await data.save()
@@ -76,9 +76,9 @@ module.exports = {
       {
         $match: {
           // If specific rating requested, use it; otherwise use all allowed ratings
-          rating: requestedRating ? requestedRating : { $in: allowedRatings },
-        },
-      },
+          rating: requestedRating ? requestedRating : { $in: allowedRatings }
+        }
+      }
     ]
 
     // Add category filter if not random
@@ -88,7 +88,7 @@ module.exports = {
 
     // Add random sampling
     aggregate.push({
-      $sample: { size: limit },
+      $sample: { size: limit }
     })
 
     const questions = await Model.aggregate(aggregate)
@@ -99,7 +99,7 @@ module.exports = {
     const normalizedId = questionId.toUpperCase()
 
     const question = await Model.findOne({
-      questionId: { $regex: new RegExp(`^${normalizedId}$`, 'i') },
+      questionId: { $regex: new RegExp(`^${normalizedId}$`, 'i') }
     })
 
     if (!question) {
@@ -111,7 +111,7 @@ module.exports = {
       category: question.category,
       questionId: question.questionId,
       question: question.question,
-      rating: question.rating,
+      rating: question.rating
     }
   },
 
@@ -121,7 +121,7 @@ module.exports = {
       throw new Error(`Question with ID ${questionId} not found`)
     }
     return question
-  },
+  }
 }
 
 function getAllowedRatings(age) {

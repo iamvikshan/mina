@@ -1,252 +1,261 @@
+import { ApplicationCommandType } from 'discord.js'
 import CommandCategory from '@structures/CommandCategory'
 import permissions from './permissions'
 import config from '@src/config'
 import { log, warn, error } from './Logger'
-import { ApplicationCommandType } from 'discord.js'
 
 export class Validator {
   static validateConfiguration() {
     log('Validating config file and environment variables')
 
-    // Bot Token
-    if (!process.env.BOT_TOKEN) {
-      error('env: BOT_TOKEN cannot be empty')
-      process.exit(1)
+    // Essential Checks
+    const requiredEnvVars = {
+      BOT_TOKEN: process.env.BOT_TOKEN,
+      MONGO_URL: process.env.MONGO_URL,
+      LOGS_WEBHOOK: process.env.LOGS_WEBHOOK
     }
 
-    // Validate Database Config
-    if (!process.env.MONGO_URL) {
-      error('env: MONGO_URL cannot be empty')
-      process.exit(1)
+    for (const [key, value] of Object.entries(requiredEnvVars)) {
+      if (!value) {
+        error(`env: ${key} cannot be empty`)
+        process.exit(1)
+      }
     }
 
-    // Validate Dashboard Config
+    // Dashboard Validation
     if (config.DASHBOARD.enabled) {
-      if (!process.env.CLIENT_SECRET) {
-        error('env: CLIENT_SECRET cannot be empty')
-        process.exit(1)
+      const requiredDashboardVars = {
+        CLIENT_SECRET: process.env.CLIENT_SECRET,
+        SESSION_PASSWORD: process.env.SESSION_PASSWORD,
+        BASE_URL: process.env.BASE_URL,
+        FAILURE_URL: process.env.FAILURE_URL
       }
-      if (!process.env.SESSION_PASSWORD) {
-        error('env: SESSION_PASSWORD cannot be empty')
-        process.exit(1)
+
+      for (const [key, value] of Object.entries(requiredDashboardVars)) {
+        if (!value) {
+          error(
+            `${key.includes('URL') ? 'config.ts' : 'env'}: ${key} cannot be empty`
+          )
+          process.exit(1)
+        }
       }
-      if (
-        !process.env.BASE_URL ||
-        !process.env.FAILURE_URL ||
-        !config.DASHBOARD.port
-      ) {
-        error('config.js: DASHBOARD details cannot be empty')
+
+      if (!config.DASHBOARD.port) {
+        error('config.ts: DASHBOARD port cannot be empty')
         process.exit(1)
       }
     }
 
-    // Validate Feedback Config
-    if (config.FEEDBACK.ENABLED) {
-      if (!process.env.LOGS_WEBHOOK) {
-        error('env: LOGS_WEBHOOK cannot be empty when FEEDBACK is enabled')
-        process.exit(1)
-      }
-    }
+    // Cache Size Validation
+    const cacheSizes = [
+      config.CACHE_SIZE.GUILDS,
+      config.CACHE_SIZE.USERS,
+      config.CACHE_SIZE.MEMBERS
+    ]
 
-    // Cache Size
-    if (
-      isNaN(config.CACHE_SIZE.GUILDS) ||
-      isNaN(config.CACHE_SIZE.USERS) ||
-      isNaN(config.CACHE_SIZE.MEMBERS)
-    ) {
-      error('config.js: CACHE_SIZE must be a positive integer')
+    if (cacheSizes.some(size => isNaN(size))) {
+      error('config.ts: CACHE_SIZE must be a positive integer')
       process.exit(1)
     }
 
-    // Music
+    // Music Configuration
     if (config.MUSIC.ENABLED) {
-      if (config.MUSIC.LAVALINK_NODES.length == 0) {
-        warn('config.js: There must be at least one node for Lavalink')
+      if (!config.MUSIC.LAVALINK_NODES.length) {
+        warn('config.ts: There must be at least one node for Lavalink')
       }
-      if (
-        ![
-          'ytsearch',
-          'ytmsearch',
-          'scsearch',
-          'spsearch',
-          'dzsearch',
-          'jssearch',
-        ].includes(config.MUSIC.DEFAULT_SOURCE)
-      ) {
+
+      const validSources = [
+        'ytsearch',
+        'ytmsearch',
+        'scsearch',
+        'spsearch',
+        'dzsearch',
+        'jssearch'
+      ]
+
+      if (!validSources.includes(config.MUSIC.DEFAULT_SOURCE)) {
         warn(
-          'config.js: MUSIC.DEFAULT_SOURCE must be either ytsearch, ytmsearch, scsearch, spsearch, dzsearch or jssearch'
+          'config.ts: MUSIC.DEFAULT_SOURCE must be either ytsearch, ytmsearch, scsearch, spsearch, dzsearch or jssearch'
         )
       }
     }
 
-    // Warnings
-    if (process.env.DEV_ID.length === 0) warn('config.js: DEV_ID are empty')
+    // Optional Configurations Warning
+    if (!process.env.DEV_ID?.length) warn('config.ts: DEV_ID(s) are empty')
     if (!process.env.SUPPORT_SERVER)
-      warn('config.js: SUPPORT_SERVER is not provided')
-    if (!process.env.WEATHERSTACK_KEY)
-      warn("env: WEATHERSTACK_KEY is missing. Weather command won't work")
-    if (!process.env.STRANGE_API_KEY)
-      warn("env: STRANGE_API_KEY is missing. Image commands won't work")
+      warn('config.ts: SUPPORT_SERVER is not provided')
   }
 
-  /**
-   * @param {import('@structures/Command')} cmd
-   */
   static validateCommand(cmd) {
-    if (typeof cmd !== 'object') {
+    if (!cmd || typeof cmd !== 'object') {
       throw new TypeError('Command data must be an Object.')
     }
-    if (typeof cmd.name !== 'string' || cmd.name !== cmd.name.toLowerCase()) {
-      throw new Error('Command name must be a lowercase string.')
-    }
-    if (typeof cmd.description !== 'string') {
-      throw new TypeError('Command description must be a string.')
-    }
-    if (cmd.cooldown && typeof cmd.cooldown !== 'number') {
-      throw new TypeError('Command cooldown must be a number')
-    }
-    if (cmd.category) {
-      if (
-        !Object.prototype.hasOwnProperty.call(CommandCategory, cmd.category)
-      ) {
-        throw new Error(`Not a valid category ${cmd.category}`)
+
+    const validations = [
+      {
+        check: () =>
+          typeof cmd.name === 'string' && cmd.name === cmd.name.toLowerCase(),
+        error: 'Command name must be a lowercase string.'
+      },
+      {
+        check: () => typeof cmd.description === 'string',
+        error: 'Command description must be a string.'
+      },
+      {
+        check: () => !cmd.cooldown || typeof cmd.cooldown === 'number',
+        error: 'Command cooldown must be a number'
+      },
+      {
+        check: () =>
+          !cmd.category ||
+          Object.prototype.hasOwnProperty.call(CommandCategory, cmd.category),
+        error: `Not a valid category ${cmd.category}`
       }
+    ]
+
+    for (const { check, error } of validations) {
+      if (!check()) throw new Error(error)
     }
-    if (cmd.userPermissions) {
-      if (!Array.isArray(cmd.userPermissions)) {
+
+    // Permissions Validation
+    const validatePermissions = (perms, type) => {
+      if (!Array.isArray(perms)) {
         throw new TypeError(
-          'Command userPermissions must be an Array of permission key strings.'
+          `Command ${type} must be an Array of permission key strings.`
         )
       }
-      for (const perm of cmd.userPermissions) {
+
+      perms.forEach(perm => {
         if (!permissions[perm])
-          throw new RangeError(`Invalid command userPermission: ${perm}`)
-      }
+          throw new RangeError(`Invalid command ${type}: ${perm}`)
+      })
     }
-    if (cmd.botPermissions) {
-      if (!Array.isArray(cmd.botPermissions)) {
-        throw new TypeError(
-          'Command botPermissions must be an Array of permission key strings.'
-        )
-      }
-      for (const perm of cmd.botPermissions) {
-        if (!permissions[perm])
-          throw new RangeError(`Invalid command botPermission: ${perm}`)
-      }
-    }
-    if (cmd.validations) {
+
+    if (cmd.userPermissions)
+      validatePermissions(cmd.userPermissions, 'userPermissions')
+    if (cmd.botPermissions)
+      validatePermissions(cmd.botPermissions, 'botPermissions')
+
+    // Validations Array Check
+    if (cmd.validations?.length) {
       if (!Array.isArray(cmd.validations)) {
         throw new TypeError(
           'Command validations must be an Array of validation Objects.'
         )
       }
-      for (const validation of cmd.validations) {
-        if (typeof validation !== 'object') {
+
+      cmd.validations.forEach(validation => {
+        if (typeof validation !== 'object')
           throw new TypeError('Command validations must be an object.')
-        }
-        if (typeof validation.callback !== 'function') {
+        if (typeof validation.callback !== 'function')
           throw new TypeError('Command validation callback must be a function.')
-        }
-        if (typeof validation.message !== 'string') {
+        if (typeof validation.message !== 'string')
           throw new TypeError('Command validation message must be a string.')
-        }
-      }
+      })
     }
 
-    // Validate Slash Command Details
+    // Slash Command Validation
     if (cmd.slashCommand) {
-      if (typeof cmd.slashCommand !== 'object') {
+      const { slashCommand } = cmd
+
+      if (typeof slashCommand !== 'object') {
         throw new TypeError('Command.slashCommand must be an object')
       }
+
       if (
-        Object.prototype.hasOwnProperty.call(cmd.slashCommand, 'enabled') &&
-        typeof cmd.slashCommand.enabled !== 'boolean'
+        'enabled' in slashCommand &&
+        typeof slashCommand.enabled !== 'boolean'
       ) {
         throw new TypeError(
           'Command.slashCommand enabled must be a boolean value'
         )
       }
+
       if (
-        Object.prototype.hasOwnProperty.call(cmd.slashCommand, 'ephemeral') &&
-        typeof cmd.slashCommand.ephemeral !== 'boolean'
+        'ephemeral' in slashCommand &&
+        typeof slashCommand.ephemeral !== 'boolean'
       ) {
         throw new TypeError(
           'Command.slashCommand ephemeral must be a boolean value'
         )
       }
-      if (
-        cmd.slashCommand.options &&
-        !Array.isArray(cmd.slashCommand.options)
-      ) {
+
+      if (slashCommand.options && !Array.isArray(slashCommand.options)) {
         throw new TypeError('Command.slashCommand options must be a array')
       }
-      if (
-        cmd.slashCommand.enabled &&
-        typeof cmd.interactionRun !== 'function'
-      ) {
+
+      if (slashCommand.enabled && typeof cmd.interactionRun !== 'function') {
         throw new TypeError("Missing 'interactionRun' function")
       }
     }
   }
 
-  /**
-   * @param {import('@structures/BaseContext')} context
-   */
   static validateContext(context) {
-    if (typeof context !== 'object') {
+    if (!context || typeof context !== 'object') {
       throw new TypeError('Context must be an object')
     }
-    if (
-      typeof context.name !== 'string' ||
-      context.name !== context.name.toLowerCase()
-    ) {
-      throw new Error('Context name must be a lowercase string.')
+
+    const validations = [
+      {
+        check: () =>
+          typeof context.name === 'string' &&
+          context.name === context.name.toLowerCase(),
+        error: 'Context name must be a lowercase string.'
+      },
+      {
+        check: () => typeof context.description === 'string',
+        error: 'Context description must be a string.'
+      },
+      {
+        check: () =>
+          [
+            ApplicationCommandType.User,
+            ApplicationCommandType.Message
+          ].includes(context.type),
+        error: 'Context type must be a either User/Message.'
+      },
+      {
+        check: () =>
+          !('enabled' in context) || typeof context.enabled === 'boolean',
+        error: 'Context enabled must be a boolean value'
+      },
+      {
+        check: () =>
+          !('ephemeral' in context) || typeof context.ephemeral === 'boolean',
+        error: 'Context ephemeral must be a boolean value'
+      },
+      {
+        check: () =>
+          !('defaultPermission' in context) ||
+          typeof context.defaultPermission === 'boolean',
+        error: 'Context defaultPermission must be a boolean value'
+      },
+      {
+        check: () =>
+          !('cooldown' in context) || typeof context.cooldown === 'number',
+        error: 'Context cooldown must be a number'
+      }
+    ]
+
+    for (const { check, error } of validations) {
+      if (!check()) throw new Error(error)
     }
-    if (typeof context.description !== 'string') {
-      throw new TypeError('Context description must be a string.')
-    }
-    if (
-      context.type !== ApplicationCommandType.User &&
-      context.type !== ApplicationCommandType.Message
-    ) {
-      throw new TypeError('Context type must be a either User/Message.')
-    }
-    if (
-      Object.prototype.hasOwnProperty.call(context, 'enabled') &&
-      typeof context.enabled !== 'boolean'
-    ) {
-      throw new TypeError('Context enabled must be a boolean value')
-    }
-    if (
-      Object.prototype.hasOwnProperty.call(context, 'ephemeral') &&
-      typeof context.ephemeral !== 'boolean'
-    ) {
-      throw new TypeError('Context enabled must be a boolean value')
-    }
-    if (
-      Object.prototype.hasOwnProperty.call(context, 'defaultPermission') &&
-      typeof context.defaultPermission !== 'boolean'
-    ) {
-      throw new TypeError('Context defaultPermission must be a boolean value')
-    }
-    if (
-      Object.prototype.hasOwnProperty.call(context, 'cooldown') &&
-      typeof context.cooldown !== 'number'
-    ) {
-      throw new TypeError('Context cooldown must be a number')
-    }
+
     if (context.userPermissions) {
       if (!Array.isArray(context.userPermissions)) {
         throw new TypeError(
           'Context userPermissions must be an Array of permission key strings.'
         )
       }
-      for (const perm of context.userPermissions) {
+
+      context.userPermissions.forEach(perm => {
         if (!permissions[perm])
           throw new RangeError(`Invalid command userPermission: ${perm}`)
-      }
+      })
     }
   }
 }
 
 export const validateConfiguration = () => Validator.validateConfiguration()
+export const validateCommand = cmd => Validator.validateCommand(cmd)
+export const validateContext = context => Validator.validateContext(context)

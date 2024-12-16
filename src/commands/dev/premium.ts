@@ -1,9 +1,9 @@
-const { ApplicationCommandOptionType } = require('discord.js')
-const { getUser, updatePremium } = require('@schemas/User')
+import { ApplicationCommandOptionType } from 'discord.js'
+import { getUser, updatePremium } from '@schemas/User'
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'premium',
   description: 'Manage premium status for users',
   cooldown: 5,
@@ -22,15 +22,15 @@ module.exports = {
             name: 'user',
             description: 'The user to give premium status',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'duration',
             description: 'Duration of premium status in days',
             type: ApplicationCommandOptionType.Integer,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'remove',
@@ -41,11 +41,11 @@ module.exports = {
             name: 'user',
             description: 'The user to remove premium status from',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -88,5 +88,5 @@ module.exports = {
         `Aw, snap! 📸 ${targetUser.tag}'s premium status just went 'poof'! 💨 They've been gently escorted from the VIP lounge back to the regular party. But hey, the regular party is pretty cool too! We've got snacks and everything! 🍿🥤`
       )
     }
-  },
+  }
 }

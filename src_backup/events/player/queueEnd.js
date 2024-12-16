@@ -32,8 +32,8 @@ module.exports = async (client, player) => {
             .setTitle('Queue Concluded')
             .setDescription(
               `Enjoying music with me? Consider [voting](https://top.gg/bot/${client.user?.id}/vote) for me!`
-            ),
-        ],
+            )
+        ]
       },
       10
     )

@@ -1,11 +1,11 @@
 const { purgeMessages } = require('@helpers/ModUtils')
-const { ApplicationCommandOptionType, ChannelType } = require('discord.js')
-const { MODERATION } = require('@src/config.js')
+const { ApplicationCommandOptionType, ChannelType } from 'discord.js'
+const { MODERATION } from '@src/config.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'purge',
   description: 'purge commands',
   category: 'MODERATION',
@@ -25,15 +25,15 @@ module.exports = {
             description: 'channel from which messages must be cleaned',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
+            required: true
           },
           {
             name: 'amount',
             description: 'number of messages to be deleted (Max 500)',
             type: ApplicationCommandOptionType.Integer,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'attachments',
@@ -45,15 +45,15 @@ module.exports = {
             description: 'channel from which messages must be cleaned',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
+            required: true
           },
           {
             name: 'amount',
             description: 'number of messages to be deleted (Max 99)',
             type: ApplicationCommandOptionType.Integer,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'bots',
@@ -65,15 +65,15 @@ module.exports = {
             description: 'channel from which messages must be cleaned',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
+            required: true
           },
           {
             name: 'amount',
             description: 'number of messages to be deleted (Max 99)',
             type: ApplicationCommandOptionType.Integer,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'links',
@@ -85,15 +85,15 @@ module.exports = {
             description: 'channel from which messages must be cleaned',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
+            required: true
           },
           {
             name: 'amount',
             description: 'number of messages to be deleted (Max 99)',
             type: ApplicationCommandOptionType.Integer,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'token',
@@ -105,21 +105,21 @@ module.exports = {
             description: 'channel from which messages must be cleaned',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
+            required: true
           },
           {
             name: 'token',
             description: 'token to be looked up in messages',
             type: ApplicationCommandOptionType.String,
-            required: true,
+            required: true
           },
           {
             name: 'amount',
             description: 'number of messages to be deleted (Max 99)',
             type: ApplicationCommandOptionType.Integer,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'user',
@@ -131,23 +131,23 @@ module.exports = {
             description: 'channel from which messages must be cleaned',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildText],
-            required: true,
+            required: true
           },
           {
             name: 'user',
             description: 'user whose messages needs to be cleaned',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'amount',
             description: 'number of messages to be deleted (Max 99)',
             type: ApplicationCommandOptionType.Integer,
-            required: false,
-          },
-        ],
-      },
-    ],
+            required: false
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -227,5 +227,5 @@ module.exports = {
     else {
       return interaction.followUp('Failed to clean messages')
     }
-  },
+  }
 }

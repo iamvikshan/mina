@@ -1,6 +1,6 @@
 const { deafenTarget } = require('@helpers/ModUtils')
 
-module.exports = async ({ member }, target, reason) => {
+export default async ({ member }, target, reason) => {
   const response = await deafenTarget(member, target, reason)
   if (typeof response === 'boolean') {
     return `${target.user.username} is deafened in this server`

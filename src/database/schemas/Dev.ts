@@ -1,86 +1,93 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
+import {
+  PresenceStatus,
+  PresenceType,
+  IDevConfigDocument,
+  IPresenceConfig,
+  IDevCommands,
+  PresenceUpdateData
+} from '@root/src/types'
 
-const Schema = new mongoose.Schema(
+// Schema definition
+export const devConfigSchema = new Schema<IDevConfigDocument>(
   {
     PRESENCE: {
-      ENABLED: {
-        type: Boolean,
-        default: true,
-      },
+      ENABLED: { type: Boolean, default: true },
       STATUS: {
         type: String,
-        enum: ['online', 'idle', 'dnd', 'invisible'],
-        default: 'idle',
+        enum: Object.values(PresenceStatus),
+        default: PresenceStatus.IDLE
       },
       TYPE: {
         type: String,
-        enum: [
-          'COMPETING',
-          'LISTENING',
-          'PLAYING',
-          'WATCHING',
-          'STREAMING',
-          'CUSTOM',
-        ],
-        default: 'CUSTOM',
+        enum: Object.values(PresenceType),
+        default: PresenceType.CUSTOM
       },
       MESSAGE: {
         type: String,
-        default: "We'll show them. We'll show them all...",
+        default: "We'll show them. We'll show them all..."
       },
       URL: {
         type: String,
-        default: 'https://twitch.tv/iamvikshan',
-      },
+        default: 'https://twitch.tv/iamvikshan'
+      }
     },
     DEV_COMMANDS: {
-      ENABLED: {
-        type: Boolean,
-        default: false,
-      },
-    },
+      ENABLED: { type: Boolean, default: false }
+    }
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 )
 
-const Model = mongoose.model('dev-config', Schema)
+// Model
+export const Dev = mongoose.model<IDevConfigDocument>(
+  'dev-config',
+  devConfigSchema
+)
 
-export default {
-  Model,
-
-  async getPresenceConfig() {
-    const document = await Model.findOne()
-    if (!document) return await Model.create({})
-    return document
-  },
-
-  async updatePresenceConfig(update) {
-    const document = await Model.findOne()
-    if (!document) return await Model.create(update)
-
-    for (const [key, value] of Object.entries(update.PRESENCE)) {
-      document.PRESENCE[key] = value
-    }
-
-    return await document.save()
-  },
-
-  async getDevCommandsConfig() {
-    const document = await Model.findOne()
-    if (!document) return (await Model.create({})).DEV_COMMANDS
-    return document.DEV_COMMANDS
-  },
-
-  async setDevCommands(enabled) {
-    const document = await Model.findOne()
-    if (!document)
-      return (await Model.create({ DEV_COMMANDS: { ENABLED: enabled } }))
-        .DEV_COMMANDS
-
-    document.DEV_COMMANDS.ENABLED = enabled
-    await document.save()
-    return document.DEV_COMMANDS
-  },
+// Individual function exports
+export async function getPresenceConfig(): Promise<IDevConfigDocument> {
+  const document = await Dev.findOne()
+  if (!document) {
+    return await Dev.create({})
+  }
+  return document
 }
+
+export async function updatePresenceConfig(update: {
+  PRESENCE: PresenceUpdateData
+}): Promise<IDevConfigDocument> {
+  const document = await Dev.findOne()
+  if (!document) {
+    return await Dev.create(update)
+  }
+
+  for (const [key, value] of Object.entries(update.PRESENCE)) {
+    ;(document.PRESENCE as any)[key as keyof IPresenceConfig] =
+      value as IPresenceConfig[keyof IPresenceConfig]
+  }
+
+  return await document.save()
+}
+
+export async function getDevCommandsConfig(): Promise<IDevCommands> {
+  const document = await Dev.findOne()
+  if (!document) {
+    return (await Dev.create({})).DEV_COMMANDS
+  }
+  return document.DEV_COMMANDS
+}
+
+export async function setDevCommands(enabled: boolean): Promise<IDevCommands> {
+  const document = await Dev.findOne()
+  if (!document) {
+    return (await Dev.create({ DEV_COMMANDS: { ENABLED: enabled } }))
+      .DEV_COMMANDS
+  }
+
+  document.DEV_COMMANDS.ENABLED = enabled
+  await document.save()
+  return document.DEV_COMMANDS
+}
+
+export { PresenceStatus, PresenceType }

@@ -10,13 +10,13 @@ module.exports = {
   validations: musicValidations,
   slashCommand: {
     enabled: true,
-    options: [],
+    options: []
   },
 
   async interactionRun(interaction) {
     const response = await leave(interaction)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

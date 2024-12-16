@@ -1,6 +1,6 @@
-const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js')
+const { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js'
 const { Hangman } = require('discord-gamecord')
-const { EMBED_COLORS } = require('@src/config.js')
+import { EMBED_COLORS } from '@src/config.js'
 
 // Themes with Amina's creative touch
 const choices = [
@@ -11,10 +11,10 @@ const choices = [
   { name: 'fruit', emoji: '🍎' },
   { name: 'discord', emoji: '💬' },
   { name: 'winter', emoji: '❄️' },
-  { name: 'pokemon', emoji: '⭐' },
+  { name: 'pokemon', emoji: '⭐' }
 ]
 
-module.exports = {
+export default {
   name: 'hangman',
   description:
     "Time for a word-guessing adventure! Pick a theme and let's play! 🎮",
@@ -28,10 +28,10 @@ module.exports = {
         required: true,
         choices: choices.map(choice => ({
           name: `${choice.emoji} ${choice.name}`,
-          value: choice.name,
-        })),
-      },
-    ],
+          value: choice.name
+        }))
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -42,14 +42,14 @@ module.exports = {
       isSlashGame: true,
       embed: {
         title: `🎯 Hangman: ${choice.charAt(0).toUpperCase() + choice.slice(1)} Theme`,
-        color: EMBED_COLORS.WARNING,
+        color: EMBED_COLORS.WARNING
       },
       hangman: {
         hat: '🎩',
         head: '🤔',
         shirt: '👕',
         pants: '🩳',
-        boots: '👞👞',
+        boots: '👞👞'
       },
       timeoutTime: 60000,
       theme: choice,
@@ -58,7 +58,7 @@ module.exports = {
       loseMessage:
         "Aww, not this time! The word was **{word}**. Let's try another round!",
       playerOnlyMessage:
-        'Hey there! This game belongs to {player}! Start your own adventure with `/hangman` 💫',
+        'Hey there! This game belongs to {player}! Start your own adventure with `/hangman` 💫'
     })
 
     Game.startGame()
@@ -69,5 +69,5 @@ module.exports = {
         Game.lose()
       }
     })
-  },
+  }
 }

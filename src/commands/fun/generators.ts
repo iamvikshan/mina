@@ -1,10 +1,10 @@
-const {
+import {
   EmbedBuilder,
   AttachmentBuilder,
-  ApplicationCommandOptionType,
-} = require('discord.js')
+  ApplicationCommandOptionType
+} from 'discord.js'
 const { getBuffer } = require('@helpers/HttpUtils')
-const { EMBED_COLORS, IMAGE } = require('@src/config.js')
+import { EMBED_COLORS, IMAGE } from '@src/config.js'
 
 // Amina's favorite meme reactions
 const memeReactions = {
@@ -31,7 +31,7 @@ const memeReactions = {
   thomas: 'Choo choo! 🚂',
   trash: "One person's trash... 🗑️",
   wanted: 'Catch them! 🏃‍♂️',
-  worthless: '*gasp* No way! ✨',
+  worthless: '*gasp* No way! ✨'
 }
 
 const availableGenerators = [
@@ -59,13 +59,13 @@ const availableGenerators = [
   'thomas',
   'trash',
   'wanted',
-  'worthless',
+  'worthless'
 ]
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'generator',
   description: 'Transform images into memes! ✨',
   cooldown: 1,
@@ -79,21 +79,21 @@ module.exports = {
         description: 'Pick your meme style!',
         type: ApplicationCommandOptionType.String,
         required: true,
-        choices: availableGenerators.map(gen => ({ name: gen, value: gen })),
+        choices: availableGenerators.map(gen => ({ name: gen, value: gen }))
       },
       {
         name: 'user',
         description: 'Whose picture should we transform?',
         type: ApplicationCommandOptionType.User,
-        required: false,
+        required: false
       },
       {
         name: 'link',
         description: 'Or use an image link!',
         type: ApplicationCommandOptionType.String,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -110,8 +110,8 @@ module.exports = {
     const url = getGenerator(generator, image)
     const response = await getBuffer(url, {
       headers: {
-        Authorization: `Bearer ${process.env.STRANGE_API_KEY}`,
-      },
+        Authorization: `Bearer ${process.env.STRANGE_API_KEY}`
+      }
     })
 
     if (!response.success) {
@@ -121,7 +121,7 @@ module.exports = {
     }
 
     const attachment = new AttachmentBuilder(response.buffer, {
-      name: 'attachment.png',
+      name: 'attachment.png'
     })
     const embed = new EmbedBuilder()
       .setColor(EMBED_COLORS.BOT_EMBED)
@@ -130,7 +130,7 @@ module.exports = {
       .setFooter({ text: `${author.username}'s meme creation! 🎨` })
 
     await interaction.followUp({ embeds: [embed], files: [attachment] })
-  },
+  }
 }
 
 function getGenerator(genName, image) {

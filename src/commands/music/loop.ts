@@ -1,10 +1,10 @@
 const { musicValidations } = require('@helpers/BotUtils')
-const { ApplicationCommandOptionType } = require('discord.js')
+import { ApplicationCommandOptionType } from 'discord.js'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'loop',
   description: 'loops the song or queue',
   category: 'MUSIC',
@@ -20,17 +20,17 @@ module.exports = {
         choices: [
           { name: 'Track', value: 'track' },
           { name: 'Queue', value: 'queue' },
-          { name: 'Off', value: 'off' },
-        ],
-      },
-    ],
+          { name: 'Off', value: 'off' }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const type = interaction.options.getString('type') || 'track'
     const response = await toggleLoop(interaction, type)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

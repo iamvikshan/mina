@@ -1,15 +1,15 @@
 const {
   AttachmentBuilder,
-  ApplicationCommandOptionType,
-} = require('discord.js')
-const { EMBED_COLORS, IMAGE, STATS } = require('@src/config')
+  ApplicationCommandOptionType
+} from 'discord.js'
+import { EMBED_COLORS, IMAGE, STATS } from '@src/config'
 const { getBuffer } = require('@helpers/HttpUtils')
-const { getMemberStats, getXpLb } = require('@schemas/MemberStats')
+import { getMemberStats, getXpLb } = require('@schemas/MemberStats')
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'rank',
   description: 'displays members rank in this server',
   cooldown: 5,
@@ -23,9 +23,9 @@ module.exports = {
         name: 'user',
         description: 'target user',
         type: ApplicationCommandOptionType.User,
-        required: false,
-      },
-    ],
+        required: false
+      }
+    ]
   },
 
   async interactionRun(interaction, data) {
@@ -33,7 +33,7 @@ module.exports = {
     const member = await interaction.guild.members.fetch(user)
     const response = await getRank(interaction, member, data.settings)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function getRank({ guild }, member, settings) {
@@ -75,13 +75,13 @@ async function getRank({ guild }, member, settings) {
 
   const response = await getBuffer(url.href, {
     headers: {
-      Authorization: `Bearer ${process.env.STRANGE_API_KEY}`,
-    },
+      Authorization: `Bearer ${process.env.STRANGE_API_KEY}`
+    }
   })
   if (!response.success) return 'Failed to generate rank-card'
 
   const attachment = new AttachmentBuilder(response.buffer, {
-    name: 'rank.png',
+    name: 'rank.png'
   })
   return { files: [attachment] }
 }

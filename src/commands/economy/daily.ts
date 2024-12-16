@@ -1,25 +1,25 @@
-const { EmbedBuilder } = require('discord.js')
-const { getUser } = require('@schemas/User')
-const { EMBED_COLORS, ECONOMY } = require('@src/config.js')
-const { diffHours, getRemainingTime } = require('@helpers/Utils')
+import { EmbedBuilder } from 'discord.js'
+import { getUser } from '@schemas/User'
+import { EMBED_COLORS, ECONOMY } from '@src/config.js'
+const { diffHours, getRemainingTime } from '@helpers/Utils'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'daily',
   description: 'receive a daily bonus',
   category: 'ECONOMY',
   botPermissions: ['EmbedLinks'],
 
   slashCommand: {
-    enabled: ECONOMY.ENABLED,
+    enabled: ECONOMY.ENABLED
   },
 
   async interactionRun(interaction) {
     const response = await daily(interaction.user)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function daily(user) {

@@ -1,5 +1,5 @@
-const { MUSIC, EMBED_COLORS } = require('@src/config')
-const { EmbedBuilder } = require('discord.js')
+const { MUSIC, EMBED_COLORS } from '@src/config'
+import { EmbedBuilder } from 'discord.js'
 
 module.exports = async (client, player) => {
   const guild = client.guilds.cache.get(player.guildId)
@@ -32,8 +32,8 @@ module.exports = async (client, player) => {
             .setTitle('Queue Concluded')
             .setDescription(
               `Enjoying music with me? Consider [voting](https://top.gg/bot/${client.user?.id}/vote) for me!`
-            ),
-        ],
+            )
+        ]
       },
       10
     )

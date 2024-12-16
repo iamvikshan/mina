@@ -67,7 +67,7 @@ async function performAutomod(message, settings) {
     fields.push({
       name: 'Mentions',
       value: `${mentions.members.size}/${automod.max_mentions}`,
-      inline: true,
+      inline: true
     })
     // strikesTotal += mentions.members.size - automod.max_mentions;
     strikesTotal += 1
@@ -78,7 +78,7 @@ async function performAutomod(message, settings) {
     fields.push({
       name: 'RoleMentions',
       value: `${mentions.roles.size}/${automod.max_role_mentions}`,
-      inline: true,
+      inline: true
     })
     // strikesTotal += mentions.roles.size - automod.max_role_mentions;
     strikesTotal += 1
@@ -96,7 +96,7 @@ async function performAutomod(message, settings) {
       fields.push({
         name: 'User/Role Mentions',
         value: `${mentions.users.size + mentions.roles.size}/${automod.anti_massmention}`,
-        inline: true,
+        inline: true
       })
       // strikesTotal += mentions.users.size + mentions.roles.size - automod.anti_massmention;
       strikesTotal += 1
@@ -110,7 +110,7 @@ async function performAutomod(message, settings) {
       fields.push({
         name: 'New Lines',
         value: `${count}/${automod.max_lines}`,
-        inline: true,
+        inline: true
       })
       shouldDelete = true
       // strikesTotal += Math.ceil((count - automod.max_lines) / automod.max_lines);
@@ -155,7 +155,7 @@ async function performAutomod(message, settings) {
         let antispamInfo = {
           channelId: message.channelId,
           content,
-          timestamp: Date.now(),
+          timestamp: Date.now()
         }
         antispamCache.set(key, antispamInfo)
       }
@@ -202,7 +202,7 @@ async function performAutomod(message, settings) {
         )
         .setFooter({
           text: `By ${author.username} | ${author.id}`,
-          iconURL: author.avatarURL(),
+          iconURL: author.avatarURL()
         })
 
       logChannel.safeSend({ embeds: [logEmbed] })
@@ -241,5 +241,5 @@ async function performAutomod(message, settings) {
 }
 
 module.exports = {
-  performAutomod,
+  performAutomod
 }

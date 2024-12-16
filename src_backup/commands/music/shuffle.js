@@ -9,17 +9,17 @@ module.exports = {
   category: 'MUSIC',
   validations: musicValidations,
   command: {
-    enabled: false,
+    enabled: false
   },
 
   slashCommand: {
-    enabled: true,
+    enabled: true
   },
 
   async interactionRun(interaction) {
     const response = shuffle(interaction)
     await interaction.followUp(response)
-  },
+  }
 }
 
 /**

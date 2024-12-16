@@ -1,8 +1,8 @@
-const { EmbedBuilder } = require('discord.js')
-const { getUser } = require('@schemas/User')
-const { ECONOMY, EMBED_COLORS } = require('@src/config')
+import { EmbedBuilder } from 'discord.js'
+import { getUser } from '@schemas/User'
+const { ECONOMY, EMBED_COLORS } from '@src/config'
 
-module.exports = async (self, target, coins) => {
+export default async (self, target, coins) => {
   if (isNaN(coins) || coins <= 0)
     return 'Please enter a valid amount of coins to transfer'
   if (target.bot) return 'You cannot transfer coins to bots!'

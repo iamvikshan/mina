@@ -14,13 +14,13 @@ module.exports = {
 
   slashCommand: {
     enabled: true,
-    options: [],
+    options: []
   },
 
   async interactionRun(interaction) {
     const response = await searchGame(interaction.user)
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function searchGame(author) {
@@ -47,7 +47,7 @@ async function searchGame(author) {
     matchingGames.map(game => ({
       name: game.title,
       value: game.description,
-      inline: false,
+      inline: false
     }))
   )
 

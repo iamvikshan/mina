@@ -1,10 +1,10 @@
-const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js')
+const { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js'
 
 /**
  * @type {import("@structures/Command")}
  */
 
-module.exports = {
+export default {
   name: 'qrcode',
   description: 'Generate a QR code with the url that is provided',
   category: 'UTILITY',
@@ -18,9 +18,9 @@ module.exports = {
         name: 'url',
         description: 'URL to generate QR code for',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
   async interactionRun(interaction) {
     const { user, guild } = interaction
@@ -46,7 +46,7 @@ module.exports = {
     const embedqr = new EmbedBuilder()
       .setAuthor({
         name: user.tag,
-        iconURL: user.displayAvatarURL({ dynamic: true }),
+        iconURL: user.displayAvatarURL({ dynamic: true })
       })
       .setColor('Green')
       .setTitle(`QR Code`)
@@ -61,5 +61,5 @@ module.exports = {
       .setTimestamp()
 
     interaction.channel.send({ embeds: [embedqr] })
-  },
+  }
 }

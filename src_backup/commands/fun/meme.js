@@ -2,7 +2,7 @@ const {
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonStyle,
+  ButtonStyle
 } = require('discord.js')
 const { EMBED_COLORS } = require('@src/config.js')
 const { getJson } = require('@helpers/HttpUtils')
@@ -17,7 +17,7 @@ module.exports = {
   category: 'FUN',
   cooldown: 1,
   slashCommand: {
-    enabled: true,
+    enabled: true
   },
 
   async interactionRun(interaction) {
@@ -32,11 +32,11 @@ module.exports = {
     const embed = await getRandomEmbed('dank')
     await interaction.followUp({
       embeds: [embed],
-      components: [buttonRow],
+      components: [buttonRow]
     })
 
     const collector = interaction.channel.createMessageComponentCollector({
-      filter: reactor => reactor.user.id === interaction.user.id,
+      filter: reactor => reactor.user.id === interaction.user.id
     })
 
     collector.on('collect', async response => {
@@ -46,10 +46,10 @@ module.exports = {
       const embed = await getRandomEmbed('dank')
       await interaction.editReply({
         embeds: [embed],
-        components: [buttonRow],
+        components: [buttonRow]
       })
     })
-  },
+  }
 }
 
 async function getRandomEmbed(category) {
@@ -72,19 +72,19 @@ async function getRandomEmbed(category) {
       "(*≧▽≦) This one's gold!",
       '✨ Look what I found! ✨',
       'This made me giggle~ 🎭',
-      'Quality meme incoming! 🌟',
+      'Quality meme incoming! 🌟'
     ]
 
     return new EmbedBuilder()
       .setAuthor({
         name: reactions[getRandomInt(reactions.length)],
-        url: meme.postLink,
+        url: meme.postLink
       })
       .setTitle(meme.title)
       .setImage(meme.url)
       .setColor('Random')
       .setFooter({
-        text: `💖 ${meme.ups.toLocaleString()} upvotes | From r/${meme.subreddit}`,
+        text: `💖 ${meme.ups.toLocaleString()} upvotes | From r/${meme.subreddit}`
       })
   } catch (error) {
     return new EmbedBuilder()

@@ -1,4 +1,4 @@
-const { ChannelType } = require('discord.js')
+const { ChannelType } from 'discord.js'
 
 /**
  * @param {import('discord.js').GuildMember} member
@@ -9,7 +9,7 @@ const { ChannelType } = require('discord.js')
  * @param {import('discord.js').User} [host]
  * @param {string[]} [allowedRoles]
  */
-module.exports = async (
+export default async (
   member,
   giveawayChannel,
   duration,
@@ -66,8 +66,8 @@ module.exports = async (
         giveawayEnded: '🎉 **GIVEAWAY ENDED** 🎉',
         inviteToParticipate: 'React with 🎁 to enter',
         dropMessage: 'Be the first to react with 🎁 to win!',
-        hostedBy: `\nHosted by: ${host.username}`,
-      },
+        hostedBy: `\nHosted by: ${host.username}`
+      }
     }
 
     if (allowedRoles.length > 0) {

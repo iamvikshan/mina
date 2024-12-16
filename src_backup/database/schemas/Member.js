@@ -6,7 +6,7 @@ const cache = new FixedSizeMap(CACHE_SIZE.MEMBERS)
 
 const ReqString = {
   type: String,
-  required: true,
+  required: true
 }
 
 const Schema = new mongoose.Schema(
@@ -21,14 +21,14 @@ const Schema = new mongoose.Schema(
       tracked: { type: Number, default: 0 },
       fake: { type: Number, default: 0 },
       left: { type: Number, default: 0 },
-      added: { type: Number, default: 0 },
-    },
+      added: { type: Number, default: 0 }
+    }
   },
   {
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: 'updated_at',
-    },
+      updatedAt: 'updated_at'
+    }
   }
 )
 
@@ -43,7 +43,7 @@ module.exports = {
     if (!member) {
       member = new Model({
         guild_id: guildId,
-        member_id: memberId,
+        member_id: memberId
       })
     }
 
@@ -60,13 +60,13 @@ module.exports = {
           invites: {
             $subtract: [
               { $add: ['$invite_data.tracked', '$invite_data.added'] },
-              { $add: ['$invite_data.left', '$invite_data.fake'] },
-            ],
-          },
-        },
+              { $add: ['$invite_data.left', '$invite_data.fake'] }
+            ]
+          }
+        }
       },
       { $match: { invites: { $gt: 0 } } },
       { $sort: { invites: -1 } },
-      { $limit: limit },
-    ]),
+      { $limit: limit }
+    ])
 }

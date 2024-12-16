@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const reqString = {
   type: String,
-  required: true,
+  required: true
 }
 
 const Schema = new mongoose.Schema(
@@ -11,29 +11,39 @@ const Schema = new mongoose.Schema(
     member_id: reqString,
     content: String,
     reason: String,
-    strikes: Number,
+    strikes: Number
   },
   {
     versionKey: false,
     autoIndex: false,
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: false,
-    },
+      updatedAt: false
+    }
   }
 )
 
 const Model = mongoose.model('automod-logs', Schema)
 
-export default {
-  addAutoModLogToDb: async (member, content, reason, strikes) => {
-    if (!member) throw new Error('Member is undefined')
-    await new Model({
-      guild_id: member.guild.id,
-      member_id: member.id,
-      content,
-      reason,
-      strikes,
-    }).save()
-  },
+interface Member {
+  guild: {
+    id: string
+  }
+  id: string
+}
+
+export const addAutoModLogToDb = async (
+  member: Member,
+  content: string,
+  reason: string,
+  strikes: number
+) => {
+  if (!member) throw new Error('Member is undefined')
+  await new Model({
+    guild_id: member.guild.id,
+    member_id: member.id,
+    content,
+    reason,
+    strikes
+  }).save()
 }

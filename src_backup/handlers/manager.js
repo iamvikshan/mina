@@ -9,18 +9,18 @@ class Manager extends LavalinkManager {
         client.guilds.cache.get(guildId)?.shard?.send(payload),
       emitNewSongsOnly: false,
       queueOptions: {
-        maxPreviousTracks: 30,
+        maxPreviousTracks: 30
       },
       playerOptions: {
         defaultSearchPlatform: MUSIC.DEFAULT_SOURCE,
         onDisconnect: {
           autoReconnect: true,
-          destroyPlayer: false,
-        },
+          destroyPlayer: false
+        }
       },
       linksAllowed: true,
       linksBlacklist: ['porn'],
-      linksWhitelist: [],
+      linksWhitelist: []
     })
 
     this.nodeManager.on('connect', node => {

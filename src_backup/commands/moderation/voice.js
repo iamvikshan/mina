@@ -29,15 +29,15 @@ module.exports = {
             name: 'user',
             description: 'the target member',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'reason',
             description: 'reason for mute',
             type: ApplicationCommandOptionType.String,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'unmute',
@@ -48,15 +48,15 @@ module.exports = {
             name: 'user',
             description: 'the target member',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'reason',
             description: 'reason for unmute',
             type: ApplicationCommandOptionType.String,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'deafen',
@@ -67,15 +67,15 @@ module.exports = {
             name: 'user',
             description: 'the target member',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'reason',
             description: 'reason for deafen',
             type: ApplicationCommandOptionType.String,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'undeafen',
@@ -86,15 +86,15 @@ module.exports = {
             name: 'user',
             description: 'the target member',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'reason',
             description: 'reason for undeafen',
             type: ApplicationCommandOptionType.String,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'kick',
@@ -105,15 +105,15 @@ module.exports = {
             name: 'user',
             description: 'the target member',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'reason',
             description: 'reason for mute',
             type: ApplicationCommandOptionType.String,
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       {
         name: 'move',
@@ -124,24 +124,24 @@ module.exports = {
             name: 'user',
             description: 'the target member',
             type: ApplicationCommandOptionType.User,
-            required: true,
+            required: true
           },
           {
             name: 'channel',
             description: 'the channel to move member to',
             type: ApplicationCommandOptionType.Channel,
             channelTypes: [ChannelType.GuildVoice, ChannelType.GuildStageVoice],
-            required: true,
+            required: true
           },
           {
             name: 'reason',
             description: 'reason for mute',
             type: ApplicationCommandOptionType.String,
-            required: false,
-          },
-        ],
-      },
-    ],
+            required: false
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -168,5 +168,5 @@ module.exports = {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }

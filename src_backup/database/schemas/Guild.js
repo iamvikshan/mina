@@ -20,14 +20,14 @@ const Schema = new mongoose.Schema({
     staff_roles: [String],
     setup_completed: { type: Boolean, default: false },
     setup_message_id: { type: String, default: null },
-    invite_link: { type: String, default: null },
+    invite_link: { type: String, default: null }
   },
   stats: {
     enabled: { type: Boolean, default: true },
     xp: {
       message: { type: String, default: STATS.DEFAULT_LVL_UP_MSG },
-      channel: String,
-    },
+      channel: String
+    }
   },
   ticket: {
     log_channel: String,
@@ -37,9 +37,9 @@ const Schema = new mongoose.Schema({
     topics: [
       {
         _id: false,
-        name: String,
-      },
-    ],
+        name: String
+      }
+    ]
   },
   automod: {
     debug: Boolean,
@@ -52,16 +52,16 @@ const Schema = new mongoose.Schema({
     anti_spam: Boolean,
     anti_ghostping: Boolean,
     anti_massmention: Number,
-    max_lines: Number,
+    max_lines: Number
   },
   invite: {
     tracking: { type: Boolean, default: true },
     ranks: [
       {
         invites: { type: Number, required: true },
-        _id: { type: String, required: true },
-      },
-    ],
+        _id: { type: String, required: true }
+      }
+    ]
   },
 
   logs_channel: String,
@@ -70,35 +70,35 @@ const Schema = new mongoose.Schema({
     member: {
       message_edit: { type: Boolean, default: false },
       message_delete: { type: Boolean, default: false },
-      role_changes: { type: Boolean, default: false },
+      role_changes: { type: Boolean, default: false }
     },
     channel: {
       create: { type: Boolean, default: false },
       edit: { type: Boolean, default: false },
-      delete: { type: Boolean, default: false },
+      delete: { type: Boolean, default: false }
     },
     role: {
       create: { type: Boolean, default: false },
       edit: { type: Boolean, default: false },
-      delete: { type: Boolean, default: false },
-    },
+      delete: { type: Boolean, default: false }
+    }
   },
 
   max_warn: {
     action: {
       type: String,
       enum: ['TIMEOUT', 'KICK', 'BAN'],
-      default: 'KICK',
+      default: 'KICK'
     },
-    limit: { type: Number, default: 5 },
+    limit: { type: Number, default: 5 }
   },
   counters: [
     {
       _id: false,
       counter_type: String,
       name: String,
-      channel_id: String,
-    },
+      channel_id: String
+    }
   ],
   welcome: {
     enabled: Boolean,
@@ -109,8 +109,8 @@ const Schema = new mongoose.Schema({
       color: String,
       thumbnail: Boolean,
       footer: String,
-      image: String,
-    },
+      image: String
+    }
   },
   farewell: {
     enabled: Boolean,
@@ -121,16 +121,16 @@ const Schema = new mongoose.Schema({
       color: String,
       thumbnail: Boolean,
       footer: String,
-      image: String,
-    },
+      image: String
+    }
   },
   autorole: String,
   suggestions: {
     enabled: Boolean,
     channel_id: String,
     approved_channel: String,
-    rejected_channel: String,
-  },
+    rejected_channel: String
+  }
 })
 
 const Model = mongoose.model('guild', Schema)
@@ -160,8 +160,8 @@ async function getSettings(guild) {
         name: guild.name,
         region: guild.preferredLocale,
         owner: guild.ownerId,
-        joinedAt: guild.joinedAt,
-      },
+        joinedAt: guild.joinedAt
+      }
     })
 
     await guildData.save()
@@ -183,7 +183,7 @@ async function updateSettings(guildId, settings) {
   }
 
   const updatedSettings = await Model.findByIdAndUpdate(guildId, settings, {
-    new: true,
+    new: true
   })
   cache.add(guildId, updatedSettings)
   return updatedSettings
@@ -202,5 +202,5 @@ async function setInviteLink(guildId, inviteLink) {
 module.exports = {
   getSettings,
   updateSettings,
-  setInviteLink,
+  setInviteLink
 }

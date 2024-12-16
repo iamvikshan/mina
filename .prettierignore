@@ -1,1 +1,7 @@
 node_modules/
+*ignore*
+*lock*
+*.env*
+*.toml
+*.sh
+*keep*

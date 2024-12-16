@@ -1,12 +1,12 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
+import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
 const { getWarningLogs, clearWarningLogs } = require('@schemas/ModLog')
-const { getMember } = require('@schemas/Member')
-const { MODERATION } = require('@src/config')
+import { getMember } from '@schemas/Member'
+const { MODERATION } from '@src/config'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'warnings',
   description: 'list or clear user warnings',
   category: 'MODERATION',
@@ -24,9 +24,9 @@ module.exports = {
             name: 'user',
             description: 'the target member',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
+            required: true
+          }
+        ]
       },
       {
         name: 'clear',
@@ -37,11 +37,11 @@ module.exports = {
             name: 'user',
             description: 'the target member',
             type: ApplicationCommandOptionType.User,
-            required: true,
-          },
-        ],
-      },
-    ],
+            required: true
+          }
+        ]
+      }
+    ]
   },
 
   async interactionRun(interaction) {
@@ -68,7 +68,7 @@ module.exports = {
     }
 
     await interaction.followUp(response)
-  },
+  }
 }
 
 async function listWarnings(target, { guildId }) {
@@ -86,7 +86,7 @@ async function listWarnings(target, { guildId }) {
     .join('\n')
   const embed = new EmbedBuilder({
     author: { name: `${target.user.username}'s warnings` },
-    description: acc,
+    description: acc
   })
 
   return { embeds: [embed] }

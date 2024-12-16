@@ -8,7 +8,7 @@ module.exports = {
     log(`Connecting to MongoDb...`)
 
     try {
-      await mongoose.connect(process.env.MONGO_CONNECTION)
+      await mongoose.connect(process.env.MONGO_URL)
 
       success('Mongoose: Database connection established')
 
@@ -28,6 +28,6 @@ module.exports = {
     User: require('./schemas/User'),
     Suggestions: require('./schemas/Suggestions').model,
     TruthOrDare: require('./schemas/TruthOrDare').model,
-    Dev: require('./schemas/Dev'),
-  },
+    Dev: require('./schemas/Dev')
+  }
 }

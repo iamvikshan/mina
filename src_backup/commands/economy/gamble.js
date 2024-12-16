@@ -19,16 +19,16 @@ module.exports = {
         name: 'coins',
         description: 'number of coins to bet',
         required: true,
-        type: ApplicationCommandOptionType.Integer,
-      },
-    ],
+        type: ApplicationCommandOptionType.Integer
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const betAmount = interaction.options.getInteger('coins')
     const response = await gamble(interaction.user, betAmount)
     await interaction.followUp(response)
-  },
+  }
 }
 
 function getEmoji() {
@@ -105,7 +105,7 @@ async function gamble(user, betAmount) {
     )
     .setDescription(str)
     .setFooter({
-      text: `${result}\nUpdated Wallet balance: ${userDb?.coins}${ECONOMY.CURRENCY}`,
+      text: `${result}\nUpdated Wallet balance: ${userDb?.coins}${ECONOMY.CURRENCY}`
     })
 
   return { embeds: [embed] }

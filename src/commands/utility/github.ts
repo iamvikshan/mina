@@ -1,12 +1,12 @@
-const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
-const { MESSAGES } = require('@src/config.js')
+import { EmbedBuilder, ApplicationCommandOptionType } from 'discord.js'
+const { MESSAGES } from '@src/config.js'
 const { getJson } = require('@helpers/HttpUtils')
-const { stripIndent } = require('common-tags')
+const { stripIndent } from 'common-tags'
 
 /**
  * @type {import("@structures/Command")}
  */
-module.exports = {
+export default {
   name: 'github',
   description: 'shows github statistics of a user',
   cooldown: 10,
@@ -20,16 +20,16 @@ module.exports = {
         name: 'username',
         description: 'github username',
         type: ApplicationCommandOptionType.String,
-        required: true,
-      },
-    ],
+        required: true
+      }
+    ]
   },
 
   async interactionRun(interaction) {
     const username = interaction.options.getString('username')
     const response = await getGithubUser(username, interaction.user)
     await interaction.followUp(response)
-  },
+  }
 }
 
 const websiteProvided = text =>
@@ -51,7 +51,7 @@ async function getGithubUser(target, author) {
     following,
     bio,
     location,
-    blog,
+    blog
   } = json
 
   let website = websiteProvided(blog) ? `[Click me](${blog})` : 'Not Provided'
@@ -61,7 +61,7 @@ async function getGithubUser(target, author) {
     .setAuthor({
       name: `GitHub User: ${username}`,
       url: userPageLink,
-      iconURL: avatarUrl,
+      iconURL: avatarUrl
     })
     .addFields(
       {
@@ -71,12 +71,12 @@ async function getGithubUser(target, author) {
         **Location**: *${location}*
         **GitHub ID**: *${githubId}*
         **Website**: *${website}*\n`,
-        inline: true,
+        inline: true
       },
       {
         name: 'Social Stats',
         value: `**Followers**: *${followers}*\n**Following**: *${following}*`,
-        inline: true,
+        inline: true
       }
     )
     .setDescription(`**Bio**:\n${bio || 'Not Provided'}`)

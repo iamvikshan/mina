@@ -3,19 +3,19 @@ const {
   ButtonBuilder,
   ButtonStyle,
   ActionRowBuilder,
-  EmbedBuilder,
-} = require('discord.js')
+  EmbedBuilder
+} from 'discord.js'
 const { getQuestions } = require('@schemas/TruthOrDare')
-const { getUser } = require('@schemas/User')
+import { getUser } from '@schemas/User'
 const { handleTodButtonClick } = require('@handlers/tod')
-const { EMBED_COLORS } = require('@root/src/config')
+import { EMBED_COLORS } = require('@root/src/config')
 
 // Helper function to create rating choices with Amina's style
 const getRatingChoices = () => [
   { name: 'pg - keep it light and fun!', value: 'PG' },
   { name: 'pg-13 - getting interesting...', value: 'PG-13' },
   { name: 'pg-16 - spicy territory ahead', value: 'PG-16' },
-  { name: 'r - strictly grown-ups only', value: 'R' },
+  { name: 'r - strictly grown-ups only', value: 'R' }
 ]
 
 // Helper function to create subcommand with rating option
@@ -29,12 +29,12 @@ const createSubcommandWithRating = (name, description) => ({
       description: 'how spicy do you want this to get?',
       type: ApplicationCommandOptionType.String,
       required: false,
-      choices: getRatingChoices(),
-    },
-  ],
+      choices: getRatingChoices()
+    }
+  ]
 })
 
-module.exports = {
+export default {
   name: 'tod',
   description: "ready for some truth or dare chaos? let's go!",
   category: 'FUN',
@@ -57,11 +57,8 @@ module.exports = {
         'wwyd',
         'what would you do in this wild scenario?'
       ),
-      createSubcommandWithRating(
-        'random',
-        "feeling lucky? let's surprise you!"
-      ),
-    ],
+      createSubcommandWithRating('random', "feeling lucky? let's surprise you!")
+    ]
   },
 
   async interactionRun(interaction) {
@@ -81,9 +78,9 @@ module.exports = {
             .setTitle('✦ hold up friend!')
             .setDescription(
               'i need to know your age first! use `/profile set` so we can play safely!'
-            ),
+            )
         ],
-        ephemeral: true,
+        ephemeral: true
       })
     }
     // Check for R-rated content requirements
@@ -96,9 +93,9 @@ module.exports = {
               .setTitle('✦ oops, age check failed!')
               .setDescription(
                 'sorry friend, that stuff is for the grown-ups only!'
-              ),
+              )
           ],
-          ephemeral: true,
+          ephemeral: true
         })
       }
 
@@ -110,9 +107,9 @@ module.exports = {
               .setTitle('✦ wrong place!')
               .setDescription(
                 'psst! we need to be in an nsfw channel for that kind of fun!'
-              ),
+              )
           ],
-          ephemeral: true,
+          ephemeral: true
         })
       }
     }
@@ -143,7 +140,7 @@ module.exports = {
         sendRandomQuestion(interaction, user.profile.age, requestedRating)
         break
     }
-  },
+  }
 }
 
 async function sendQuestion(interaction, category, userAge, requestedRating) {
@@ -156,8 +153,8 @@ async function sendQuestion(interaction, category, userAge, requestedRating) {
           .setTitle('✦ oh no!')
           .setDescription(
             "i searched everywhere but couldn't find any questions matching what you wanted!"
-          ),
-      ],
+          )
+      ]
     })
     return
   }
@@ -174,7 +171,7 @@ async function sendQuestion(interaction, category, userAge, requestedRating) {
           : `${interaction.user.username}, don't be scared!\n\n**${question.question}**\n`
     )
     .setFooter({
-      text: `type: ${category} | rating: ${question.rating} | qid: ${question.questionId} | player: ${interaction.user.tag}`,
+      text: `type: ${category} | rating: ${question.rating} | qid: ${question.questionId} | player: ${interaction.user.tag}`
     })
 
   const buttons = new ActionRowBuilder().addComponents(
@@ -194,7 +191,7 @@ async function sendQuestion(interaction, category, userAge, requestedRating) {
 
   await interaction.followUp({
     embeds: [embed],
-    components: [buttons],
+    components: [buttons]
   })
 }
 
@@ -208,9 +205,9 @@ async function sendRandomQuestion(interaction, userAge, requestedRating) {
           .setTitle('✦ oh no!')
           .setDescription(
             "i searched everywhere but couldn't find any questions matching what you wanted!"
-          ),
+          )
       ],
-      ephemeral: true,
+      ephemeral: true
     })
     return
   }
@@ -223,7 +220,7 @@ async function sendRandomQuestion(interaction, userAge, requestedRating) {
       `ooh, this is gonna be fun! ready?\n\n**${question.question}**\n\nwhat's your next move?`
     )
     .setFooter({
-      text: `type: ${question.category} | rating: ${question.rating} | qid: ${question.questionId} | player: ${interaction.user.tag}`,
+      text: `type: ${question.category} | rating: ${question.rating} | qid: ${question.questionId} | player: ${interaction.user.tag}`
     })
 
   const buttons = new ActionRowBuilder().addComponents(

@@ -1,18 +1,18 @@
-const {
+import {
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonStyle,
-} = require('discord.js')
-const { EMBED_COLORS, DASHBOARD } = require('@src/config')
-const { timeformat } = require('@helpers/Utils')
+  ButtonStyle
+} from 'discord.js'
+import { EMBED_COLORS, DASHBOARD } from '@src/config'
+import { timeformat } from '@helpers/Utils'
 const os = require('os')
-const { stripIndent } = require('common-tags')
+const { stripIndent } from 'common-tags'
 
 /**
  * @param {import('@structures/BotClient')} client
  */
-module.exports = client => {
+export default client => {
   // STATS
   const guilds = client.guilds.cache.size
   const channels = client.channels.cache.size
@@ -53,7 +53,7 @@ module.exports = client => {
         ❯ **Cores:** ${cores}
         ❯ **Usage:** ${cpuUsage}
         `,
-        inline: true,
+        inline: true
       },
       {
         name: "Bot's RAM",
@@ -62,7 +62,7 @@ module.exports = client => {
         ❯ **Available:** ${botAvailable}
         ❯ **Usage:** ${botUsage}
         `,
-        inline: true,
+        inline: true
       },
       {
         name: 'Overall RAM',
@@ -71,17 +71,17 @@ module.exports = client => {
         ❯ **Available:** ${overallAvailable}
         ❯ **Usage:** ${overallUsage}
         `,
-        inline: true,
+        inline: true
       },
       {
         name: 'Node Js version',
         value: process.versions.node,
-        inline: false,
+        inline: false
       },
       {
         name: 'Uptime',
         value: '```' + timeformat(process.uptime()) + '```',
-        inline: false,
+        inline: false
       }
     )
 

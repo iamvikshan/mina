@@ -1,5 +1,5 @@
-const { inviteHandler, greetingHandler } = require('@src/handlers')
-const { getSettings } = require('@schemas/Guild')
+const { inviteHandler, greetingHandler } from '@src/handlers'
+import { getSettings } from '@schemas/Guild'
 
 /**
  * @param {import('@src/structures').BotClient} client
